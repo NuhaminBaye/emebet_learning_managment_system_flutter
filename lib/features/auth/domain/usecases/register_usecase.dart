@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:lms_mobileapp/core/network/error/failures.dart';
-import 'package:lms_mobileapp/features/auth/domain/entities/user_entity.dart';
-import 'package:lms_mobileapp/features/auth/domain/repositories/auth_repository.dart';
+import 'package:lms_mobileapp/features/auth/domain/models/user_model.dart';
+import 'package:lms_mobileapp/features/auth/domain/repositories/abstract_auth_repository.dart';
 
 class RegisterParams {
   final String name;
@@ -20,7 +20,7 @@ class RegisterUseCase {
 
   const RegisterUseCase(this.repository);
 
-  Future<Either<Failure, UserEntity>> call(RegisterParams params) {
+  Future<Either<Failure, UserModel>> call(RegisterParams params) {
     return repository.register(params.name, params.email, params.password);
   }
 }

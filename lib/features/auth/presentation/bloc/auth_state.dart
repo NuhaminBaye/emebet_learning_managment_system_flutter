@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:lms_mobileapp/features/auth/domain/entities/user_entity.dart';
+import 'package:lms_mobileapp/features/auth/domain/models/user_model.dart';
 
 abstract class AuthState extends Equatable {
   const AuthState();
@@ -13,7 +13,7 @@ class AuthInitial extends AuthState {}
 class AuthLoading extends AuthState {}
 
 class AuthAuthenticated extends AuthState {
-  final UserEntity user;
+  final UserModel user;
 
   const AuthAuthenticated(this.user);
 

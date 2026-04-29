@@ -3,12 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lms_mobileapp/core/constants/colors.dart';
 import 'package:lms_mobileapp/core/constants/spacing.dart';
 import 'package:lms_mobileapp/core/constants/text_theme.dart';
-import 'package:lms_mobileapp/features/auth/data/repositories/auth_repository_impl.dart';
-import 'package:lms_mobileapp/features/auth/domain/usecases/forgot_password_usecase.dart';
-import 'package:lms_mobileapp/features/auth/domain/usecases/get_current_user_usecase.dart';
-import 'package:lms_mobileapp/features/auth/domain/usecases/login_usecase.dart';
-import 'package:lms_mobileapp/features/auth/domain/usecases/logout_usecase.dart';
-import 'package:lms_mobileapp/features/auth/domain/usecases/register_usecase.dart';
+import 'package:lms_mobileapp/features/auth/presentation/auth_module.dart';
 import 'package:lms_mobileapp/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:lms_mobileapp/features/auth/presentation/bloc/auth_event.dart';
 import 'package:lms_mobileapp/features/auth/presentation/bloc/auth_state.dart';
@@ -22,13 +17,7 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => AuthBloc(
-        loginUseCase: LoginUseCase(AuthRepositoryImpl()),
-        registerUseCase: RegisterUseCase(AuthRepositoryImpl()),
-        logoutUseCase: LogoutUseCase(AuthRepositoryImpl()),
-        getCurrentUserUseCase: GetCurrentUserUseCase(AuthRepositoryImpl()),
-        forgotPasswordUseCase: ForgotPasswordUseCase(AuthRepositoryImpl()),
-      )..add(GetCurrentUserRequested()),
+      create: (context) => AuthModule.createBloc()..add(GetCurrentUserRequested()),
       child: const _LoginScreenContent(),
     );
   }

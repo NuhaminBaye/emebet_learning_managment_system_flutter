@@ -6,9 +6,9 @@ import 'package:lms_mobileapp/core/network/error/dio_error_handler.dart';
 import 'package:lms_mobileapp/core/network/error/failures.dart';
 import 'package:lms_mobileapp/features/auth/data/data_sources/abstract_auth_api.dart';
 import 'package:lms_mobileapp/features/auth/data/data_sources/auth_impl_api.dart';
-import 'package:lms_mobileapp/features/auth/data/models/auth_model.dart';
-import 'package:lms_mobileapp/features/auth/domain/entities/user_entity.dart';
-import 'package:lms_mobileapp/features/auth/domain/repositories/auth_repository.dart';
+import 'package:lms_mobileapp/features/auth/domain/models/auth_model.dart';
+import 'package:lms_mobileapp/features/auth/domain/models/user_model.dart';
+import 'package:lms_mobileapp/features/auth/domain/repositories/abstract_auth_repository.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
   final AuthApi _authApi;
@@ -19,7 +19,7 @@ class AuthRepositoryImpl implements AuthRepository {
         _secureStorage = secureStorage ?? const FlutterSecureStorage();
 
   @override
-  ResultFuture<UserEntity> login(String email, String password) async {
+  ResultFuture<UserModel> login(String email, String password) async {
     try {
       final auth = await _authApi.login(email: email, password: password);
       await _persistAuth(auth);
@@ -32,7 +32,7 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  ResultFuture<UserEntity> register(String name, String email, String password) async {
+  ResultFuture<UserModel> register(String name, String email, String password) async {
     try {
       final auth = await _authApi.register(name: name, email: email, password: password);
       await _persistAuth(auth);
@@ -58,7 +58,7 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  ResultFuture<UserEntity> getCurrentUser() async {
+  ResultFuture<UserModel> getCurrentUser() async {
     try {
       final user = await _authApi.getCurrentUser();
       return right(user);

@@ -3,8 +3,8 @@ import 'package:hive/hive.dart';
 import 'package:lms_mobileapp/core/constants/api_endpoints.dart';
 import 'package:lms_mobileapp/core/network/dio_network.dart';
 import 'package:lms_mobileapp/features/auth/data/data_sources/abstract_auth_api.dart';
-import 'package:lms_mobileapp/features/auth/data/models/auth_model.dart';
-import 'package:lms_mobileapp/features/auth/data/models/user_model.dart';
+import 'package:lms_mobileapp/features/auth/domain/models/auth_model.dart';
+import 'package:lms_mobileapp/features/auth/domain/models/user_model.dart';
 
 class AuthApiImpl implements AuthApi {
   final Dio _client = DioNetwork.appAPI;
