@@ -66,50 +66,91 @@ class _ForgotPasswordScreenContentState extends State<_ForgotPasswordScreenConte
         final isLoading = state is AuthLoading;
 
         return Scaffold(
-          appBar: AppBar(
-            title: const Text('Forgot Password'),
-            backgroundColor: Colors.transparent,
-            foregroundColor: AppColors.textPrimary,
-            elevation: 0,
-          ),
+          backgroundColor: AppColors.background,
           body: SafeArea(
-            child: Padding(
-              padding: AppSpacing.sectionPadding,
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 16),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    'Forgot Password',
-                    style: AppTextTheme.headingLG,
-                  ),
-                  AppSpacing.verticalXs,
-                  Text(
-                    'Enter your registered email address and we\'ll send you a reset link.',
-                    style: AppTextTheme.bodyRegular.copyWith(color: AppColors.textSecondary),
-                  ),
-                  AppSpacing.verticalLg,
-                  Form(
-                    key: _formKey,
-                    child: AppTextField(
-                      hint: 'Email address',
-                      controller: _emailController,
-                      validator: ValidationUtils.email,
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: IconButton(
+                      onPressed: () => Navigator.of(context).pop(),
+                      icon: const Icon(Icons.arrow_back, color: AppColors.textPrimary),
                     ),
                   ),
                   AppSpacing.verticalLg,
-                  SizedBox(
+                  Container(
                     width: double.infinity,
-                    height: 50,
-                    child: ElevatedButton(
-                      onPressed: isLoading ? null : () => _submit(context),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.primary,
-                        foregroundColor: AppColors.textOnPrimary,
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                      ),
-                      child: isLoading
-                          ? const CircularProgressIndicator(color: AppColors.textOnPrimary)
-                          : const Text('Send Reset Link'),
+                    padding: const EdgeInsets.all(28),
+                    decoration: BoxDecoration(
+                      color: AppColors.surface,
+                      borderRadius: BorderRadius.circular(32),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.05),
+                          blurRadius: 24,
+                          offset: const Offset(0, 14),
+                        ),
+                      ],
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Container(
+                          height: 58,
+                          width: 58,
+                          decoration: BoxDecoration(
+                            color: AppColors.primaryLight,
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: const Icon(Icons.lock_reset, color: AppColors.primary, size: 28),
+                        ),
+                        AppSpacing.verticalLg,
+                        Text(
+                          'Forgot Password',
+                          style: AppTextTheme.headingLG,
+                        ),
+                        AppSpacing.verticalSm,
+                        Text(
+                          'Enter your registered email to receive a password reset link.',
+                          style: AppTextTheme.bodyRegular.copyWith(color: AppColors.textSecondary),
+                        ),
+                        AppSpacing.verticalXl,
+                        Form(
+                          key: _formKey,
+                          child: AppTextField(
+                            hint: 'Email address',
+                            controller: _emailController,
+                            validator: ValidationUtils.email,
+                          ),
+                        ),
+                        AppSpacing.verticalLg,
+                        SizedBox(
+                          height: 56,
+                          child: ElevatedButton(
+                            onPressed: isLoading ? null : () => _submit(context),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: AppColors.primary,
+                              foregroundColor: AppColors.textOnPrimary,
+                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                            ),
+                            child: isLoading
+                                ? const CircularProgressIndicator(color: AppColors.textOnPrimary)
+                                : const Text('Send Reset Link'),
+                          ),
+                        ),
+                        AppSpacing.verticalMd,
+                        Center(
+                          child: TextButton(
+                            onPressed: isLoading ? null : () => Navigator.of(context).pop(),
+                            child: Text(
+                              'Back to login',
+                              style: AppTextTheme.bodyMedium.copyWith(color: AppColors.primary),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ],

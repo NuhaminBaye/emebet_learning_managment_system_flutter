@@ -76,17 +76,19 @@ class _AuthFormState extends State<AuthForm> {
             validator: ValidationUtils.password,
           ),
           AppSpacing.verticalLg,
-          ElevatedButton(
-            onPressed: widget.loading ? null : _submit,
-            style: ElevatedButton.styleFrom(
-              minimumSize: const Size.fromHeight(50),
-              backgroundColor: AppColors.primary,
-              foregroundColor: AppColors.textOnPrimary,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          SizedBox(
+            height: 56,
+            child: ElevatedButton(
+              onPressed: widget.loading ? null : _submit,
+              style: ElevatedButton.styleFrom(
+                backgroundColor: AppColors.primary,
+                foregroundColor: AppColors.textOnPrimary,
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+              ),
+              child: widget.loading
+                  ? const CircularProgressIndicator(color: AppColors.textOnPrimary)
+                  : Text(widget.mode == AuthFormMode.login ? 'Sign In' : 'Create Account'),
             ),
-            child: widget.loading
-                ? const CircularProgressIndicator(color: AppColors.textOnPrimary)
-                : Text(widget.mode == AuthFormMode.login ? 'Sign In' : 'Create Account'),
           ),
         ],
       ),

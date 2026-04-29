@@ -3,7 +3,7 @@ import 'package:lms_mobileapp/core/constants/app_routes.dart';
 import 'package:lms_mobileapp/core/constants/colors.dart';
 import 'package:lms_mobileapp/core/constants/spacing.dart';
 import 'package:lms_mobileapp/core/constants/text_theme.dart';
-
+import 'package:lms_mobileapp/core/constants/images_list.dart';
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
 
@@ -17,19 +17,19 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
   final List<_OnboardingPage> _pages = const [
     _OnboardingPage(
-      imageLabel: 'Learn at your own pace',
+      image: ImagesList.onboarding1,
       title: 'Learn at Your Own Pace',
       description:
           'Access thousands of courses from industry experts and master new skills in a beautifully curated digital environment.',
     ),
     _OnboardingPage(
-      imageLabel: 'Expert mentors',
+      image: ImagesList.onboarding2,
       title: 'Learn from the Best',
       description:
           'Get direct access to industry experts and masterclasses designed to take your skills to the next level.',
     ),
     _OnboardingPage(
-      imageLabel: 'Earn certificates',
+      image: ImagesList.onboarding3,
       title: 'Earn Certificates',
       description:
           'Complete assessments, pass quizzes, and earn verified certificates to showcase your professional achievements.',
@@ -70,7 +70,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'Lumina Academy',
+                    "Emebet's Academy",
                     style: AppTextTheme.headingMD.copyWith(color: AppColors.primary),
                   ),
                   TextButton(
@@ -171,14 +171,10 @@ class _OnboardingCard extends StatelessWidget {
                         borderRadius: BorderRadius.circular(28),
                       ),
                       child: Center(
-                        child: Text(
-                          page.imageLabel,
-                          textAlign: TextAlign.center,
-                          style: AppTextTheme.bodyMedium.copyWith(
-                            color: AppColors.primary,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
+                        child: Image.asset(
+                             page.image,
+                             fit: BoxFit.contain,
+                         ),
                       ),
                     ),
                   ),
@@ -205,12 +201,12 @@ class _OnboardingCard extends StatelessWidget {
 }
 
 class _OnboardingPage {
-  final String imageLabel;
+  final String image;
   final String title;
   final String description;
 
   const _OnboardingPage({
-    required this.imageLabel,
+    required this.image,
     required this.title,
     required this.description,
   });

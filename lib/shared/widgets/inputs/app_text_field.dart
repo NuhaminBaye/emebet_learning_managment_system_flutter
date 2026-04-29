@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lms_mobileapp/core/constants/colors.dart';
 
 class AppTextField extends StatelessWidget {
   final String hint;
@@ -22,8 +23,16 @@ class AppTextField extends StatelessWidget {
       validator: validator,
       decoration: InputDecoration(
         hintText: hint,
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
+        filled: true,
+        fillColor: AppColors.grey100,
+        contentPadding: const EdgeInsets.symmetric(vertical: 18, horizontal: 18),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(18),
+          borderSide: BorderSide(color: AppColors.grey200),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(18),
+          borderSide: BorderSide(color: AppColors.primary),
         ),
       ),
     );
