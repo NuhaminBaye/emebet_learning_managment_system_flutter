@@ -26,9 +26,13 @@ class LoginScreen extends StatelessWidget {
 class _LoginScreenContent extends StatelessWidget {
   const _LoginScreenContent();
 
+  // void _handleLogin(BuildContext context, String _, String email, String password) {
+  //   context.read<AuthBloc>().add(LoginRequested(email: email, password: password));
+  // }
+
   void _handleLogin(BuildContext context, String _, String email, String password) {
-    context.read<AuthBloc>().add(LoginRequested(email: email, password: password));
-  }
+  Navigator.pushReplacementNamed(context, '/StudentShellScreen');
+}
 
   @override
   Widget build(BuildContext context) {

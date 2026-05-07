@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:lms_mobileapp/core/constants/colors.dart';
+import 'package:lms_mobileapp/core/constants/text_theme.dart';
 
 class SectionHeader extends StatelessWidget {
   final String title;
@@ -15,9 +17,12 @@ class SectionHeader extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(title, style: const TextStyle(fontSize: 18)),
+        Text(title, style: AppTextTheme.headingMD),
         if (onSeeAll != null)
-          TextButton(onPressed: onSeeAll, child: const Text("See all"))
+          TextButton(
+            onPressed: onSeeAll,
+            child: Text('See all', style: AppTextTheme.bodyMedium.copyWith(color: AppColors.primary)),
+          )
       ],
     );
   }
