@@ -13,7 +13,7 @@ class InstructorDashboardScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: AppColors.background,
         elevation: 0,
-        title: const Text("The Digital Atelier", style: AppTextTheme.headingMD),
+        title: const Text("Emebet's Academy", style: AppTextTheme.headingMD),
         actions: [
           IconButton(icon: const Icon(Icons.search), onPressed: () {}),
         ],

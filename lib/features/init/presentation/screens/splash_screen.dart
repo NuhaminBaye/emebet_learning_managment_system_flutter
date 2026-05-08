@@ -53,7 +53,7 @@ class _SplashScreenState extends State<SplashScreen> {
                   ),
                   AppSpacing.verticalLg,
                   Text(
-                    'Lumina Academy',
+                    'Emebet\'s Academy',
                     style: AppTextTheme.headingXL.copyWith(color: AppColors.textOnPrimary),
                   ),
                   AppSpacing.verticalSm,
@@ -74,7 +74,7 @@ class _SplashScreenState extends State<SplashScreen> {
                   ),
                   AppSpacing.verticalXs,
                   Text(
-                    'Version 2.4.0 · Atelier LMS Suite',
+                    'Version 2.4.0 ·  Emebet LMS Suite',
                     style: AppTextTheme.caption.copyWith(color: AppColors.textOnPrimary.withAlpha(153)),
                   ),
                 ],

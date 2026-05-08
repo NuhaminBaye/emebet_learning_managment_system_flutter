@@ -15,7 +15,7 @@ import 'package:lms_mobileapp/features/admin/presentation/screens/main/admin_she
 import 'package:lms_mobileapp/features/auth/presentation/auth_module.dart';
 import 'package:lms_mobileapp/features/auth/presentation/bloc/auth_event.dart';
 import 'package:lms_mobileapp/features/auth/presentation/screens/login_screen.dart';
-import 'package:lms_mobileapp/features/init/presentation/screens/onboarding_screen.dart';
+import 'package:lms_mobileapp/features/init/presentation/onboarding/screens/onboarding_screen.dart';
 import 'package:lms_mobileapp/features/init/presentation/screens/splash_screen.dart';
 import 'package:lms_mobileapp/core/navigation/role_based_router.dart';
 import 'package:lms_mobileapp/features/instructor/presentation/screens/courses/add_lesson_screen.dart';
