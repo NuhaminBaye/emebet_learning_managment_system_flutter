@@ -2,6 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:lms_mobileapp/core/constants/colors.dart';
 import 'package:lms_mobileapp/core/constants/spacing.dart';
 import 'package:lms_mobileapp/core/constants/text_theme.dart';
+import 'package:lms_mobileapp/features/instructor/presentation/widgets/dashed_border_container.dart';
+import 'package:lms_mobileapp/features/instructor/presentation/widgets/instructor_bottom_navigation_bar.dart';
+import 'package:lms_mobileapp/features/instructor/presentation/widgets/primary_button.dart';
+import 'package:lms_mobileapp/features/instructor/presentation/widgets/quiz_progress_indicator.dart';
+import 'package:lms_mobileapp/features/instructor/presentation/widgets/quiz_question_card.dart';
+import 'package:lms_mobileapp/features/instructor/presentation/widgets/quiz_setting_tile.dart';
 
 class QuizBuilderScreen extends StatelessWidget {
   const QuizBuilderScreen({super.key});
@@ -13,126 +19,188 @@ class QuizBuilderScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: AppColors.background,
         elevation: 0,
-        leading: IconButton(icon: const Icon(Icons.arrow_back), onPressed: () => Navigator.pop(context)),
-        title: const Text("Quiz Builder", style: AppTextTheme.headingMD),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: AppColors.textPrimary),
+          onPressed: () => Navigator.pop(context),
+        ),
+        title: const Text('Quiz Builder', style: AppTextTheme.headingMD),
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text("QUIZ TITLE", style: AppTextTheme.bodySmall),
-            AppSpacing.verticalSm,
-            TextField(
-              decoration: InputDecoration(
-                hintText: "Advanced Botany: Cellular Structures",
-                border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
-                filled: true,
-                fillColor: AppColors.surface,
-              ),
+            const Text('Quiz Title', style: AppTextTheme.bodySmall),
+            const SizedBox(height: AppSpacing.sm),
+            _buildInputField(
+              hintText: 'Advanced Botany: Cellular Structures',
+              maxLines: 1,
             ),
-
-            AppSpacing.verticalLg,
-
-            const Text("DESCRIPTION", style: AppTextTheme.bodySmall),
-            AppSpacing.verticalSm,
-            TextField(
-              maxLines: 3,
-              decoration: InputDecoration(
-                hintText: "Detailed assessment covering mitochondria, chloroplasts, and cell wall functions in terrestrial flora...",
-                border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
-                filled: true,
-                fillColor: AppColors.surface,
-              ),
+            const SizedBox(height: AppSpacing.lg),
+            const Text('Description', style: AppTextTheme.bodySmall),
+            const SizedBox(height: AppSpacing.sm),
+            _buildInputField(
+              hintText:
+                  'Detailed assessment covering mitochondria, chloroplasts, and cell wall functions in terrestrial flora...',
+              maxLines: 4,
             ),
-
-            AppSpacing.verticalLg,
-
-            // Questions Section
+            const SizedBox(height: AppSpacing.xl),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text("Questions", style: AppTextTheme.headingMD),
+                const Text('Questions', style: AppTextTheme.headingMD),
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 14,
+                    vertical: 6,
+                  ),
                   decoration: BoxDecoration(
-                    color: Colors.green.withOpacity(0.1),
+                    color: AppColors.primary.withOpacity(0.12),
                     borderRadius: BorderRadius.circular(20),
                   ),
-                  child: const Text("3 ADDED", style: TextStyle(color: Colors.green, fontWeight: FontWeight.w600)),
+                  child: Text(
+                    '3 ADDED',
+                    style: AppTextTheme.bodySmall.copyWith(
+                      color: AppColors.primary,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
                 ),
               ],
             ),
-
-            AppSpacing.verticalMd,
-
-            _buildQuestionCard("MULTIPLE CHOICE", "Which organelle is primarily responsible for photosynthesis?"),
-            _buildQuestionCard("TRUE/FALSE", "The cell wall provides structural support to plant cells."),
-
-            AppSpacing.verticalLg,
-
-            // Quiz Settings
-            const Text("Quiz Settings", style: AppTextTheme.headingMD),
-            AppSpacing.verticalMd,
-
-            _buildSettingRow("Time Limit", "30 Minutes allowed"),
-            _buildSettingRow("Allowed Attempts", "2 Attempts"),
-            _buildSettingRow("Passing Grade", "75%"),
-
-            AppSpacing.verticalXl,
-
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton.icon(
-                onPressed: () {},
-                icon: const Icon(Icons.save),
-                label: const Text("SAVE QUIZ"),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF22C55E),
-                  padding: const EdgeInsets.symmetric(vertical: 18),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-                ),
+            const SizedBox(height: AppSpacing.md),
+            DashedBorderContainer(
+              padding: const EdgeInsets.all(AppSpacing.md),
+              child: Column(
+                children: [
+                  const QuizQuestionCard(
+                    type: 'MULTIPLE CHOICE',
+                    question:
+                        'Which organelle is primarily responsible for photosynthesis?',
+                    detail: '4 options � Correct: Chloroplast',
+                  ),
+                  const SizedBox(height: AppSpacing.md),
+                  const QuizQuestionCard(
+                    type: 'TRUE/FALSE',
+                    question:
+                        'The cell wall provides structural support to plant cells.',
+                    detail: 'Correct: True',
+                  ),
+                  const SizedBox(height: AppSpacing.md),
+                  _buildAddQuestionTile(context),
+                ],
               ),
             ),
+            const SizedBox(height: AppSpacing.xl),
+            const Text('Quiz Settings', style: AppTextTheme.headingMD),
+            const SizedBox(height: AppSpacing.md),
+            const QuizSettingTile(
+              label: 'Time Limit',
+              value: '30 Minutes allowed',
+            ),
+            const SizedBox(height: AppSpacing.md),
+            const QuizSettingTile(
+              label: 'Allowed Attempts',
+              value: '2 Attempts',
+            ),
+            const SizedBox(height: AppSpacing.md),
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(AppSpacing.lg),
+              decoration: BoxDecoration(
+                color: AppColors.surface,
+                borderRadius: BorderRadius.circular(24),
+                boxShadow: [
+                  BoxShadow(
+                    color: AppColors.grey200.withOpacity(0.4),
+                    blurRadius: 18,
+                    offset: const Offset(0, 8),
+                  ),
+                ],
+              ),
+              child: const QuizProgressIndicator(
+                value: 0.75,
+                label: 'Passing Grade',
+                subtitle: '75%',
+              ),
+            ),
+            const SizedBox(height: AppSpacing.xl),
+            PrimaryButton(
+              label: 'SAVE QUIZ',
+              onPressed: () {},
+              icon: const Icon(Icons.save, size: 20),
+              backgroundColor: AppColors.primary,
+            ),
+            const SizedBox(height: AppSpacing.xl),
           ],
+        ),
+      ),
+      bottomNavigationBar: const InstructorBottomNavigationBar(currentIndex: 1),
+    );
+  }
+
+  Widget _buildInputField({required String hintText, required int maxLines}) {
+    return TextField(
+      maxLines: maxLines,
+      decoration: InputDecoration(
+        hintText: hintText,
+        hintStyle: AppTextTheme.bodySmall.copyWith(
+          color: AppColors.textSecondary,
+        ),
+        filled: true,
+        fillColor: AppColors.surface,
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: AppSpacing.lg,
+          vertical: AppSpacing.lg,
+        ),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(20),
+          borderSide: BorderSide.none,
         ),
       ),
     );
   }
 
-  Widget _buildQuestionCard(String type, String question) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 12),
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: AppColors.surface,
-        borderRadius: BorderRadius.circular(16),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(type, style: AppTextTheme.bodySmall.copyWith(color: Colors.green, fontWeight: FontWeight.w600)),
-          AppSpacing.verticalSm,
-          Text(question, style: AppTextTheme.bodyMedium),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildSettingRow(String label, String value) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 12),
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: AppColors.surface,
-        borderRadius: BorderRadius.circular(16),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(label, style: AppTextTheme.bodyMedium),
-          Text(value, style: AppTextTheme.bodyMedium.copyWith(fontWeight: FontWeight.w600)),
-        ],
+  Widget _buildAddQuestionTile(BuildContext context) {
+    return GestureDetector(
+      onTap: () {},
+      child: Container(
+        width: double.infinity,
+        padding: const EdgeInsets.symmetric(
+          vertical: AppSpacing.md,
+          horizontal: AppSpacing.lg,
+        ),
+        decoration: BoxDecoration(
+          color: AppColors.background,
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(
+            color: AppColors.primary.withOpacity(0.3),
+            width: 1.5,
+          ),
+        ),
+        child: Row(
+          children: [
+            Container(
+              width: 42,
+              height: 42,
+              decoration: BoxDecoration(
+                color: AppColors.primary.withOpacity(0.12),
+                borderRadius: BorderRadius.circular(14),
+              ),
+              child: const Icon(Icons.add, color: AppColors.primary),
+            ),
+            const SizedBox(width: AppSpacing.md),
+            Expanded(
+              child: Text(
+                'Add Question',
+                style: AppTextTheme.bodyMedium.copyWith(
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+            ),
+            const Icon(Icons.keyboard_arrow_right, color: AppColors.primary),
+          ],
+        ),
       ),
     );
   }

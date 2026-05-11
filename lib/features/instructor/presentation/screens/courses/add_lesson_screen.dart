@@ -10,10 +10,7 @@ import 'package:lms_mobileapp/features/instructor/presentation/widgets/upload_ar
 class AddLessonScreen extends StatefulWidget {
   final String? courseId;
 
-  const AddLessonScreen({
-    super.key,
-    this.courseId,
-  });
+  const AddLessonScreen({super.key, this.courseId});
 
   @override
   State<AddLessonScreen> createState() => _AddLessonScreenState();
@@ -49,17 +46,12 @@ class _AddLessonScreenState extends State<AddLessonScreen> {
         backgroundColor: AppColors.background,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(
-            Icons.arrow_back,
-            color: AppColors.textPrimary,
-          ),
+          icon: const Icon(Icons.arrow_back, color: AppColors.textPrimary),
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
           'Add Lesson',
-          style: AppTextTheme.headingMD.copyWith(
-            color: AppColors.textPrimary,
-          ),
+          style: AppTextTheme.headingMD.copyWith(color: AppColors.textPrimary),
         ),
       ),
       body: SingleChildScrollView(
@@ -100,10 +92,7 @@ class _AddLessonScreenState extends State<AddLessonScreen> {
               decoration: BoxDecoration(
                 color: AppColors.surface,
                 borderRadius: BorderRadius.circular(8),
-                border: Border.all(
-                  color: AppColors.border,
-                  width: 1,
-                ),
+                border: Border.all(color: AppColors.border, width: 1),
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -229,12 +218,7 @@ class _AddLessonScreenState extends State<AddLessonScreen> {
                     iconBackgroundColor: const Color(0xFFE0F2FE),
                     iconColor: const Color(0xFF2563EB),
                     onTap: () {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('Quiz creation coming soon'),
-                          duration: Duration(seconds: 2),
-                        ),
-                      );
+                      Navigator.pushNamed(context, AppRoutes.createQuiz);
                     },
                   ),
                 ),
@@ -280,9 +264,7 @@ class _AddLessonScreenState extends State<AddLessonScreen> {
 class _DashedBorderContainer extends StatelessWidget {
   final Widget child;
 
-  const _DashedBorderContainer({
-    required this.child,
-  });
+  const _DashedBorderContainer({required this.child});
 
   @override
   Widget build(BuildContext context) {
@@ -316,10 +298,12 @@ class _DashedBorderPainter extends CustomPainter {
 
     final path = Path();
     const radius = 20.0;
-    path.addRRect(RRect.fromRectAndRadius(
-      Rect.fromLTWH(1.5, 1.5, size.width - 3, size.height - 3),
-      const Radius.circular(radius),
-    ));
+    path.addRRect(
+      RRect.fromRectAndRadius(
+        Rect.fromLTWH(1.5, 1.5, size.width - 3, size.height - 3),
+        const Radius.circular(radius),
+      ),
+    );
 
     final dashPath = Path();
     for (final metric in path.computeMetrics()) {

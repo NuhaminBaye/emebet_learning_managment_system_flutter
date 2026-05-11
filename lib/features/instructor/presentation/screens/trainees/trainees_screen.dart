@@ -1,461 +1,19 @@
-// // import 'package:flutter/material.dart';
-// // import 'package:lms_mobileapp/core/constants/colors.dart';
-// // import 'package:lms_mobileapp/core/constants/spacing.dart';
-// // import 'package:lms_mobileapp/core/constants/text_theme.dart';
-
-// // class TraineesScreen extends StatelessWidget {
-// //   const TraineesScreen({super.key});
-
-// //   @override
-// //   Widget build(BuildContext context) {
-// //     return Scaffold(
-// //       backgroundColor: AppColors.background,
-// //       appBar: AppBar(
-// //         backgroundColor: AppColors.background,
-// //         elevation: 0,
-// //         title: const Text("The Digital Atelier", style: AppTextTheme.headingMD),
-// //         actions: [
-// //           IconButton(icon: const Icon(Icons.search), onPressed: () {}),
-// //         ],
-// //       ),
-// //       body: SingleChildScrollView(
-// //         padding: const EdgeInsets.all(16),
-// //         child: Column(
-// //           crossAxisAlignment: CrossAxisAlignment.start,
-// //           children: [
-// //             const Text("Student Roster", style: AppTextTheme.headingLG),
-// //             const Text(
-// //               "Monitor individual student engagement and curriculum progress across the Digital Architecture cohort.",
-// //               style: AppTextTheme.bodyRegular,
-// //             ),
-
-// //             AppSpacing.verticalLg,
-
-// //             // Stats Row
-// //             Row(
-// //               children: [
-// //                 Expanded(child: _buildStatCard("TOTAL ENROLLED", "128", "+12% this month")),
-// //                 AppSpacing.horizontalMd,
-// //                 Expanded(child: _buildStatCard("AVG. PROGRESSION", "64%", "")),
-// //               ],
-// //             ),
-
-// //             AppSpacing.verticalMd,
-
-// //             _buildStatCard("ACTIVE TODAY", "42", "", showAvatars: true),
-
-// //             AppSpacing.verticalLg,
-
-// //             // Filters
-// //             Row(
-// //               children: [
-// //                 Expanded(child: _buildFilterChip("All Students", true)),
-// //                 AppSpacing.horizontalSm,
-// //                 Expanded(child: _buildFilterChip("Active", false)),
-// //                 AppSpacing.horizontalSm,
-// //                 Expanded(child: _buildFilterChip("Completed", false)),
-// //               ],
-// //             ),
-
-// //             AppSpacing.verticalMd,
-
-// //             // Sort
-// //             Row(
-// //               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-// //               children: [
-// //                 const Text("Sort by: Last Active", style: AppTextTheme.bodyMedium),
-// //                 const Icon(Icons.arrow_drop_down),
-// //               ],
-// //             ),
-
-// //             AppSpacing.verticalLg,
-
-// //             // Students List
-// //             _buildStudentCard(
-// //               name: "Elena Smith",
-// //               email: "elena.s@atelier.edu",
-// //               progress: 82,
-// //               module: "ADVANCED MODULE",
-// //               avatarColor: Colors.pink,
-// //             ),
-// //             _buildStudentCard(
-// //               name: "Marcus Liao",
-// //               email: "marcus.l@atelier.edu",
-// //               progress: 45,
-// //               module: "FOUNDATION",
-// //               avatarColor: Colors.blue,
-// //             ),
-// //             _buildStudentCard(
-// //               name: "Sarah Rodriguez",
-// //               email: "sarah.r@atelier.edu",
-// //               progress: 17,
-// //               module: "INTRODUCTION",
-// //               avatarColor: Colors.purple,
-// //             ),
-// //           ],
-// //         ),
-// //       ),
-// //     );
-// //   }
-
-// //   Widget _buildStatCard(String title, String value, String subtitle, {bool showAvatars = false}) {
-// //     return Container(
-// //       padding: const EdgeInsets.all(16),
-// //       decoration: BoxDecoration(
-// //         color: AppColors.surface,
-// //         borderRadius: BorderRadius.circular(20),
-// //       ),
-// //       child: Column(
-// //         crossAxisAlignment: CrossAxisAlignment.start,
-// //         children: [
-// //           Text(title, style: AppTextTheme.bodySmall),
-// //           AppSpacing.verticalSm,
-// //           Text(value, style: AppTextTheme.headingLG),
-// //           if (subtitle.isNotEmpty) Text(subtitle, style: AppTextTheme.bodySmall),
-// //           if (showAvatars)
-// //             const Padding(
-// //               padding: EdgeInsets.only(top: 8),
-// //               child: Row(
-// //                 children: [
-// //                   CircleAvatar(radius: 12, backgroundColor: Colors.pink),
-// //                   CircleAvatar(radius: 12, backgroundColor: Colors.blue),
-// //                   CircleAvatar(radius: 12, backgroundColor: Colors.purple),
-// //                 ],
-// //               ),
-// //             ),
-// //         ],
-// //       ),
-// //     );
-// //   }
-
-// //   Widget _buildFilterChip(String label, bool selected) {
-// //     return Container(
-// //       padding: const EdgeInsets.symmetric(vertical: 10),
-// //       decoration: BoxDecoration(
-// //         color: selected ? AppColors.primary : AppColors.surface,
-// //         borderRadius: BorderRadius.circular(30),
-// //       ),
-// //       child: Center(
-// //         child: Text(
-// //           label,
-// //           style: TextStyle(
-// //             color: selected ? Colors.white : AppColors.textPrimary,
-// //             fontWeight: FontWeight.w600,
-// //           ),
-// //         ),
-// //       ),
-// //     );
-// //   }
-
-// //   Widget _buildStudentCard({
-// //     required String name,
-// //     required String email,
-// //     required int progress,
-// //     required String module,
-// //     required Color avatarColor,
-// //   }) {
-// //     return Container(
-// //       margin: const EdgeInsets.only(bottom: 12),
-// //       padding: const EdgeInsets.all(16),
-// //       decoration: BoxDecoration(
-// //         color: AppColors.surface,
-// //         borderRadius: BorderRadius.circular(20),
-// //       ),
-// //       child: Row(
-// //         children: [
-// //           CircleAvatar(
-// //             radius: 28,
-// //             backgroundColor: avatarColor,
-// //             child: Text(name[0], style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
-// //           ),
-// //           AppSpacing.horizontalMd,
-// //           Expanded(
-// //             child: Column(
-// //               crossAxisAlignment: CrossAxisAlignment.start,
-// //               children: [
-// //                 Text(name, style: AppTextTheme.bodyMedium.copyWith(fontWeight: FontWeight.w600)),
-// //                 Text(email, style: AppTextTheme.bodySmall),
-// //                 AppSpacing.verticalSm,
-// //                 Row(
-// //                   children: [
-// //                     Expanded(
-// //                       child: LinearProgressIndicator(
-// //                         value: progress / 100,
-// //                         backgroundColor: AppColors.grey100,
-// //                         color: progress > 70 ? Colors.green : Colors.orange,
-// //                         minHeight: 6,
-// //                       ),
-// //                     ),
-// //                     AppSpacing.horizontalSm,
-// //                     Text("$progress%", style: AppTextTheme.bodySmall),
-// //                   ],
-// //                 ),
-// //               ],
-// //             ),
-// //           ),
-// //           Column(
-// //             crossAxisAlignment: CrossAxisAlignment.end,
-// //             children: [
-// //               Text(module, style: AppTextTheme.bodySmall.copyWith(color: AppColors.primary)),
-// //               AppSpacing.verticalSm,
-// //               if (progress < 30)
-// //                 Container(
-// //                   padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-// //                   decoration: BoxDecoration(
-// //                     color: Colors.red.withOpacity(0.1),
-// //                     borderRadius: BorderRadius.circular(12),
-// //                   ),
-// //                   child: const Text("NEEDS HELP", style: TextStyle(color: Colors.red, fontSize: 10, fontWeight: FontWeight.bold)),
-// //                 ),
-// //             ],
-// //           ),
-// //         ],
-// //       ),
-// //     );
-// //   }
-// // }
-
-// import 'package:flutter/material.dart';
-// import 'package:lms_mobileapp/core/constants/colors.dart';
-// import 'package:lms_mobileapp/core/constants/spacing.dart';
-// import 'package:lms_mobileapp/core/constants/text_theme.dart';
-
-// class TraineesScreen extends StatelessWidget {
-//   const TraineesScreen({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       backgroundColor: AppColors.background,
-//       appBar: AppBar(
-//         backgroundColor: AppColors.background,
-//         elevation: 0,
-//         title: const Text("The Digital Atelier", style: AppTextTheme.headingMD),
-//         actions: [
-//           IconButton(icon: const Icon(Icons.search), onPressed: () {}),
-//         ],
-//       ),
-//       body: SingleChildScrollView(
-//         padding: const EdgeInsets.all(16),
-//         child: Column(
-//           crossAxisAlignment: CrossAxisAlignment.start,
-//           children: [
-//             const Text("Student Roster", style: AppTextTheme.headingLG),
-//             const Text(
-//               "Monitor individual student engagement and curriculum progress across the Digital Architecture cohort.",
-//               style: AppTextTheme.bodyRegular,
-//             ),
-
-//             AppSpacing.verticalLg,
-
-//             // Stats Cards
-//             Row(
-//               children: [
-//                 Expanded(
-//                   child: _buildStatCard(
-//                     title: "TOTAL ENROLLED",
-//                     value: "128",
-//                     subtitle: "+12% this month",
-//                   ),
-//                 ),
-//                 AppSpacing.horizontalMd,
-//                 Expanded(
-//                   child: _buildStatCard(
-//                     title: "AVG. PROGRESSION",
-//                     value: "64%",
-//                     subtitle: "",
-//                   ),
-//                 ),
-//               ],
-//             ),
-
-//             AppSpacing.verticalMd,
-
-//             _buildStatCard(
-//               title: "ACTIVE TODAY",
-//               value: "42",
-//               subtitle: "",
-//               showAvatars: true,
-//             ),
-
-//             AppSpacing.verticalLg,
-
-//             // Filters
-//             Row(
-//               children: [
-//                 Expanded(child: _buildFilterChip("All Students", true)),
-//                 AppSpacing.horizontalSm,
-//                 Expanded(child: _buildFilterChip("Active", false)),
-//                 AppSpacing.horizontalSm,
-//                 Expanded(child: _buildFilterChip("Completed", false)),
-//               ],
-//             ),
-
-//             AppSpacing.verticalMd,
-
-//             // Sort
-//             Row(
-//               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//               children: [
-//                 const Text("Sort by: Last Active", style: AppTextTheme.bodyMedium),
-//                 const Icon(Icons.arrow_drop_down),
-//               ],
-//             ),
-
-//             AppSpacing.verticalLg,
-
-//             // Students
-//             _buildStudentCard(
-//               name: "Elena Smith",
-//               email: "elena.s@atelier.edu",
-//               progress: 82,
-//               module: "ADVANCED MODULE",
-//               avatarColor: Colors.pink,
-//             ),
-//             _buildStudentCard(
-//               name: "Marcus Liao",
-//               email: "marcus.l@atelier.edu",
-//               progress: 45,
-//               module: "FOUNDATION",
-//               avatarColor: Colors.blue,
-//             ),
-//             _buildStudentCard(
-//               name: "Sarah Rodriguez",
-//               email: "sarah.r@atelier.edu",
-//               progress: 17,
-//               module: "INTRODUCTION",
-//               avatarColor: Colors.purple,
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-
-//   Widget _buildStatCard(String title, String value, String subtitle, {bool showAvatars = false}) {
-//     return Container(
-//       padding: const EdgeInsets.all(20),
-//       decoration: BoxDecoration(
-//         color: AppColors.surface,
-//         borderRadius: BorderRadius.circular(20),
-//       ),
-//       child: Column(
-//         crossAxisAlignment: CrossAxisAlignment.start,
-//         children: [
-//           Text(title, style: AppTextTheme.bodySmall),
-//           AppSpacing.verticalSm,
-//           Text(value, style: AppTextTheme.headingLG),
-//           if (subtitle.isNotEmpty) Text(subtitle, style: AppTextTheme.bodySmall),
-//           if (showAvatars)
-//             const Padding(
-//               padding: EdgeInsets.only(top: 8),
-//               child: Row(
-//                 children: [
-//                   CircleAvatar(radius: 12, backgroundColor: Colors.pink),
-//                   CircleAvatar(radius: 12, backgroundColor: Colors.blue),
-//                   CircleAvatar(radius: 12, backgroundColor: Colors.purple),
-//                 ],
-//               ),
-//             ),
-//         ],
-//       ),
-//     );
-//   }
-
-//   Widget _buildFilterChip(String label, bool selected) {
-//     return Container(
-//       padding: const EdgeInsets.symmetric(vertical: 10),
-//       decoration: BoxDecoration(
-//         color: selected ? const Color(0xFF22C55E) : AppColors.surface,
-//         borderRadius: BorderRadius.circular(30),
-//       ),
-//       child: Center(
-//         child: Text(
-//           label,
-//           style: TextStyle(
-//             color: selected ? Colors.white : AppColors.textPrimary,
-//             fontWeight: FontWeight.w600,
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-
-//   Widget _buildStudentCard({
-//     required String name,
-//     required String email,
-//     required int progress,
-//     required String module,
-//     required Color avatarColor,
-//   }) {
-//     return Container(
-//       margin: const EdgeInsets.only(bottom: 12),
-//       padding: const EdgeInsets.all(16),
-//       decoration: BoxDecoration(
-//         color: AppColors.surface,
-//         borderRadius: BorderRadius.circular(20),
-//       ),
-//       child: Row(
-//         children: [
-//           CircleAvatar(
-//             radius: 28,
-//             backgroundColor: avatarColor,
-//             child: Text(name[0], style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
-//           ),
-//           AppSpacing.horizontalMd,
-//           Expanded(
-//             child: Column(
-//               crossAxisAlignment: CrossAxisAlignment.start,
-//               children: [
-//                 Text(name, style: AppTextTheme.bodyMedium.copyWith(fontWeight: FontWeight.w600)),
-//                 Text(email, style: AppTextTheme.bodySmall),
-//                 AppSpacing.verticalSm,
-//                 Row(
-//                   children: [
-//                     Expanded(
-//                       child: LinearProgressIndicator(
-//                         value: progress / 100,
-//                         backgroundColor: AppColors.grey100,
-//                         color: progress > 70 ? const Color(0xFF22C55E) : Colors.orange,
-//                         minHeight: 8,
-//                       ),
-//                     ),
-//                     AppSpacing.horizontalSm,
-//                     Text("$progress%", style: AppTextTheme.bodySmall),
-//                   ],
-//                 ),
-//               ],
-//             ),
-//           ),
-//           Column(
-//             crossAxisAlignment: CrossAxisAlignment.end,
-//             children: [
-//               Text(module, style: AppTextTheme.bodySmall.copyWith(color: AppColors.primary)),
-//               AppSpacing.verticalSm,
-//               if (progress < 30)
-//                 Container(
-//                   padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-//                   decoration: BoxDecoration(
-//                     color: Colors.red.withOpacity(0.1),
-//                     borderRadius: BorderRadius.circular(12),
-//                   ),
-//                   child: const Text("NEEDS HELP", style: TextStyle(color: Colors.red, fontSize: 10, fontWeight: FontWeight.bold)),
-//                 ),
-//             ],
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-// }
-
 import 'package:flutter/material.dart';
+import 'package:lms_mobileapp/core/constants/app_routes.dart';
 import 'package:lms_mobileapp/core/constants/colors.dart';
 import 'package:lms_mobileapp/core/constants/spacing.dart';
 import 'package:lms_mobileapp/core/constants/text_theme.dart';
+import 'package:lms_mobileapp/shared/widgets/chips/filter_chip.dart';
 
-class TraineesScreen extends StatelessWidget {
+class TraineesScreen extends StatefulWidget {
   const TraineesScreen({super.key});
+
+  @override
+  State<TraineesScreen> createState() => _TraineesScreenState();
+}
+
+class _TraineesScreenState extends State<TraineesScreen> {
+  int _selectedFilter = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -464,9 +22,12 @@ class TraineesScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: AppColors.background,
         elevation: 0,
-        title: const Text("The Digital Atelier", style: AppTextTheme.headingMD),
+        title: const Text('Digital Atelier', style: AppTextTheme.headingMD),
         actions: [
-          IconButton(icon: const Icon(Icons.search), onPressed: () {}),
+          IconButton(
+            icon: const Icon(Icons.search, color: AppColors.textPrimary),
+            onPressed: () {},
+          ),
         ],
       ),
       body: SingleChildScrollView(
@@ -474,92 +35,112 @@ class TraineesScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text("Student Roster", style: AppTextTheme.headingLG),
-            const Text(
-              "Monitor individual student engagement and curriculum progress across the Digital Architecture cohort.",
-              style: AppTextTheme.bodyRegular,
+            const Text('Student Roster', style: AppTextTheme.headingLG),
+            const SizedBox(height: AppSpacing.sm),
+            Text(
+              'Monitor individual student engagement and curriculum progress across the Digital Architecture cohort.',
+              style: AppTextTheme.bodyRegular.copyWith(
+                color: AppColors.textSecondary,
+              ),
             ),
-
-            AppSpacing.verticalLg,
-
-            // Stats Row
+            const SizedBox(height: AppSpacing.xl),
             Row(
               children: [
                 Expanded(
                   child: _buildStatCard(
-                    title: "TOTAL ENROLLED",
-                    value: "128",
-                    subtitle: "+12% this month",
+                    title: 'TOTAL ENROLLED',
+                    value: '128',
+                    subtitle: '+12% this month',
                   ),
                 ),
-                AppSpacing.horizontalMd,
+                const SizedBox(width: AppSpacing.md),
                 Expanded(
                   child: _buildStatCard(
-                    title: "AVG. PROGRESSION",
-                    value: "64%",
-                    subtitle: "",
+                    title: 'AVG. PROGRESSION',
+                    value: '64%',
+                    subtitle: '',
                   ),
                 ),
               ],
             ),
-
-            AppSpacing.verticalMd,
-
+            const SizedBox(height: AppSpacing.md),
             _buildStatCard(
-              title: "ACTIVE TODAY",
-              value: "42",
-              subtitle: "",
+              title: 'ACTIVE TODAY',
+              value: '42',
+              subtitle: '',
               showAvatars: true,
             ),
-
-            AppSpacing.verticalLg,
-
-            // Filters
+            const SizedBox(height: AppSpacing.lg),
             Row(
               children: [
-                Expanded(child: _buildFilterChip("All Students", true)),
-                AppSpacing.horizontalSm,
-                Expanded(child: _buildFilterChip("Active", false)),
-                AppSpacing.horizontalSm,
-                Expanded(child: _buildFilterChip("Completed", false)),
+                Expanded(
+                  child: AppFilterChip(
+                    label: 'All Students',
+                    selected: _selectedFilter == 0,
+                    onTap: () => setState(() => _selectedFilter = 0),
+                  ),
+                ),
+                const SizedBox(width: AppSpacing.sm),
+                Expanded(
+                  child: AppFilterChip(
+                    label: 'Active',
+                    selected: _selectedFilter == 1,
+                    onTap: () => setState(() => _selectedFilter = 1),
+                  ),
+                ),
+                const SizedBox(width: AppSpacing.sm),
+                Expanded(
+                  child: AppFilterChip(
+                    label: 'Completed',
+                    selected: _selectedFilter == 2,
+                    onTap: () => setState(() => _selectedFilter = 2),
+                  ),
+                ),
               ],
             ),
-
-            AppSpacing.verticalMd,
-
-            // Sort
+            const SizedBox(height: AppSpacing.md),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Text("Sort by: Last Active", style: AppTextTheme.bodyMedium),
-                const Icon(Icons.arrow_drop_down),
+              children: const [
+                Text('Sort by: Last Active', style: AppTextTheme.bodyMedium),
+                Icon(Icons.arrow_drop_down, color: AppColors.textPrimary),
               ],
             ),
-
-            AppSpacing.verticalLg,
-
-            // Students List
+            const SizedBox(height: AppSpacing.xl),
             _buildStudentCard(
-              name: "Elena Smith",
-              email: "elena.s@atelier.edu",
+              name: 'Elena Smith',
+              email: 'elena.s@atelier.edu',
               progress: 82,
-              module: "ADVANCED MODULE",
-              avatarColor: Colors.pink,
+              module: 'ADVANCED MODULE',
+              statusLabel: 'UNASSIGNED SUBMISSION',
+              actionLabel: 'Grade Now',
+              actionColor: AppColors.primary,
+              onActionTap: () =>
+                  Navigator.pushNamed(context, AppRoutes.gradingPortal),
             ),
+            const SizedBox(height: AppSpacing.sm),
             _buildStudentCard(
-              name: "Marcus Liao",
-              email: "marcus.l@atelier.edu",
+              name: 'Marcus Liao',
+              email: 'marcus.l@atelier.edu',
               progress: 45,
-              module: "FOUNDATION",
-              avatarColor: Colors.blue,
+              module: 'FOUNDATION',
+              statusLabel: 'VIEW RECENT SUBMISSION',
+              actionLabel: 'View Submission',
+              actionColor: Color(0xFF2563EB),
+              onActionTap: () {},
             ),
+            const SizedBox(height: AppSpacing.sm),
             _buildStudentCard(
-              name: "Sarah Rodriguez",
-              email: "sarah.r@atelier.edu",
+              name: 'Sarah Rodriguez',
+              email: 'sarah.r@atelier.edu',
               progress: 17,
-              module: "INTRODUCTION",
-              avatarColor: Colors.purple,
+              module: 'INTRODUCTION',
+              statusLabel: 'LOW ENGAGEMENT',
+              actionLabel: 'Nudge Student',
+              actionColor: Color(0xFFEF4444),
+              onActionTap: () {},
             ),
+            const SizedBox(height: AppSpacing.xl),
           ],
         ),
       ),
@@ -573,51 +154,66 @@ class TraineesScreen extends StatelessWidget {
     bool showAvatars = false,
   }) {
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         color: AppColors.surface,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(24),
+        boxShadow: [
+          BoxShadow(
+            color: AppColors.grey200.withOpacity(0.4),
+            blurRadius: 18,
+            offset: const Offset(0, 8),
+          ),
+        ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(title, style: AppTextTheme.bodySmall),
-          AppSpacing.verticalSm,
-          Text(value, style: AppTextTheme.headingLG),
-          if (subtitle.isNotEmpty) Text(subtitle, style: AppTextTheme.bodySmall),
-          if (showAvatars)
-            const Padding(
-              padding: EdgeInsets.only(top: 8),
-              child: Row(
-                children: [
-                  CircleAvatar(radius: 12, backgroundColor: Colors.pink),
-                  CircleAvatar(radius: 12, backgroundColor: Colors.blue),
-                  CircleAvatar(radius: 12, backgroundColor: Colors.purple),
-                ],
-              ),
+          Text(
+            title,
+            style: AppTextTheme.bodySmall.copyWith(
+              color: AppColors.textSecondary,
+              letterSpacing: 0.8,
             ),
+          ),
+          const SizedBox(height: AppSpacing.sm),
+          Text(
+            value,
+            style: AppTextTheme.headingLG.copyWith(fontWeight: FontWeight.w700),
+          ),
+          if (subtitle.isNotEmpty) ...[
+            const SizedBox(height: AppSpacing.xs),
+            Text(
+              subtitle,
+              style: AppTextTheme.bodySmall.copyWith(color: AppColors.primary),
+            ),
+          ],
+          if (showAvatars) ...[
+            const SizedBox(height: AppSpacing.sm),
+            _buildAvatarsRow(),
+          ],
         ],
       ),
     );
   }
 
-  Widget _buildFilterChip(String label, bool selected) {
-    return Container(
-      padding: const EdgeInsets.symmetric(vertical: 10),
-      decoration: BoxDecoration(
-        color: selected ? const Color(0xFF22C55E) : AppColors.surface,
-        borderRadius: BorderRadius.circular(30),
-      ),
-      child: Center(
-        child: Text(
-          label,
-          style: TextStyle(
-            color: selected ? Colors.white : AppColors.textPrimary,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
+  Widget _buildAvatarsRow() {
+    const overlap = 20.0;
+    return SizedBox(
+      height: 40,
+      child: Stack(
+        clipBehavior: Clip.none,
+        children: [
+          Positioned(left: 0, child: _buildAvatar(Colors.purple)),
+          Positioned(left: overlap, child: _buildAvatar(Colors.blue)),
+          Positioned(left: overlap * 2, child: _buildAvatar(Colors.pink)),
+        ],
       ),
     );
+  }
+
+  Widget _buildAvatar(Color color) {
+    return CircleAvatar(radius: 16, backgroundColor: color);
   }
 
   Widget _buildStudentCard({
@@ -625,61 +221,143 @@ class TraineesScreen extends StatelessWidget {
     required String email,
     required int progress,
     required String module,
-    required Color avatarColor,
+    required String statusLabel,
+    required String actionLabel,
+    required Color actionColor,
+    required VoidCallback onActionTap,
   }) {
     return Container(
-      margin: const EdgeInsets.only(bottom: 12),
-      padding: const EdgeInsets.all(16),
+      width: double.infinity,
+      padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         color: AppColors.surface,
-        borderRadius: BorderRadius.circular(20),
-      ),
-      child: Row(
-        children: [
-          CircleAvatar(
-            radius: 28,
-            backgroundColor: avatarColor,
-            child: Text(name[0], style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+        borderRadius: BorderRadius.circular(24),
+        boxShadow: [
+          BoxShadow(
+            color: AppColors.grey200.withOpacity(0.35),
+            blurRadius: 18,
+            offset: const Offset(0, 10),
           ),
-          AppSpacing.horizontalMd,
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(name, style: AppTextTheme.bodyMedium.copyWith(fontWeight: FontWeight.w600)),
-                Text(email, style: AppTextTheme.bodySmall),
-                AppSpacing.verticalSm,
-                Row(
+        ],
+      ),
+      child: Column(
+        children: [
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              CircleAvatar(
+                radius: 28,
+                backgroundColor: actionColor.withOpacity(0.15),
+                child: Text(
+                  name[0],
+                  style: TextStyle(
+                    color: actionColor,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              const SizedBox(width: AppSpacing.md),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Expanded(
-                      child: LinearProgressIndicator(
-                        value: progress / 100,
-                        backgroundColor: AppColors.grey100,
-                        color: progress > 70 ? const Color(0xFF22C55E) : Colors.orange,
-                        minHeight: 8,
+                    Text(
+                      name,
+                      style: AppTextTheme.bodyMedium.copyWith(
+                        fontWeight: FontWeight.w700,
                       ),
                     ),
-                    AppSpacing.horizontalSm,
-                    Text("$progress%", style: AppTextTheme.bodySmall),
+                    const SizedBox(height: AppSpacing.xs),
+                    Text(
+                      email,
+                      style: AppTextTheme.bodySmall.copyWith(
+                        color: AppColors.textSecondary,
+                      ),
+                    ),
+                    const SizedBox(height: AppSpacing.sm),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(16),
+                            child: LinearProgressIndicator(
+                              value: progress / 100,
+                              minHeight: 8,
+                              backgroundColor: AppColors.grey100,
+                              color: AppColors.primary,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: AppSpacing.sm),
+                        Text(
+                          '$progress%',
+                          style: AppTextTheme.bodySmall.copyWith(
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                      ],
+                    ),
                   ],
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
+          const SizedBox(height: AppSpacing.md),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text(module, style: AppTextTheme.bodySmall.copyWith(color: AppColors.primary)),
-              AppSpacing.verticalSm,
-              if (progress < 30)
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                  decoration: BoxDecoration(
-                    color: Colors.red.withOpacity(0.1),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: const Text("NEEDS HELP", style: TextStyle(color: Colors.red, fontSize: 10, fontWeight: FontWeight.bold)),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 12,
+                        vertical: 6,
+                      ),
+                      decoration: BoxDecoration(
+                        color: AppColors.grey100,
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                      child: Text(
+                        statusLabel,
+                        style: AppTextTheme.bodySmall.copyWith(
+                          color: AppColors.textSecondary,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: AppSpacing.sm),
+                    Text(
+                      module,
+                      style: AppTextTheme.bodySmall.copyWith(
+                        color: AppColors.primary,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                  ],
                 ),
+              ),
+              ElevatedButton(
+                onPressed: onActionTap,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: actionColor,
+                  foregroundColor: Colors.white,
+                  elevation: 0,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: AppSpacing.lg,
+                    vertical: AppSpacing.sm,
+                  ),
+                ),
+                child: Text(
+                  actionLabel,
+                  style: AppTextTheme.bodySmall.copyWith(
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ),
             ],
           ),
         ],

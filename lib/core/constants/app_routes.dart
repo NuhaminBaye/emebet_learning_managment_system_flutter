@@ -21,6 +21,7 @@ class AppRoutes {
   static const String addLesson = '/add-lesson';  
   static const String createAssignment = '/create-assignment';
   static const String createQuiz = '/create-quiz';
+  static const String gradingPortal = '/grading-portal';
   static const String studentComments = '/student-comments';
   static const String TraineesScreen = '/trainees-screen';
   static const String AdminShellScreen = '/admin-shell';

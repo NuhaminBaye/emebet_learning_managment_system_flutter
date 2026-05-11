@@ -21,6 +21,7 @@ import 'package:lms_mobileapp/features/instructor/presentation/screens/courses/a
 import 'package:lms_mobileapp/features/instructor/presentation/screens/courses/create_assignment_screen.dart';
 import 'package:lms_mobileapp/features/instructor/presentation/screens/courses/curriculum_builder_screen.dart';
 import 'package:lms_mobileapp/features/instructor/presentation/screens/courses/student_comments_screen.dart';
+import 'package:lms_mobileapp/features/instructor/presentation/screens/courses/grading_portal_screen.dart';
 import 'package:lms_mobileapp/features/instructor/presentation/screens/courses/quiz_builder_screen.dart';
 import 'package:lms_mobileapp/features/instructor/presentation/screens/main/instructor_shell_screen.dart';
 import 'package:lms_mobileapp/features/instructor/presentation/screens/trainees/trainees_screen.dart';
@@ -76,23 +77,23 @@ class MyApp extends StatelessWidget {
         AppRoutes.instructorShell: (_) => const InstructorShellScreen(),
         AppRoutes.curriculumBuilder: (_) => const CurriculumBuilderScreen(),
         AppRoutes.addLesson: (context) {
-          final args = ModalRoute.of(context)?.settings.arguments
-              as Map<String, dynamic>?;
-          return AddLessonScreen(
-            courseId: args?['courseId'] as String?,
-          );
+          final args =
+              ModalRoute.of(context)?.settings.arguments
+                  as Map<String, dynamic>?;
+          return AddLessonScreen(courseId: args?['courseId'] as String?);
         },
         AppRoutes.createAssignment: (context) {
-          final args = ModalRoute.of(context)?.settings.arguments
-              as Map<String, dynamic>?;
-          return CreateAssignmentScreen(
-            courseId: args?['courseId'] as String?,
-          );
+          final args =
+              ModalRoute.of(context)?.settings.arguments
+                  as Map<String, dynamic>?;
+          return CreateAssignmentScreen(courseId: args?['courseId'] as String?);
         },
         AppRoutes.createQuiz: (_) => const QuizBuilderScreen(),
+        AppRoutes.gradingPortal: (_) => const GradingPortalScreen(),
         AppRoutes.studentComments: (context) {
-          final args = ModalRoute.of(context)?.settings.arguments
-              as Map<String, dynamic>?;
+          final args =
+              ModalRoute.of(context)?.settings.arguments
+                  as Map<String, dynamic>?;
           return StudentCommentsScreen(
             lessonId: args?['lessonId'] as String?,
             lessonTitle: args?['lessonTitle'] as String?,
