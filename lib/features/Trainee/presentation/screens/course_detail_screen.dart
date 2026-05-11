@@ -1,152 +1,6 @@
-// // import 'package:flutter/material.dart';
-// // import 'package:flutter_bloc/flutter_bloc.dart';
-// // import 'package:lms_mobileapp/core/constants/colors.dart';
-// // import 'package:lms_mobileapp/core/constants/spacing.dart';
-// // import 'package:lms_mobileapp/core/constants/text_theme.dart';
-// // import 'package:lms_mobileapp/features/Trainee/presentation/bloc/course_deatil/course_detail_bloc.dart';
-// // import 'package:lms_mobileapp/features/Trainee/presentation/bloc/course_deatil/course_detail_event.dart';
-// // import 'package:lms_mobileapp/features/Trainee/presentation/bloc/course_deatil/course_detail_state.dart';
-
-
-// // class CourseDetailScreen extends StatelessWidget {
-// //   const CourseDetailScreen({super.key});
-
-// //   @override
-// //   Widget build(BuildContext context) {
-// //     return BlocProvider(
-// //       create: (_) => CourseDetailBloc()..add(LoadCourseDetail()),
-// //       child: const _CourseDetailView(),
-// //     );
-// //   }
-// // }
-
-// // class _CourseDetailView extends StatefulWidget {
-// //   const _CourseDetailView();
-
-// //   @override
-// //   State<_CourseDetailView> createState() => _CourseDetailViewState();
-// // }
-
-// // class _CourseDetailViewState extends State<_CourseDetailView> with SingleTickerProviderStateMixin {
-// //   late TabController _tabController;
-
-// //   @override
-// //   void initState() {
-// //     super.initState();
-// //     _tabController = TabController(length: 3, vsync: this);
-// //   }
-
-// //   @override
-// //   void dispose() {
-// //     _tabController.dispose();
-// //     super.dispose();
-// //   }
-
-// //   @override
-// //   Widget build(BuildContext context) {
-// //     return BlocBuilder<CourseDetailBloc, CourseDetailState>(
-// //       builder: (context, state) {
-// //         if (state is CourseDetailLoading || state is CourseDetailInitial) {
-// //           return const Scaffold(body: Center(child: CircularProgressIndicator()));
-// //         }
-
-// //         if (state is CourseDetailError) {
-// //           return Scaffold(body: Center(child: Text(state.message)));
-// //         }
-
-// //         final course = (state as CourseDetailLoaded).course;
-
-// //         return Scaffold(
-// //           body: NestedScrollView(
-// //             headerSliverBuilder: (context, innerBoxIsScrolled) => [
-// //               SliverAppBar(
-// //                 expandedHeight: 260,
-// //                 pinned: true,
-// //                 flexibleSpace: FlexibleSpaceBar(
-// //                   background: Image.network(course.imageUrl, fit: BoxFit.cover),
-// //                 ),
-// //                 leading: IconButton(
-// //                   icon: const Icon(Icons.arrow_back, color: Colors.white),
-// //                   onPressed: () => Navigator.pop(context),
-// //                 ),
-// //                 actions: [
-// //                   IconButton(icon: const Icon(Icons.favorite_border, color: Colors.white), onPressed: () {}),
-// //                   IconButton(icon: const Icon(Icons.share, color: Colors.white), onPressed: () {}),
-// //                 ],
-// //               ),
-// //             ],
-// //             body: Column(
-// //               children: [
-// //                 Padding(
-// //                   padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
-// //                   child: Column(
-// //                     crossAxisAlignment: CrossAxisAlignment.start,
-// //                     children: [
-// //                       Text(course.title, style: AppTextTheme.headingLG),
-// //                       AppSpacing.verticalSm,
-// //                       Row(
-// //                         children: [
-// //                           const Icon(Icons.star, color: Color(0xFFFFB703), size: 20),
-// //                           Text(" ${course.rating} • ${course.reviewCount} reviews", style: AppTextTheme.bodyMedium),
-// //                         ],
-// //                       ),
-// //                       AppSpacing.verticalSm,
-// //                       Text("by ${course.instructor}", style: AppTextTheme.bodyMedium.copyWith(color: AppColors.primary)),
-// //                     ],
-// //                   ),
-// //                 ),
-
-// //                 TabBar(
-// //                   controller: _tabController,
-// //                   labelColor: AppColors.primary,
-// //                   unselectedLabelColor: AppColors.textSecondary,
-// //                   indicatorColor: AppColors.primary,
-// //                   tabs: const [
-// //                     Tab(text: "Overview"),
-// //                     Tab(text: "Lessons"),
-// //                     Tab(text: "Reviews"),
-// //                   ],
-// //                 ),
-
-// //                 Expanded(
-// //                   child: TabBarView(
-// //                     controller: _tabController,
-// //                     children: [
-// //                       _OverviewTab(course: course),
-// //                       _LessonsTab(course: course),
-// //                       _ReviewsTab(),
-// //                     ],
-// //                   ),
-// //                 ),
-// //               ],
-// //             ),
-// //           ),
-// //           bottomNavigationBar: SafeArea(
-// //             child: Container(
-// //               padding: const EdgeInsets.all(16),
-// //               decoration: BoxDecoration(
-// //                 color: AppColors.surface,
-// //                 boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.08), blurRadius: 10, offset: const Offset(0, -2))],
-// //               ),
-// //               child: ElevatedButton(
-// //                 onPressed: () {},
-// //                 style: ElevatedButton.styleFrom(
-// //                   backgroundColor: const Color(0xFF22C55E),
-// //                   padding: const EdgeInsets.symmetric(vertical: 16),
-// //                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-// //                 ),
-// //                 child: Text("Enroll Now - ${course.price}", style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
-// //               ),
-// //             ),
-// //           ),
-// //         );
-// //       },
-// //     );
-// //   }
-// // }
-
 // import 'package:flutter/material.dart';
 // import 'package:flutter_bloc/flutter_bloc.dart';
+// import 'package:lms_mobileapp/core/constants/app_routes.dart';
 // import 'package:lms_mobileapp/core/constants/colors.dart';
 // import 'package:lms_mobileapp/core/constants/spacing.dart';
 // import 'package:lms_mobileapp/core/constants/text_theme.dart';
@@ -154,6 +8,7 @@
 // import 'package:lms_mobileapp/features/Trainee/presentation/bloc/course_deatil/course_detail_bloc.dart';
 // import 'package:lms_mobileapp/features/Trainee/presentation/bloc/course_deatil/course_detail_event.dart';
 // import 'package:lms_mobileapp/features/Trainee/presentation/bloc/course_deatil/course_detail_state.dart';
+
 
 // class CourseDetailScreen extends StatelessWidget {
 //   const CourseDetailScreen({super.key});
@@ -194,15 +49,11 @@
 //     return BlocBuilder<CourseDetailBloc, CourseDetailState>(
 //       builder: (context, state) {
 //         if (state is CourseDetailLoading || state is CourseDetailInitial) {
-//           return const Scaffold(
-//             body: Center(child: CircularProgressIndicator()),
-//           );
+//           return const Scaffold(body: Center(child: CircularProgressIndicator()));
 //         }
 
 //         if (state is CourseDetailError) {
-//           return Scaffold(
-//             body: Center(child: Text(state.message)),
-//           );
+//           return Scaffold(body: Center(child: Text(state.message)));
 //         }
 
 //         final course = (state as CourseDetailLoaded).course;
@@ -280,7 +131,7 @@
 //                 boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.08), blurRadius: 10, offset: const Offset(0, -2))],
 //               ),
 //               child: ElevatedButton(
-//                 onPressed: () {},
+//                 onPressed: () { Navigator.pushNamed(context, AppRoutes.checkOut);},
 //                 style: ElevatedButton.styleFrom(
 //                   backgroundColor: const Color(0xFF22C55E),
 //                   padding: const EdgeInsets.symmetric(vertical: 16),
@@ -289,6 +140,7 @@
 //                 child: Text(
 //                   "Enroll Now - ${course.price}",
 //                   style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                  
 //                 ),
 //               ),
 //             ),
@@ -351,7 +203,10 @@
 //           child: ListTile(
 //             leading: CircleAvatar(
 //               backgroundColor: module.isLocked ? AppColors.grey100 : AppColors.primaryLight,
-//               child: Icon(module.isLocked ? Icons.lock : Icons.play_circle, color: module.isLocked ? Colors.grey : AppColors.primary),
+//               child: Icon(
+//                 module.isLocked ? Icons.lock : Icons.play_circle,
+//                 color: module.isLocked ? Colors.grey : AppColors.primary,
+//               ),
 //             ),
 //             title: Text(module.title, style: AppTextTheme.bodyMedium.copyWith(fontWeight: FontWeight.w600)),
 //             subtitle: Text("${module.lessonCount} lessons • ${module.duration}"),
@@ -371,24 +226,30 @@
 //     return ListView(
 //       padding: const EdgeInsets.all(16),
 //       children: [
-//         const Row(
+//         Row(
+//           crossAxisAlignment: CrossAxisAlignment.start,
 //           children: [
-//             Text("4.8", style: TextStyle(fontSize: 48, fontWeight: FontWeight.bold)),
-//             SizedBox(width: 12),
+//             const Text("4.8", style: TextStyle(fontSize: 48, fontWeight: FontWeight.bold)),
+//             const SizedBox(width: 12),
 //             Column(
 //               crossAxisAlignment: CrossAxisAlignment.start,
 //               children: [
-//                 Row(children: [Icon(Icons.star, color: Color(0xFFFFB703)), Icon(Icons.star, color: Color(0xFFFFB703)), ...]),
-//                 Text("1,268 reviews"),
+//                 Row(
+//                   children: List.generate(
+//                     5,
+//                     (index) => const Icon(Icons.star, color: Color(0xFFFFB703), size: 20),
+//                   ),
+//                 ),
+//                 const Text("1,268 reviews"),
 //               ],
 //             ),
 //           ],
 //         ),
 //         AppSpacing.verticalLg,
-//         // Sample Reviews
-//         _buildReview("Sarah Mitchell", "This course exceeded my expectations...", "2 days ago", 5),
-//         _buildReview("Alex Rivera", "The quality of the video lectures is top-notch...", "1 week ago", 4),
-//         _buildReview("Lisa Monti", "Perfect pace for someone balancing work and studies...", "2 weeks ago", 5),
+
+//         _buildReview("Sarah Mitchell", "This course exceeded my expectations. The modular structure made complex topics really easy to digest. Highly recommend for beginners!", "2 days ago", 5),
+//         _buildReview("Alex Rivera", "The quality of the video lectures is top-notch. I only wish there were more hands-on coding exercises in the first section.", "1 week ago", 4),
+//         _buildReview("Lisa Monti", "Perfect pace for someone balancing work and studies. The community forum for this course is also very active.", "2 weeks ago", 5),
 //       ],
 //     );
 //   }
@@ -403,7 +264,10 @@
 //           children: [
 //             Row(
 //               children: [
-//                 CircleAvatar(backgroundColor: AppColors.primaryLight, child: Text(name[0])),
+//                 CircleAvatar(
+//                   backgroundColor: AppColors.primaryLight,
+//                   child: Text(name[0]),
+//                 ),
 //                 AppSpacing.horizontalSm,
 //                 Column(
 //                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -413,7 +277,9 @@
 //                   ],
 //                 ),
 //                 const Spacer(),
-//                 Row(children: List.generate(rating, (_) => const Icon(Icons.star, size: 16, color: Color(0xFFFFB703)))),
+//                 Row(
+//                   children: List.generate(rating, (_) => const Icon(Icons.star, size: 16, color: Color(0xFFFFB703))),
+//                 ),
 //               ],
 //             ),
 //             AppSpacing.verticalSm,
@@ -425,6 +291,7 @@
 //   }
 // }
 
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lms_mobileapp/core/constants/app_routes.dart';
@@ -435,7 +302,9 @@ import 'package:lms_mobileapp/features/Trainee/domain/entities/course.dart';
 import 'package:lms_mobileapp/features/Trainee/presentation/bloc/course_deatil/course_detail_bloc.dart';
 import 'package:lms_mobileapp/features/Trainee/presentation/bloc/course_deatil/course_detail_event.dart';
 import 'package:lms_mobileapp/features/Trainee/presentation/bloc/course_deatil/course_detail_state.dart';
-
+import 'package:lms_mobileapp/shared/widgets/buttons/enroll_bottom_bar.dart';
+import 'package:lms_mobileapp/shared/widgets/layout/course_hero.dart';
+import 'package:lms_mobileapp/shared/widgets/tabs/course_tab.dart';
 
 class CourseDetailScreen extends StatelessWidget {
   const CourseDetailScreen({super.key});
@@ -488,135 +357,66 @@ class _CourseDetailViewState extends State<_CourseDetailView> with SingleTickerP
         return Scaffold(
           body: NestedScrollView(
             headerSliverBuilder: (context, innerBoxIsScrolled) => [
-              SliverAppBar(
-                expandedHeight: 260,
-                pinned: true,
-                flexibleSpace: FlexibleSpaceBar(
-                  background: Image.network(course.imageUrl, fit: BoxFit.cover),
-                ),
-                leading: IconButton(
-                  icon: const Icon(Icons.arrow_back, color: Colors.white),
-                  onPressed: () => Navigator.pop(context),
-                ),
-                actions: [
-                  IconButton(icon: const Icon(Icons.favorite_border, color: Colors.white), onPressed: () {}),
-                  IconButton(icon: const Icon(Icons.share, color: Colors.white), onPressed: () {}),
-                ],
-              ),
+              CourseHero(course: course),
             ],
             body: Column(
               children: [
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(course.title, style: AppTextTheme.headingLG),
-                      AppSpacing.verticalSm,
-                      Row(
-                        children: [
-                          const Icon(Icons.star, color: Color(0xFFFFB703), size: 20),
-                          Text(" ${course.rating} • ${course.reviewCount} reviews", style: AppTextTheme.bodyMedium),
-                        ],
-                      ),
-                      AppSpacing.verticalSm,
-                      Text("by ${course.instructor}", style: AppTextTheme.bodyMedium.copyWith(color: AppColors.primary)),
-                    ],
-                  ),
-                ),
-
-                TabBar(
-                  controller: _tabController,
-                  labelColor: AppColors.primary,
-                  unselectedLabelColor: AppColors.textSecondary,
-                  indicatorColor: AppColors.primary,
-                  tabs: const [
-                    Tab(text: "Overview"),
-                    Tab(text: "Lessons"),
-                    Tab(text: "Reviews"),
-                  ],
-                ),
-
+                CourseTabs(tabController: _tabController),
                 Expanded(
                   child: TabBarView(
                     controller: _tabController,
                     children: [
                       _OverviewTab(course: course),
                       _LessonsTab(course: course),
-                      const _ReviewsTab(),
+                      _ReviewsTab(course: course),
                     ],
                   ),
                 ),
               ],
             ),
           ),
-          bottomNavigationBar: SafeArea(
-            child: Container(
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                color: AppColors.surface,
-                boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.08), blurRadius: 10, offset: const Offset(0, -2))],
-              ),
-              child: ElevatedButton(
-                onPressed: () { Navigator.pushNamed(context, AppRoutes.checkOut);},
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF22C55E),
-                  padding: const EdgeInsets.symmetric(vertical: 16),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-                ),
-                child: Text(
-                  "Enroll Now - ${course.price}",
-                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-                  
-                ),
-              ),
-            ),
-          ),
+          bottomNavigationBar: EnrollBottomBar(price: course.price),
         );
       },
     );
   }
 }
 
-// ==================== TABS ====================
-
-class _OverviewTab extends StatelessWidget {
+  class _ReviewsTab extends StatelessWidget {
   final Course course;
-  const _OverviewTab({required this.course});
+  const _ReviewsTab({super.key, required this.course});
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
+    return ListView(
       padding: const EdgeInsets.all(16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text("Course Description", style: AppTextTheme.headingMD),
-          AppSpacing.verticalSm,
-          Text(course.description, style: AppTextTheme.bodyRegular),
-          AppSpacing.verticalLg,
-
-          Text("What you'll learn", style: AppTextTheme.headingMD),
-          AppSpacing.verticalSm,
-          ...course.learningPoints.map((point) => Padding(
-                padding: const EdgeInsets.only(bottom: 12),
-                child: Row(
-                  children: [
-                    const Icon(Icons.check_circle, color: Colors.green, size: 22),
-                    AppSpacing.horizontalSm,
-                    Expanded(child: Text(point, style: AppTextTheme.bodyRegular)),
-                  ],
-                ),
-              )),
-        ],
-      ),
+      children: [
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text("4.8", style: const TextStyle(fontSize: 52, fontWeight: FontWeight.bold, height: 1)),
+            const SizedBox(width: 16),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(children: List.generate(5, (_) => const Icon(Icons.star, color: Color(0xFFFFB703), size: 26))),
+                Text("${course.reviewCount} reviews", style: AppTextTheme.bodyMedium),
+              ],
+            ),
+          ],
+        ),
+        AppSpacing.verticalXl,
+        // Add review cards here (similar to your previous _buildReview)
+        // You can reuse or expand _buildReview method
+      ],
     );
   }
 }
 
+
 class _LessonsTab extends StatelessWidget {
   final Course course;
-  const _LessonsTab({required this.course});
+  const _LessonsTab({super.key, required this.course});
 
   @override
   Widget build(BuildContext context) {
@@ -627,12 +427,15 @@ class _LessonsTab extends StatelessWidget {
         final module = course.modules[index];
         return Card(
           margin: const EdgeInsets.only(bottom: 12),
+          elevation: 0,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
           child: ListTile(
+            contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
             leading: CircleAvatar(
-              backgroundColor: module.isLocked ? AppColors.grey100 : AppColors.primaryLight,
+              backgroundColor: module.isLocked ? const Color(0xFFF3F4F6) : const Color(0xFFDCFCE7),
               child: Icon(
-                module.isLocked ? Icons.lock : Icons.play_circle,
-                color: module.isLocked ? Colors.grey : AppColors.primary,
+                module.isLocked ? Icons.lock : Icons.play_circle_fill,
+                color: module.isLocked ? Colors.grey : const Color(0xFF22C55E),
               ),
             ),
             title: Text(module.title, style: AppTextTheme.bodyMedium.copyWith(fontWeight: FontWeight.w600)),
@@ -645,74 +448,38 @@ class _LessonsTab extends StatelessWidget {
   }
 }
 
-class _ReviewsTab extends StatelessWidget {
-  const _ReviewsTab();
+// Inside course_detail_screen.dart or separate file
+class _OverviewTab extends StatelessWidget {
+  final Course course;
+  const _OverviewTab({super.key, required this.course});
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
+    return SingleChildScrollView(
       padding: const EdgeInsets.all(16),
-      children: [
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text("4.8", style: TextStyle(fontSize: 48, fontWeight: FontWeight.bold)),
-            const SizedBox(width: 12),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: List.generate(
-                    5,
-                    (index) => const Icon(Icons.star, color: Color(0xFFFFB703), size: 20),
-                  ),
-                ),
-                const Text("1,268 reviews"),
-              ],
-            ),
-          ],
-        ),
-        AppSpacing.verticalLg,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text("Course Description", style: AppTextTheme.headingMD),
+          AppSpacing.verticalSm,
+          Text(course.description, style: AppTextTheme.bodyRegular.copyWith(height: 1.7)),
 
-        _buildReview("Sarah Mitchell", "This course exceeded my expectations. The modular structure made complex topics really easy to digest. Highly recommend for beginners!", "2 days ago", 5),
-        _buildReview("Alex Rivera", "The quality of the video lectures is top-notch. I only wish there were more hands-on coding exercises in the first section.", "1 week ago", 4),
-        _buildReview("Lisa Monti", "Perfect pace for someone balancing work and studies. The community forum for this course is also very active.", "2 weeks ago", 5),
-      ],
-    );
-  }
+          AppSpacing.verticalXl,
+          Text("What you'll learn", style: AppTextTheme.headingMD),
+          AppSpacing.verticalMd,
 
-  Widget _buildReview(String name, String comment, String time, int rating) {
-    return Card(
-      margin: const EdgeInsets.only(bottom: 16),
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                CircleAvatar(
-                  backgroundColor: AppColors.primaryLight,
-                  child: Text(name[0]),
-                ),
-                AppSpacing.horizontalSm,
-                Column(
+          ...course.learningPoints.map((point) => Padding(
+                padding: const EdgeInsets.only(bottom: 14),
+                child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(name, style: AppTextTheme.bodyMedium.copyWith(fontWeight: FontWeight.w600)),
-                    Text(time, style: AppTextTheme.bodySmall),
+                    const Icon(Icons.check_circle, color: Color(0xFF22C55E), size: 24),
+                    AppSpacing.horizontalMd,
+                    Expanded(child: Text(point, style: AppTextTheme.bodyRegular)),
                   ],
                 ),
-                const Spacer(),
-                Row(
-                  children: List.generate(rating, (_) => const Icon(Icons.star, size: 16, color: Color(0xFFFFB703))),
-                ),
-              ],
-            ),
-            AppSpacing.verticalSm,
-            Text(comment, style: AppTextTheme.bodyRegular),
-          ],
-        ),
+              )),
+        ],
       ),
     );
   }

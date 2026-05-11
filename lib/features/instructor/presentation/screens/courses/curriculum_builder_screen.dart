@@ -1,131 +1,73 @@
-// import 'package:flutter/material.dart';
-// import 'package:lms_mobileapp/core/constants/colors.dart';
-// import 'package:lms_mobileapp/core/constants/spacing.dart';
-// import 'package:lms_mobileapp/core/constants/text_theme.dart';
-
-// class CurriculumBuilderScreen extends StatelessWidget {
-//   const CurriculumBuilderScreen({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       backgroundColor: AppColors.background,
-//       appBar: AppBar(
-//         backgroundColor: AppColors.background,
-//         elevation: 0,
-//         title: const Text("Curriculum Builder", style: AppTextTheme.headingMD),
-//         leading: IconButton(
-//           icon: const Icon(Icons.arrow_back),
-//           onPressed: () => Navigator.pop(context),
-//         ),
-//       ),
-//       body: SingleChildScrollView(
-//         padding: const EdgeInsets.all(16),
-//         child: Column(
-//           crossAxisAlignment: CrossAxisAlignment.start,
-//           children: [
-//             const Text("Sustainable Design Principles 101", style: AppTextTheme.headingLG),
-//             AppSpacing.verticalSm,
-//             const Text("8 LESSONS LISTED", style: AppTextTheme.bodySmall),
-
-//             AppSpacing.verticalMd,
-
-//             ElevatedButton.icon(
-//               onPressed: () {},
-//               icon: const Icon(Icons.add),
-//               label: const Text("Add Lesson"),
-//               style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
-//             ),
-
-//             AppSpacing.verticalLg,
-
-//             _buildLessonItem("Introduction to Minimalism", "VIDEO", "12:45", "12 Comments"),
-//             _buildLessonItem("Color Theory & Emotion", "QUIZ", "15:00", "5 Comments"),
-//             _buildLessonItem("Typography Essentials", "READING", "20:00", "0 Comments", isDraft: true),
-//             _buildLessonItem("Asymmetrical Layouts", "VIDEO", "18:10", "8 Comments"),
-//             _buildLessonItem("Organic Grid Systems", "PROJECT", "45:00", "3 Comments"),
-
-//             AppSpacing.verticalLg,
-
-//             // Course Insights
-//             const Text("Course Insights", style: AppTextTheme.headingMD),
-//             AppSpacing.verticalMd,
-//             Row(
-//               children: [
-//                 _buildInsightCard("4.2h", "TOTAL LENGTH"),
-//                 AppSpacing.horizontalMd,
-//                 _buildInsightCard("124", "ACTIVE STUDENTS"),
-//               ],
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-
-//   Widget _buildLessonItem(String title, String type, String duration, String comments, {bool isDraft = false}) {
-//     return Container(
-//       margin: const EdgeInsets.only(bottom: 12),
-//       padding: const EdgeInsets.all(16),
-//       decoration: BoxDecoration(
-//         color: AppColors.surface,
-//         borderRadius: BorderRadius.circular(16),
-//       ),
-//       child: Row(
-//         children: [
-//           Container(
-//             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-//             decoration: BoxDecoration(
-//               color: type == "VIDEO" ? Colors.blue[50] : type == "QUIZ" ? Colors.orange[50] : Colors.purple[50],
-//               borderRadius: BorderRadius.circular(8),
-//             ),
-//             child: Text(type, style: TextStyle(color: type == "VIDEO" ? Colors.blue : type == "QUIZ" ? Colors.orange : Colors.purple, fontSize: 12, fontWeight: FontWeight.w600)),
-//           ),
-//           AppSpacing.horizontalMd,
-//           Expanded(
-//             child: Column(
-//               crossAxisAlignment: CrossAxisAlignment.start,
-//               children: [
-//                 Text(title, style: AppTextTheme.bodyMedium.copyWith(fontWeight: FontWeight.w600)),
-//                 Text("$duration • $comments", style: AppTextTheme.bodySmall),
-//               ],
-//             ),
-//           ),
-//           if (isDraft)
-//             const Text("DRAFT", style: TextStyle(color: Colors.orange, fontSize: 12, fontWeight: FontWeight.bold)),
-//           const Icon(Icons.more_vert),
-//         ],
-//       ),
-//     );
-//   }
-
-//   Widget _buildInsightCard(String value, String label) {
-//     return Expanded(
-//       child: Container(
-//         padding: const EdgeInsets.all(20),
-//         decoration: BoxDecoration(
-//           color: AppColors.surface,
-//           borderRadius: BorderRadius.circular(16),
-//         ),
-//         child: Column(
-//           children: [
-//             Text(value, style: AppTextTheme.headingLG),
-//             Text(label, style: AppTextTheme.bodySmall, textAlign: TextAlign.center),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }
-
 import 'package:flutter/material.dart';
 import 'package:lms_mobileapp/core/constants/app_routes.dart';
 import 'package:lms_mobileapp/core/constants/colors.dart';
 import 'package:lms_mobileapp/core/constants/spacing.dart';
 import 'package:lms_mobileapp/core/constants/text_theme.dart';
+import 'package:lms_mobileapp/features/instructor/presentation/widgets/insight_card.dart';
+import 'package:lms_mobileapp/features/instructor/presentation/widgets/lesson_card.dart';
+import 'package:lms_mobileapp/features/instructor/presentation/widgets/primary_button.dart';
 
-class CurriculumBuilderScreen extends StatelessWidget {
-  const CurriculumBuilderScreen({super.key});
+class CurriculumBuilderScreen extends StatefulWidget {
+  final String courseId;
+  final String courseName;
+  final String courseDescription;
+
+  const CurriculumBuilderScreen({
+    super.key,
+    this.courseId = 'course_1',
+    this.courseName = 'Sustainable Design Principles 101',
+    this.courseDescription = 'Curriculum Builder',
+  });
+
+  @override
+  State<CurriculumBuilderScreen> createState() =>
+      _CurriculumBuilderScreenState();
+}
+
+class _CurriculumBuilderScreenState extends State<CurriculumBuilderScreen> {
+  // Mock data for lessons
+  final List<Map<String, dynamic>> lessons = [
+    {
+      'id': '1',
+      'title': 'Introduction to Minimalism',
+      'type': 'VIDEO',
+      'duration': '12:45',
+      'commentCount': 12,
+      'isDraft': false,
+    },
+    {
+      'id': '2',
+      'title': 'Color Theory & Emotion',
+      'type': 'QUIZ',
+      'duration': '15:00',
+      'commentCount': 5,
+      'isDraft': false,
+    },
+    {
+      'id': '3',
+      'title': 'Typography Essentials',
+      'type': 'READING',
+      'duration': '20:00',
+      'commentCount': 0,
+      'isDraft': true,
+    },
+    {
+      'id': '4',
+      'title': 'Asymmetrical Layouts',
+      'type': 'VIDEO',
+      'duration': '18:10',
+      'commentCount': 8,
+      'isDraft': false,
+    },
+    {
+      'id': '5',
+      'title': 'Organic Grid Systems',
+      'type': 'PROJECT',
+      'duration': '45:00',
+      'commentCount': 3,
+      'isDraft': false,
+    },
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -135,191 +77,109 @@ class CurriculumBuilderScreen extends StatelessWidget {
         backgroundColor: AppColors.background,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
+          icon: const Icon(
+            Icons.arrow_back,
+            color: AppColors.textPrimary,
+          ),
           onPressed: () => Navigator.pop(context),
         ),
-        title: const Text("Curriculum Builder", style: AppTextTheme.headingMD),
+        title: Text(
+          widget.courseDescription,
+          style: AppTextTheme.headingMD.copyWith(
+            color: AppColors.textPrimary,
+          ),
+        ),
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(AppSpacing.md),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              "Sustainable Design Principles 101",
-              style: AppTextTheme.headingLG,
-            ),
-            AppSpacing.verticalSm,
-            const Text(
-              "8 LESSONS LISTED",
-              style: AppTextTheme.bodySmall,
-            ),
-
-            AppSpacing.verticalMd,
-
-            // Add Lesson Button
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton.icon(
-                onPressed: () {
-                  Navigator.pushNamed(context, AppRoutes.addLesson);
-                },
-                icon: const Icon(Icons.add, size: 20),
-                label: const Text("Add Lesson"),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF22C55E),
-                  padding: const EdgeInsets.symmetric(vertical: 14),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                ),
+            // Course Title
+            Text(
+              widget.courseName,
+              style: AppTextTheme.headingLG.copyWith(
+                color: AppColors.textPrimary,
               ),
             ),
-
-            AppSpacing.verticalLg,
-
-            // Lesson Items
-            _buildLessonItem(
-              title: "Introduction to Minimalism",
-              type: "VIDEO",
-              duration: "12:45",
-              comments: "12",
-            ),
-            _buildLessonItem(
-              title: "Color Theory & Emotion",
-              type: "QUIZ",
-              duration: "15:00",
-              comments: "5",
-            ),
-            _buildLessonItem(
-              title: "Typography Essentials",
-              type: "READING",
-              duration: "20:00",
-              comments: "0",
-              isDraft: true,
-            ),
-            _buildLessonItem(
-              title: "Asymmetrical Layouts",
-              type: "VIDEO",
-              duration: "18:10",
-              comments: "8",
-            ),
-            _buildLessonItem(
-              title: "Organic Grid Systems",
-              type: "PROJECT",
-              duration: "45:00",
-              comments: "3",
-            ),
-
-            AppSpacing.verticalXl,
-
-            // Course Insights
-            const Text("Course Insights", style: AppTextTheme.headingMD),
-            AppSpacing.verticalMd,
-
-            Row(
-              children: [
-                _buildInsightCard("4.2h", "TOTAL LENGTH"),
-                AppSpacing.horizontalMd,
-                _buildInsightCard("124", "ACTIVE STUDENTS"),
-              ],
-            ),
-
-            const SizedBox(height: 80),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildLessonItem({
-    required String title,
-    required String type,
-    required String duration,
-    required String comments,
-    bool isDraft = false,
-  }) {
-    Color badgeColor = Colors.blue;
-    if (type == "QUIZ") badgeColor = Colors.orange;
-    if (type == "READING") badgeColor = Colors.purple;
-    if (type == "PROJECT") badgeColor = Colors.teal;
-
-    return Container(
-      margin: const EdgeInsets.only(bottom: 12),
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: AppColors.surface,
-        borderRadius: BorderRadius.circular(16),
-      ),
-      child: Row(
-        children: [
-          // Type Badge
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-            decoration: BoxDecoration(
-              color: badgeColor.withOpacity(0.1),
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: Text(
-              type,
-              style: TextStyle(
-                color: badgeColor,
-                fontSize: 12,
+            const SizedBox(height: 8),
+            Text(
+              '${lessons.length} LESSONS LISTED',
+              style: AppTextTheme.bodySmall.copyWith(
+                color: AppColors.textSecondary,
                 fontWeight: FontWeight.w600,
               ),
             ),
-          ),
+            const SizedBox(height: AppSpacing.lg),
 
-          AppSpacing.horizontalMd,
+            // Add Lesson Button
+            PrimaryButton(
+              label: 'Add Lesson',
+              icon: const Icon(Icons.add, size: 20),
+              onPressed: () {
+                Navigator.pushNamed(
+                  context,
+                  AppRoutes.addLesson,
+                  arguments: {'courseId': widget.courseId},
+                );
+              },
+            ),
+            const SizedBox(height: AppSpacing.lg),
 
-          // Title and Info
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+            // Lessons List
+            ...lessons.map(
+              (lesson) => LessonCard(
+                title: lesson['title'],
+                type: lesson['type'],
+                duration: lesson['duration'],
+                commentCount: lesson['commentCount'],
+                isDraft: lesson['isDraft'],
+                onTap: () {
+                  // Handle lesson tap
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('Opened: ${lesson['title']}'),
+                      duration: const Duration(seconds: 2),
+                    ),
+                  );
+                },
+                onCommentTap: () {
+                  Navigator.pushNamed(
+                    context,
+                    AppRoutes.studentComments,
+                    arguments: {
+                      'lessonId': lesson['id'],
+                      'lessonTitle': lesson['title'],
+                    },
+                  );
+                },
+              ),
+            ),
+            const SizedBox(height: AppSpacing.lg),
+
+            // Course Insights Section
+            Text(
+              'Course Insights',
+              style: AppTextTheme.headingMD.copyWith(
+                color: AppColors.textPrimary,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            const SizedBox(height: AppSpacing.md),
+            Row(
               children: [
-                Text(
-                  title,
-                  style: AppTextTheme.bodyMedium.copyWith(fontWeight: FontWeight.w600),
+                InsightCard(
+                  value: '4.2h',
+                  label: 'TOTAL LENGTH',
                 ),
-                AppSpacing.verticalXs,
-                Text(
-                  "$duration • $comments Comments",
-                  style: AppTextTheme.bodySmall,
+                const SizedBox(width: AppSpacing.md),
+                InsightCard(
+                  value: '124',
+                  label: 'ACTIVE STUDENTS',
                 ),
               ],
             ),
-          ),
-
-          // Draft Tag
-          if (isDraft)
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-              decoration: BoxDecoration(
-                color: Colors.orange.withOpacity(0.1),
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: const Text(
-                "DRAFT",
-                style: TextStyle(color: Colors.orange, fontSize: 12, fontWeight: FontWeight.bold),
-              ),
-            ),
-
-          const Icon(Icons.more_vert, size: 20),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildInsightCard(String value, String label) {
-    return Expanded(
-      child: Container(
-        padding: const EdgeInsets.all(20),
-        decoration: BoxDecoration(
-          color: AppColors.surface,
-          borderRadius: BorderRadius.circular(16),
-        ),
-        child: Column(
-          children: [
-            Text(value, style: AppTextTheme.headingLG),
-            Text(label, style: AppTextTheme.bodySmall, textAlign: TextAlign.center),
+            const SizedBox(height: AppSpacing.xl),
           ],
         ),
       ),

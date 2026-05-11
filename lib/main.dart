@@ -11,7 +11,6 @@ import 'package:lms_mobileapp/features/Trainee/presentation/screens/checkout_scr
 import 'package:lms_mobileapp/features/Trainee/presentation/screens/course_detail_screen.dart';
 import 'package:lms_mobileapp/features/Trainee/presentation/screens/my_courses/assignment_screen.dart';
 import 'package:lms_mobileapp/features/Trainee/presentation/screens/my_courses/quiz_screen.dart';
-import 'package:lms_mobileapp/features/admin/presentation/screens/main/admin_shell_screen.dart';
 import 'package:lms_mobileapp/features/auth/presentation/auth_module.dart';
 import 'package:lms_mobileapp/features/auth/presentation/bloc/auth_event.dart';
 import 'package:lms_mobileapp/features/auth/presentation/screens/login_screen.dart';
@@ -21,6 +20,7 @@ import 'package:lms_mobileapp/core/navigation/role_based_router.dart';
 import 'package:lms_mobileapp/features/instructor/presentation/screens/courses/add_lesson_screen.dart';
 import 'package:lms_mobileapp/features/instructor/presentation/screens/courses/create_assignment_screen.dart';
 import 'package:lms_mobileapp/features/instructor/presentation/screens/courses/curriculum_builder_screen.dart';
+import 'package:lms_mobileapp/features/instructor/presentation/screens/courses/student_comments_screen.dart';
 import 'package:lms_mobileapp/features/instructor/presentation/screens/courses/quiz_builder_screen.dart';
 import 'package:lms_mobileapp/features/instructor/presentation/screens/main/instructor_shell_screen.dart';
 import 'package:lms_mobileapp/features/instructor/presentation/screens/trainees/trainees_screen.dart';
@@ -67,19 +67,41 @@ class MyApp extends StatelessWidget {
       //   create: (_) => AuthModule.createBloc()..add(GetCurrentUserRequested()),
       //   child: const RoleBasedRouter(),
       // ),
-      home: const SplashScreen(),
+      home: const InstructorShellScreen(),
       routes: {
         AppRoutes.splash: (_) => const SplashScreen(),
         AppRoutes.onboarding: (_) => const OnboardingScreen(),
         AppRoutes.login: (_) => const LoginScreen(),
         AppRoutes.StudentShellScreenState: (_) => const StudentShellScreen(),
         AppRoutes.instructorShell: (_) => const InstructorShellScreen(),
-        AppRoutes.AdminShellScreen: (_) => const AdminShellScreen(),
         AppRoutes.curriculumBuilder: (_) => const CurriculumBuilderScreen(),
-        AppRoutes.addLesson: (_) => const AddLessonScreen(),
-        AppRoutes.createAssignment: (_) => const CreateAssignmentScreen(),
+        AppRoutes.addLesson: (context) {
+          final args = ModalRoute.of(context)?.settings.arguments
+              as Map<String, dynamic>?;
+          return AddLessonScreen(
+            courseId: args?['courseId'] as String?,
+          );
+        },
+        AppRoutes.createAssignment: (context) {
+          final args = ModalRoute.of(context)?.settings.arguments
+              as Map<String, dynamic>?;
+          return CreateAssignmentScreen(
+            courseId: args?['courseId'] as String?,
+          );
+        },
         AppRoutes.createQuiz: (_) => const QuizBuilderScreen(),
-        AppRoutes.TraineesScreen: (_) => const TraineesScreen(),},
+        AppRoutes.studentComments: (context) {
+          final args = ModalRoute.of(context)?.settings.arguments
+              as Map<String, dynamic>?;
+          return StudentCommentsScreen(
+            lessonId: args?['lessonId'] as String?,
+            lessonTitle: args?['lessonTitle'] as String?,
+          );
+        },
+        AppRoutes.TraineesScreen: (_) => const TraineesScreen(),
+        AppRoutes.courseDetails: (_) => const CourseDetailScreen(),
+        AppRoutes.checkOut: (_) => const CheckoutScreen(),
+      },
     );
   }
 }
