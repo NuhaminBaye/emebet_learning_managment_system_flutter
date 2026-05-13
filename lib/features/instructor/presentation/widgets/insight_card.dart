@@ -1,13 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:lms_mobileapp/core/constants/colors.dart';
-import 'package:lms_mobileapp/core/constants/spacing.dart';
-import 'package:lms_mobileapp/core/constants/text_theme.dart';
+import 'package:lms_mobileapp/core/theme/instructor_design.dart';
 
 class InsightCard extends StatelessWidget {
-  final String value;
-  final String label;
-  final Color? backgroundColor;
-
   const InsightCard({
     super.key,
     required this.value,
@@ -15,17 +10,20 @@ class InsightCard extends StatelessWidget {
     this.backgroundColor,
   });
 
+  final String value;
+  final String label;
+  final Color? backgroundColor;
+
   @override
   Widget build(BuildContext context) {
     return Expanded(
       child: Container(
-        padding: const EdgeInsets.all(AppSpacing.md),
+        padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: backgroundColor ?? AppColors.primaryLight,
-          borderRadius: BorderRadius.circular(12),
+          color: backgroundColor ?? InstructorDesign.surfaceMuted,
+          borderRadius: BorderRadius.circular(16),
           border: Border.all(
-            color: AppColors.primary.withOpacity(0.2),
-            width: 1,
+            color: AppColors.primary.withValues(alpha: 0.18),
           ),
         ),
         child: Column(
@@ -33,16 +31,20 @@ class InsightCard extends StatelessWidget {
           children: [
             Text(
               value,
-              style: AppTextTheme.headingMD.copyWith(
-                color: AppColors.primary,
-                fontWeight: FontWeight.bold,
+              style: const TextStyle(
+                fontSize: 22,
+                fontWeight: FontWeight.w800,
+                color: InstructorDesign.primary,
               ),
             ),
-            const SizedBox(height: 4),
+            const SizedBox(height: 6),
             Text(
               label,
-              style: AppTextTheme.bodySmall.copyWith(
-                color: AppColors.textSecondary,
+              style: const TextStyle(
+                fontSize: 10,
+                fontWeight: FontWeight.w800,
+                letterSpacing: 0.65,
+                color: InstructorDesign.textTertiary,
               ),
             ),
           ],

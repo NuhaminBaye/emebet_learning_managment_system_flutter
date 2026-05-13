@@ -1,17 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:lms_mobileapp/core/constants/colors.dart';
-import 'package:lms_mobileapp/core/constants/spacing.dart';
-import 'package:lms_mobileapp/core/constants/text_theme.dart';
+import 'package:lms_mobileapp/core/theme/instructor_design.dart';
 
 class LessonCard extends StatelessWidget {
-  final String title;
-  final String type;
-  final String duration;
-  final int commentCount;
-  final bool isDraft;
-  final VoidCallback onTap;
-  final VoidCallback onCommentTap;
-
   const LessonCard({
     super.key,
     required this.title,
@@ -21,154 +11,190 @@ class LessonCard extends StatelessWidget {
     required this.onTap,
     required this.onCommentTap,
     this.isDraft = false,
+    this.moduleLabel,
   });
 
-  Color _getTypeColor() {
+  final String title;
+  final String type;
+  final String duration;
+  final int commentCount;
+  final bool isDraft;
+  final VoidCallback onTap;
+  final VoidCallback onCommentTap;
+  /// e.g. "Module 01" — optional second line in hierarchy-heavy layouts
+  final String? moduleLabel;
+
+  Color _typeAccent() {
     switch (type.toUpperCase()) {
       case 'VIDEO':
-        return const Color(0xFF3B82F6);
+        return const Color(0xFF2563EB);
       case 'QUIZ':
-        return const Color(0xFFF59E0B);
+        return const Color(0xFFD97706);
       case 'READING':
-        return const Color(0xFF8B5CF6);
+        return const Color(0xFF7C3AED);
       case 'PROJECT':
-        return const Color(0xFF10B981);
+        return InstructorDesign.primary;
       default:
-        return AppColors.primary;
+        return InstructorDesign.primary;
     }
-  }
-
-  Color _getTypeBgColor() {
-    final color = _getTypeColor();
-    return color.withOpacity(0.1);
   }
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        margin: const EdgeInsets.only(bottom: AppSpacing.md),
-        padding: const EdgeInsets.all(AppSpacing.md),
-        decoration: BoxDecoration(
-          color: AppColors.surface,
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(
-            color: AppColors.border,
-            width: 1,
+    final accent = _typeAccent();
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        borderRadius: BorderRadius.circular(16),
+        onTap: onTap,
+        child: Container(
+          margin: const EdgeInsets.only(bottom: 12),
+          padding: const EdgeInsets.all(14),
+          decoration: BoxDecoration(
+            color: InstructorDesign.surface,
+            borderRadius: BorderRadius.circular(16),
+            boxShadow: InstructorDesign.cardShadow(context),
           ),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.03),
-              blurRadius: 8,
-              offset: const Offset(0, 2),
-            ),
-          ],
-        ),
-        child: Column(
-          children: [
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Type Badge
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: AppSpacing.sm,
-                    vertical: 4,
-                  ),
-                  decoration: BoxDecoration(
-                    color: _getTypeBgColor(),
-                    borderRadius: BorderRadius.circular(6),
-                  ),
-                  child: Text(
-                    type.toUpperCase(),
-                    style: AppTextTheme.bodySmall.copyWith(
-                      color: _getTypeColor(),
-                      fontWeight: FontWeight.w600,
-                      fontSize: 11,
-                    ),
-                  ),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(top: 4, right: 10),
+                child: Icon(
+                  Icons.drag_indicator_rounded,
+                  color: InstructorDesign.textTertiary.withValues(alpha: 0.55),
+                  size: 22,
                 ),
-                const SizedBox(width: AppSpacing.md),
-                // Title and Info
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
+              ),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    if (moduleLabel != null) ...[
                       Text(
-                        title,
-                        style: AppTextTheme.bodyMedium.copyWith(
-                          fontWeight: FontWeight.w600,
-                          color: AppColors.textPrimary,
+                        moduleLabel!,
+                        style: const TextStyle(
+                          fontSize: 11,
+                          fontWeight: FontWeight.w800,
+                          letterSpacing: 0.5,
+                          color: InstructorDesign.textTertiary,
                         ),
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
                       ),
-                      const SizedBox(height: 4),
-                      Row(
-                        children: [
-                          Icon(
-                            Icons.access_time,
-                            size: 14,
-                            color: AppColors.textSecondary,
+                      const SizedBox(height: 6),
+                    ],
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 8,
+                            vertical: 4,
                           ),
-                          const SizedBox(width: 4),
-                          Text(
-                            duration,
-                            style: AppTextTheme.bodySmall.copyWith(
-                              color: AppColors.textSecondary,
+                          decoration: BoxDecoration(
+                            color: accent.withValues(alpha: 0.12),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: Text(
+                            type.toUpperCase(),
+                            style: TextStyle(
+                              color: accent,
+                              fontWeight: FontWeight.w800,
+                              fontSize: 10,
+                              letterSpacing: 0.6,
                             ),
                           ),
-                          const SizedBox(width: AppSpacing.md),
-                          Icon(
-                            Icons.comment_outlined,
-                            size: 14,
-                            color: AppColors.textSecondary,
-                          ),
-                          const SizedBox(width: 4),
-                          GestureDetector(
-                            onTap: onCommentTap,
-                            child: Text(
-                              '$commentCount Comments',
-                              style: AppTextTheme.bodySmall.copyWith(
-                                color: AppColors.primary,
-                                fontWeight: FontWeight.w500,
+                        ),
+                        const Spacer(),
+                        if (isDraft)
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 10,
+                              vertical: 4,
+                            ),
+                            decoration: BoxDecoration(
+                              color: InstructorDesign.primary.withValues(alpha: 0.12),
+                              borderRadius: BorderRadius.circular(20),
+                              border: Border.all(
+                                color: InstructorDesign.primary.withValues(alpha: 0.35),
                               ),
                             ),
+                            child: const Text(
+                              'DRAFT',
+                              style: TextStyle(
+                                color: InstructorDesign.primary,
+                                fontWeight: FontWeight.w800,
+                                fontSize: 10,
+                                letterSpacing: 0.6,
+                              ),
+                            ),
+                          )
+                        else
+                          Icon(
+                            Icons.more_horiz_rounded,
+                            color: InstructorDesign.textTertiary.withValues(alpha: 0.6),
+                            size: 22,
                           ),
-                        ],
+                      ],
+                    ),
+                    const SizedBox(height: 10),
+                    Text(
+                      title,
+                      style: const TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w800,
+                        color: InstructorDesign.textPrimary,
+                        height: 1.25,
                       ),
-                    ],
-                  ),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    const SizedBox(height: 10),
+                    Row(
+                      children: [
+                        Icon(
+                          Icons.schedule_rounded,
+                          size: 15,
+                          color: InstructorDesign.textSecondary,
+                        ),
+                        const SizedBox(width: 4),
+                        Text(
+                          duration,
+                          style: const TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
+                            color: InstructorDesign.textSecondary,
+                          ),
+                        ),
+                        const SizedBox(width: 16),
+                        GestureDetector(
+                          onTap: onCommentTap,
+                          behavior: HitTestBehavior.opaque,
+                          child: Row(
+                            children: [
+                              const Icon(
+                                Icons.chat_bubble_outline_rounded,
+                                size: 15,
+                                color: InstructorDesign.primary,
+                              ),
+                              const SizedBox(width: 4),
+                              Text(
+                                '$commentCount',
+                                style: const TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w700,
+                                  color: InstructorDesign.primary,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
-                if (isDraft)
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: AppSpacing.sm,
-                      vertical: 4,
-                    ),
-                    decoration: BoxDecoration(
-                      color: const Color(0xFFFEF3C7),
-                      borderRadius: BorderRadius.circular(6),
-                    ),
-                    child: Text(
-                      'DRAFT',
-                      style: AppTextTheme.bodySmall.copyWith(
-                        color: const Color(0xFFF59E0B),
-                        fontWeight: FontWeight.w600,
-                        fontSize: 11,
-                      ),
-                    ),
-                  )
-                else
-                  const Icon(
-                    Icons.more_vert,
-                    size: 20,
-                    color: AppColors.textSecondary,
-                  ),
-              ],
-            ),
-          ],
+              ),
+            ],
+          ),
         ),
       ),
     );

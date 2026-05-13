@@ -3,6 +3,8 @@ import 'package:lms_mobileapp/core/constants/app_routes.dart';
 import 'package:lms_mobileapp/core/constants/colors.dart';
 import 'package:lms_mobileapp/core/constants/spacing.dart';
 import 'package:lms_mobileapp/core/constants/text_theme.dart';
+import 'package:lms_mobileapp/core/theme/instructor_design.dart';
+import 'package:lms_mobileapp/features/instructor/presentation/widgets/instructor_chrome_app_bar.dart';
 import 'package:lms_mobileapp/shared/widgets/chips/filter_chip.dart';
 
 class TraineesScreen extends StatefulWidget {
@@ -18,18 +20,8 @@ class _TraineesScreenState extends State<TraineesScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
-      appBar: AppBar(
-        backgroundColor: AppColors.background,
-        elevation: 0,
-        title: const Text('Digital Atelier', style: AppTextTheme.headingMD),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.search, color: AppColors.textPrimary),
-            onPressed: () {},
-          ),
-        ],
-      ),
+      backgroundColor: InstructorDesign.canvas,
+      appBar: const InstructorChromeAppBar(),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(
@@ -160,7 +152,7 @@ class _TraineesScreenState extends State<TraineesScreen> {
         borderRadius: BorderRadius.circular(24),
         boxShadow: [
           BoxShadow(
-            color: AppColors.grey200.withOpacity(0.4),
+            color: AppColors.grey200.withValues(alpha: 0.4),
             blurRadius: 18,
             offset: const Offset(0, 8),
           ),
@@ -234,7 +226,7 @@ class _TraineesScreenState extends State<TraineesScreen> {
         borderRadius: BorderRadius.circular(24),
         boxShadow: [
           BoxShadow(
-            color: AppColors.grey200.withOpacity(0.35),
+            color: AppColors.grey200.withValues(alpha: 0.35),
             blurRadius: 18,
             offset: const Offset(0, 10),
           ),
@@ -247,7 +239,7 @@ class _TraineesScreenState extends State<TraineesScreen> {
             children: [
               CircleAvatar(
                 radius: 28,
-                backgroundColor: actionColor.withOpacity(0.15),
+                backgroundColor: actionColor.withValues(alpha: 0.15),
                 child: Text(
                   name[0],
                   style: TextStyle(

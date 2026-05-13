@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:lms_mobileapp/core/constants/colors.dart';
-import 'package:lms_mobileapp/core/constants/text_theme.dart';
+import 'package:lms_mobileapp/core/theme/instructor_design.dart';
 
 class QuizProgressIndicator extends StatelessWidget {
-  final double value;
-  final String label;
-  final String subtitle;
-
   const QuizProgressIndicator({
     super.key,
     required this.value,
     required this.label,
     required this.subtitle,
   });
+
+  final double value;
+  final String label;
+  final String subtitle;
 
   @override
   Widget build(BuildContext context) {
@@ -24,26 +23,30 @@ class QuizProgressIndicator extends StatelessWidget {
           children: [
             Text(
               label,
-              style: AppTextTheme.bodyMedium.copyWith(
-                fontWeight: FontWeight.w600,
+              style: const TextStyle(
+                fontWeight: FontWeight.w800,
+                fontSize: 14,
+                color: InstructorDesign.textPrimary,
               ),
             ),
             Text(
               subtitle,
-              style: AppTextTheme.bodySmall.copyWith(
-                color: AppColors.textSecondary,
+              style: const TextStyle(
+                fontSize: 13,
+                fontWeight: FontWeight.w700,
+                color: InstructorDesign.textSecondary,
               ),
             ),
           ],
         ),
         const SizedBox(height: 12),
         ClipRRect(
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(8),
           child: LinearProgressIndicator(
             minHeight: 10,
             value: value,
-            backgroundColor: AppColors.grey100,
-            color: AppColors.primary,
+            backgroundColor: InstructorDesign.chipInactiveBg.withValues(alpha: 0.6),
+            color: InstructorDesign.primary,
           ),
         ),
       ],

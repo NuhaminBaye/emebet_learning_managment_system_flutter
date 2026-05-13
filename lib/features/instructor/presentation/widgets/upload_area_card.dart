@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:lms_mobileapp/core/constants/colors.dart';
 import 'package:lms_mobileapp/core/constants/spacing.dart';
 import 'package:lms_mobileapp/core/constants/text_theme.dart';
+import 'package:lms_mobileapp/core/theme/instructor_design.dart';
 
 class UploadAreaCard extends StatelessWidget {
   final String title;
@@ -18,7 +18,7 @@ class UploadAreaCard extends StatelessWidget {
     required this.iconData,
     required this.onTap,
     this.iconBackgroundColor = const Color(0xFFF3F4F6),
-    this.iconColor = AppColors.primary,
+    this.iconColor = InstructorDesign.primary,
   });
 
   @override
@@ -31,12 +31,13 @@ class UploadAreaCard extends StatelessWidget {
           vertical: AppSpacing.lg,
         ),
         decoration: BoxDecoration(
-          color: AppColors.surface,
+          color: InstructorDesign.surface,
           borderRadius: BorderRadius.circular(20),
           border: Border.all(
-            color: const Color(0xFFD9EAD9),
+            color: InstructorDesign.chipInactiveBg,
             width: 1.5,
           ),
+          boxShadow: InstructorDesign.cardShadow(context),
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -59,7 +60,7 @@ class UploadAreaCard extends StatelessWidget {
               title,
               style: AppTextTheme.bodyMedium.copyWith(
                 fontWeight: FontWeight.w700,
-                color: AppColors.textPrimary,
+                color: InstructorDesign.textPrimary,
               ),
               textAlign: TextAlign.center,
             ),
@@ -67,7 +68,7 @@ class UploadAreaCard extends StatelessWidget {
             Text(
               subtitle,
               style: AppTextTheme.bodySmall.copyWith(
-                color: AppColors.textSecondary,
+                color: InstructorDesign.textSecondary,
               ),
               textAlign: TextAlign.center,
             ),

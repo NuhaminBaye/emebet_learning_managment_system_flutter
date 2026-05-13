@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:lms_mobileapp/core/constants/app_routes.dart';
-import 'package:lms_mobileapp/core/constants/colors.dart';
-import 'package:lms_mobileapp/core/constants/spacing.dart';
-import 'package:lms_mobileapp/core/constants/text_theme.dart';
+import 'package:lms_mobileapp/core/theme/instructor_design.dart';
 import 'package:lms_mobileapp/features/instructor/presentation/widgets/insight_card.dart';
 import 'package:lms_mobileapp/features/instructor/presentation/widgets/lesson_card.dart';
-import 'package:lms_mobileapp/features/instructor/presentation/widgets/primary_button.dart';
 
 class CurriculumBuilderScreen extends StatefulWidget {
   final String courseId;
@@ -25,7 +22,6 @@ class CurriculumBuilderScreen extends StatefulWidget {
 }
 
 class _CurriculumBuilderScreenState extends State<CurriculumBuilderScreen> {
-  // Mock data for lessons
   final List<Map<String, dynamic>> lessons = [
     {
       'id': '1',
@@ -72,50 +68,53 @@ class _CurriculumBuilderScreenState extends State<CurriculumBuilderScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: InstructorDesign.canvas,
       appBar: AppBar(
-        backgroundColor: AppColors.background,
+        backgroundColor: InstructorDesign.canvas,
         elevation: 0,
+        scrolledUnderElevation: 0,
+        surfaceTintColor: Colors.transparent,
         leading: IconButton(
-          icon: const Icon(
-            Icons.arrow_back,
-            color: AppColors.textPrimary,
-          ),
+          icon: const Icon(Icons.arrow_back_ios_new_rounded, size: 20),
+          color: InstructorDesign.textPrimary,
           onPressed: () => Navigator.pop(context),
         ),
-        title: Text(
-          widget.courseDescription,
-          style: AppTextTheme.headingMD.copyWith(
-            color: AppColors.textPrimary,
+        title: const Text(
+          'Curriculum Builder',
+          style: TextStyle(
+            fontSize: 17,
+            fontWeight: FontWeight.w800,
+            color: InstructorDesign.textPrimary,
           ),
         ),
+        centerTitle: true,
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(AppSpacing.md),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Course Title
-            Text(
-              widget.courseName,
-              style: AppTextTheme.headingLG.copyWith(
-                color: AppColors.textPrimary,
-              ),
+      body: ListView(
+        padding: const EdgeInsets.fromLTRB(20, 0, 20, 32),
+        children: [
+          Text(
+            widget.courseName,
+            style: const TextStyle(
+              fontSize: 22,
+              fontWeight: FontWeight.w800,
+              color: InstructorDesign.textPrimary,
             ),
-            const SizedBox(height: 8),
-            Text(
-              '${lessons.length} LESSONS LISTED',
-              style: AppTextTheme.bodySmall.copyWith(
-                color: AppColors.textSecondary,
-                fontWeight: FontWeight.w600,
-              ),
+          ),
+          const SizedBox(height: 6),
+          Text(
+            '${lessons.length} LESSONS LISTED',
+            style: TextStyle(
+              fontSize: 11,
+              fontWeight: FontWeight.w800,
+              letterSpacing: 0.9,
+              color: InstructorDesign.textTertiary,
             ),
-            const SizedBox(height: AppSpacing.lg),
-
-            // Add Lesson Button
-            PrimaryButton(
-              label: 'Add Lesson',
-              icon: const Icon(Icons.add, size: 20),
+          ),
+          const SizedBox(height: 20),
+          SizedBox(
+            width: double.infinity,
+            height: 50,
+            child: ElevatedButton.icon(
               onPressed: () {
                 Navigator.pushNamed(
                   context,
@@ -123,65 +122,77 @@ class _CurriculumBuilderScreenState extends State<CurriculumBuilderScreen> {
                   arguments: {'courseId': widget.courseId},
                 );
               },
-            ),
-            const SizedBox(height: AppSpacing.lg),
-
-            // Lessons List
-            ...lessons.map(
-              (lesson) => LessonCard(
-                title: lesson['title'],
-                type: lesson['type'],
-                duration: lesson['duration'],
-                commentCount: lesson['commentCount'],
-                isDraft: lesson['isDraft'],
-                onTap: () {
-                  // Handle lesson tap
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text('Opened: ${lesson['title']}'),
-                      duration: const Duration(seconds: 2),
-                    ),
-                  );
-                },
-                onCommentTap: () {
-                  Navigator.pushNamed(
-                    context,
-                    AppRoutes.studentComments,
-                    arguments: {
-                      'lessonId': lesson['id'],
-                      'lessonTitle': lesson['title'],
-                    },
-                  );
-                },
+              icon: const Icon(Icons.add_rounded, size: 22),
+              label: const Text(
+                'ADD LESSON',
+                style: TextStyle(
+                  fontWeight: FontWeight.w800,
+                  letterSpacing: 0.6,
+                ),
+              ),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: InstructorDesign.primary,
+                foregroundColor: Colors.white,
+                elevation: 0,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(14),
+                ),
               ),
             ),
-            const SizedBox(height: AppSpacing.lg),
-
-            // Course Insights Section
-            Text(
-              'Course Insights',
-              style: AppTextTheme.headingMD.copyWith(
-                color: AppColors.textPrimary,
-                fontWeight: FontWeight.w600,
+          ),
+          const SizedBox(height: 20),
+          ...lessons.asMap().entries.map((entry) {
+            final index = entry.key;
+            final lesson = entry.value;
+            final moduleNum = (index + 1).toString().padLeft(2, '0');
+            return LessonCard(
+              moduleLabel: 'Module $moduleNum',
+              title: lesson['title'] as String,
+              type: lesson['type'] as String,
+              duration: lesson['duration'] as String,
+              commentCount: lesson['commentCount'] as int,
+              isDraft: lesson['isDraft'] as bool,
+              onTap: () {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text('Opened: ${lesson['title']}')),
+                );
+              },
+              onCommentTap: () {
+                Navigator.pushNamed(
+                  context,
+                  AppRoutes.studentComments,
+                  arguments: {
+                    'lessonId': lesson['id'],
+                    'lessonTitle': lesson['title'],
+                  },
+                );
+              },
+            );
+          }),
+          const SizedBox(height: 28),
+          const Text(
+            'Course Insights',
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.w800,
+              color: InstructorDesign.textPrimary,
+            ),
+          ),
+          const SizedBox(height: 14),
+          Row(
+            children: const [
+              InsightCard(
+                value: '4.2h',
+                label: 'TOTAL LENGTH',
               ),
-            ),
-            const SizedBox(height: AppSpacing.md),
-            Row(
-              children: [
-                InsightCard(
-                  value: '4.2h',
-                  label: 'TOTAL LENGTH',
-                ),
-                const SizedBox(width: AppSpacing.md),
-                InsightCard(
-                  value: '124',
-                  label: 'ACTIVE STUDENTS',
-                ),
-              ],
-            ),
-            const SizedBox(height: AppSpacing.xl),
-          ],
-        ),
+              SizedBox(width: 12),
+              InsightCard(
+                value: '124',
+                label: 'ACTIVE STUDENTS',
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }

@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
 
 class AppColors {
-  // Primary Colors
-  static const Color primary = Color(0xFF23C55E); 
-  static const Color primaryDark = Color(0xFF16a34a); 
-  static const Color primaryLight = Color(0xFFdcfce7);
+  // Primary — aligned with instructor UI (#2ECC71)
+  static const Color primary = Color(0xFF2ECC71);
+  static const Color primaryDark = Color(0xFF27AE60);
+  static const Color primaryLight = Color(0xFFE8F8EF);
 
   // Secondary Colors (Supporting Greens)
-  static const Color secondary = Color(0xFF15803d);
+  static const Color secondary = Color(0xFF1E8449);
   static const Color secondaryDark = Color(0xFF14532d);
 
   // Accent Colors
-  static const Color accent = Color(0xFF23C55E);
-  static const Color link = Color(0xFF23C55E);
+  static const Color accent = Color(0xFF2ECC71);
+  static const Color link = Color(0xFF2ECC71);
 
   // Neutral Colors
-  static const Color background = Color(0xFFF9FAFB);
+  static const Color background = Color(0xFFF8F9FB);
   static const Color surface = Color(0xFFFFFFFF);
   static const Color disabled = Color(0xFFE5E7EB);
 
@@ -27,7 +27,7 @@ class AppColors {
   static const Color textOnSecondary = Color(0xFFFFFFFF);
 
   // Status Colors
-  static const Color success = Color(0xFF22c55e);
+  static const Color success = Color(0xFF2ECC71);
   static const Color warning = Color(0xFFf59e0b);
   static const Color error = Color(0xFFef4444);
   static const Color info = Color(0xFF3b82f6);

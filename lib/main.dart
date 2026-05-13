@@ -11,6 +11,7 @@ import 'package:lms_mobileapp/features/Trainee/presentation/screens/course_detai
 import 'package:lms_mobileapp/features/auth/presentation/screens/login_screen.dart';
 import 'package:lms_mobileapp/features/init/presentation/onboarding/screens/onboarding_screen.dart';
 import 'package:lms_mobileapp/features/init/presentation/screens/splash_screen.dart';
+import 'package:lms_mobileapp/features/instructor/presentation/screens/courses/create_course_screen.dart';
 import 'package:lms_mobileapp/features/instructor/presentation/screens/courses/add_lesson_screen.dart';
 import 'package:lms_mobileapp/features/instructor/presentation/screens/courses/create_assignment_screen.dart';
 import 'package:lms_mobileapp/features/instructor/presentation/screens/courses/curriculum_builder_screen.dart';
@@ -84,7 +85,7 @@ class MyApp extends StatelessWidget {
           surfaceTintColor: Colors.transparent,
         ),
       ),
-      home: const StudentShellScreen(),
+      home: const SplashScreen(),
       routes: {
         AppRoutes.splash: (_) => const SplashScreen(),
         AppRoutes.onboarding: (_) => const OnboardingScreen(),
@@ -94,7 +95,18 @@ class MyApp extends StatelessWidget {
           return StudentShellScreen(initialIndex: (args?['index'] as int?) ?? 0);
         },
         AppRoutes.instructorShell: (_) => const InstructorShellScreen(),
-        AppRoutes.curriculumBuilder: (_) => const CurriculumBuilderScreen(),
+        AppRoutes.createCourse: (_) => const CreateCourseScreen(),
+        AppRoutes.curriculumBuilder: (context) {
+          final args =
+              ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+          return CurriculumBuilderScreen(
+            courseId: args?['courseId'] as String? ?? 'course_1',
+            courseName: args?['courseName'] as String? ??
+                'Sustainable Design Principles 101',
+            courseDescription:
+                args?['courseDescription'] as String? ?? 'Curriculum Builder',
+          );
+        },
         AppRoutes.addLesson: (context) {
           final args =
               ModalRoute.of(context)?.settings.arguments

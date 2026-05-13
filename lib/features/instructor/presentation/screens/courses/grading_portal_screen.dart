@@ -1,84 +1,116 @@
 import 'package:flutter/material.dart';
-import 'package:lms_mobileapp/core/constants/colors.dart';
-import 'package:lms_mobileapp/core/constants/spacing.dart';
-import 'package:lms_mobileapp/core/constants/text_theme.dart';
-import 'package:lms_mobileapp/features/instructor/presentation/widgets/instructor_bottom_navigation_bar.dart';
+import 'package:lms_mobileapp/core/theme/instructor_design.dart';
 import 'package:lms_mobileapp/features/instructor/presentation/widgets/primary_button.dart';
 
-class GradingPortalScreen extends StatelessWidget {
+class GradingPortalScreen extends StatefulWidget {
   const GradingPortalScreen({super.key});
+
+  @override
+  State<GradingPortalScreen> createState() => _GradingPortalScreenState();
+}
+
+class _GradingPortalScreenState extends State<GradingPortalScreen> {
+  final _scoreController = TextEditingController(text: '88');
+  final _feedbackController = TextEditingController();
+
+  @override
+  void dispose() {
+    _scoreController.dispose();
+    _feedbackController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: InstructorDesign.canvas,
       appBar: AppBar(
-        backgroundColor: AppColors.background,
+        backgroundColor: InstructorDesign.canvas,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: AppColors.textPrimary),
+          icon: const Icon(Icons.arrow_back_ios_new_rounded, size: 20),
+          color: InstructorDesign.textPrimary,
           onPressed: () => Navigator.pop(context),
         ),
-        title: const Text('DIGITAL ATELIER', style: AppTextTheme.headingMD),
+        title: const Text(
+          'Grading Portal',
+          style: TextStyle(
+            fontSize: 17,
+            fontWeight: FontWeight.w800,
+            color: InstructorDesign.textPrimary,
+          ),
+        ),
+        centerTitle: true,
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(AppSpacing.md),
+        padding: const EdgeInsets.fromLTRB(20, 8, 20, 32),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text('Grading Portal', style: AppTextTheme.headingLG),
-            const SizedBox(height: AppSpacing.sm),
             Text(
-              'Review submission details, enter a score, and send feedback quickly.',
-              style: AppTextTheme.bodyRegular.copyWith(
-                color: AppColors.textSecondary,
+              'DESIGN STUDIO · Minimalist Form Study',
+              style: TextStyle(
+                fontSize: 11,
+                fontWeight: FontWeight.w800,
+                letterSpacing: 0.85,
+                color: InstructorDesign.primary.withValues(alpha: 0.95),
               ),
             ),
-            const SizedBox(height: AppSpacing.lg),
+            const SizedBox(height: 8),
+            const Text(
+              'Review the submission, assign a score, and leave clear feedback.',
+              style: TextStyle(
+                fontSize: 14,
+                height: 1.45,
+                color: InstructorDesign.textSecondary,
+              ),
+            ),
+            const SizedBox(height: 20),
             Container(
               width: double.infinity,
-              padding: const EdgeInsets.all(AppSpacing.lg),
+              padding: const EdgeInsets.all(18),
               decoration: BoxDecoration(
-                color: AppColors.surface,
-                borderRadius: BorderRadius.circular(24),
-                boxShadow: [
-                  BoxShadow(
-                    color: AppColors.grey200.withOpacity(0.6),
-                    blurRadius: 22,
-                    offset: const Offset(0, 10),
-                  ),
-                ],
+                color: InstructorDesign.surface,
+                borderRadius: BorderRadius.circular(InstructorDesign.radiusCard),
+                boxShadow: InstructorDesign.cardShadow(context),
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       CircleAvatar(
-                        radius: 24,
-                        backgroundColor: AppColors.primaryLight,
-                        child: const Icon(
-                          Icons.person,
-                          color: AppColors.primary,
+                        radius: 26,
+                        backgroundColor:
+                            InstructorDesign.primary.withValues(alpha: 0.12),
+                        child: const Text(
+                          'J',
+                          style: TextStyle(
+                            fontWeight: FontWeight.w900,
+                            color: InstructorDesign.primary,
+                            fontSize: 20,
+                          ),
                         ),
                       ),
-                      const SizedBox(width: AppSpacing.md),
-                      Expanded(
+                      const SizedBox(width: 14),
+                      const Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
                               'Julian K. Sterling',
-                              style: AppTextTheme.bodyMedium.copyWith(
-                                fontWeight: FontWeight.w700,
+                              style: TextStyle(
+                                fontWeight: FontWeight.w800,
+                                fontSize: 15,
+                                color: InstructorDesign.textPrimary,
                               ),
                             ),
-                            const SizedBox(height: AppSpacing.xs),
+                            SizedBox(height: 4),
                             Text(
                               'Assignment: Minimalist Form Study',
-                              style: AppTextTheme.bodySmall.copyWith(
-                                color: AppColors.textSecondary,
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: InstructorDesign.textSecondary,
                               ),
                             ),
                           ],
@@ -86,30 +118,31 @@ class GradingPortalScreen extends StatelessWidget {
                       ),
                       Container(
                         padding: const EdgeInsets.symmetric(
-                          horizontal: AppSpacing.sm,
-                          vertical: AppSpacing.xs,
+                          horizontal: 10,
+                          vertical: 4,
                         ),
                         decoration: BoxDecoration(
-                          color: AppColors.grey100,
-                          borderRadius: BorderRadius.circular(16),
+                          color: InstructorDesign.surfaceMuted,
+                          borderRadius: BorderRadius.circular(20),
                         ),
-                        child: Text(
+                        child: const Text(
                           'Student',
-                          style: AppTextTheme.bodySmall.copyWith(
-                            color: AppColors.textSecondary,
+                          style: TextStyle(
+                            fontSize: 10,
+                            fontWeight: FontWeight.w800,
+                            color: InstructorDesign.textTertiary,
                           ),
                         ),
                       ),
                     ],
                   ),
-                  const SizedBox(height: AppSpacing.lg),
+                  const SizedBox(height: 18),
                   Container(
-                    width: double.infinity,
-                    padding: const EdgeInsets.all(AppSpacing.md),
+                    padding: const EdgeInsets.all(14),
                     decoration: BoxDecoration(
-                      color: AppColors.background,
-                      borderRadius: BorderRadius.circular(20),
-                      border: Border.all(color: AppColors.grey200),
+                      color: InstructorDesign.canvas,
+                      borderRadius: BorderRadius.circular(16),
+                      border: Border.all(color: InstructorDesign.chipInactiveBg),
                     ),
                     child: Row(
                       children: [
@@ -117,30 +150,32 @@ class GradingPortalScreen extends StatelessWidget {
                           width: 44,
                           height: 44,
                           decoration: BoxDecoration(
-                            color: AppColors.primaryLight,
-                            borderRadius: BorderRadius.circular(14),
+                            color: InstructorDesign.primary.withValues(alpha: 0.1),
+                            borderRadius: BorderRadius.circular(12),
                           ),
                           child: const Icon(
-                            Icons.picture_as_pdf,
-                            color: AppColors.primary,
+                            Icons.picture_as_pdf_rounded,
+                            color: InstructorDesign.primary,
                           ),
                         ),
-                        const SizedBox(width: AppSpacing.md),
-                        Expanded(
+                        const SizedBox(width: 12),
+                        const Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
                                 'submission_final_rev.pdf',
-                                style: AppTextTheme.bodyMedium.copyWith(
-                                  fontWeight: FontWeight.w700,
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w800,
+                                  fontSize: 14,
                                 ),
                               ),
-                              const SizedBox(height: AppSpacing.xs),
+                              SizedBox(height: 2),
                               Text(
-                                '4.8 MB • Uploaded 2024',
-                                style: AppTextTheme.bodySmall.copyWith(
-                                  color: AppColors.textSecondary,
+                                '4.8 MB • Uploaded recently',
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: InstructorDesign.textSecondary,
                                 ),
                               ),
                             ],
@@ -150,7 +185,7 @@ class GradingPortalScreen extends StatelessWidget {
                           onPressed: () {},
                           icon: const Icon(
                             Icons.download_outlined,
-                            color: AppColors.primary,
+                            color: InstructorDesign.primary,
                           ),
                         ),
                       ],
@@ -159,184 +194,172 @@ class GradingPortalScreen extends StatelessWidget {
                 ],
               ),
             ),
-            const SizedBox(height: AppSpacing.lg),
+            const SizedBox(height: 18),
             Container(
               width: double.infinity,
-              padding: const EdgeInsets.all(AppSpacing.lg),
+              padding: const EdgeInsets.all(20),
               decoration: BoxDecoration(
-                color: AppColors.surface,
-                borderRadius: BorderRadius.circular(24),
-                boxShadow: [
-                  BoxShadow(
-                    color: AppColors.grey200.withOpacity(0.6),
-                    blurRadius: 22,
-                    offset: const Offset(0, 10),
-                  ),
-                ],
+                color: InstructorDesign.surface,
+                borderRadius: BorderRadius.circular(InstructorDesign.radiusCard),
+                boxShadow: InstructorDesign.cardShadow(context),
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    'Final Score',
-                    style: AppTextTheme.bodySmall.copyWith(
-                      color: AppColors.textSecondary,
+                  const Text(
+                    'FINAL SCORE',
+                    style: TextStyle(
+                      fontSize: 11,
+                      fontWeight: FontWeight.w800,
+                      letterSpacing: 1,
+                      color: InstructorDesign.textTertiary,
                     ),
                   ),
-                  const SizedBox(height: AppSpacing.sm),
+                  const SizedBox(height: 8),
                   Row(
-                    crossAxisAlignment: CrossAxisAlignment.end,
+                    crossAxisAlignment: CrossAxisAlignment.baseline,
+                    textBaseline: TextBaseline.alphabetic,
                     children: [
-                      Text(
-                        '00',
-                        style: AppTextTheme.headingXL.copyWith(
-                          color: AppColors.primary,
-                          fontWeight: FontWeight.w700,
+                      SizedBox(
+                        width: 72,
+                        child: TextField(
+                          controller: _scoreController,
+                          keyboardType: TextInputType.number,
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(
+                            fontSize: 36,
+                            fontWeight: FontWeight.w900,
+                            color: InstructorDesign.primary,
+                          ),
+                          decoration: const InputDecoration(
+                            border: InputBorder.none,
+                            isDense: true,
+                            contentPadding: EdgeInsets.zero,
+                          ),
                         ),
                       ),
-                      const SizedBox(width: AppSpacing.sm),
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 6),
-                        child: Text(
-                          '/100',
-                          style: AppTextTheme.bodyMedium.copyWith(
-                            color: AppColors.textSecondary,
-                          ),
+                      const Text(
+                        ' / 100',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w700,
+                          color: InstructorDesign.textSecondary,
                         ),
                       ),
                     ],
                   ),
-                  const SizedBox(height: AppSpacing.sm),
-                  Text(
-                    'out of 100',
-                    style: AppTextTheme.bodySmall.copyWith(
-                      color: AppColors.textSecondary,
-                    ),
-                  ),
                 ],
               ),
             ),
-            const SizedBox(height: AppSpacing.lg),
-            Text('Instructor Feedback', style: AppTextTheme.headingMD),
-            const SizedBox(height: AppSpacing.sm),
+            const SizedBox(height: 18),
+            const Text(
+              'INSTRUCTOR FEEDBACK',
+              style: TextStyle(
+                fontSize: 11,
+                fontWeight: FontWeight.w800,
+                letterSpacing: 1,
+                color: InstructorDesign.textTertiary,
+              ),
+            ),
+            const SizedBox(height: 8),
             Container(
-              width: double.infinity,
-              padding: const EdgeInsets.all(AppSpacing.md),
               decoration: BoxDecoration(
-                color: AppColors.surface,
-                borderRadius: BorderRadius.circular(24),
-                border: Border.all(color: AppColors.grey200),
+                color: InstructorDesign.surface,
+                borderRadius: BorderRadius.circular(16),
+                border: Border.all(color: InstructorDesign.chipInactiveBg),
+                boxShadow: InstructorDesign.cardShadow(context),
               ),
-              child: ConstrainedBox(
-                constraints: const BoxConstraints(minHeight: 150),
-                child: TextField(
-                  maxLines: null,
-                  decoration: InputDecoration(
-                    hintText:
-                        'Provide constructive feedback on composition, material usage, and conceptual depth...',
-                    hintStyle: AppTextTheme.bodySmall.copyWith(
-                      color: AppColors.textSecondary,
-                    ),
-                    border: InputBorder.none,
+              child: TextField(
+                controller: _feedbackController,
+                minLines: 5,
+                maxLines: 8,
+                decoration: InputDecoration(
+                  hintText:
+                      'Constructive notes on composition, materials, and concept…',
+                  hintStyle: TextStyle(
+                    color: InstructorDesign.textSecondary.withValues(alpha: 0.85),
                   ),
+                  border: InputBorder.none,
+                  contentPadding: const EdgeInsets.all(16),
                 ),
               ),
             ),
-            const SizedBox(height: AppSpacing.lg),
+            const SizedBox(height: 20),
             PrimaryButton(
-              label: 'Submit Grade',
-              onPressed: () {},
-              backgroundColor: AppColors.primary,
+              label: 'SUBMIT GRADE',
+              onPressed: () {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Grade submitted')),
+                );
+              },
             ),
-            const SizedBox(height: AppSpacing.sm),
-            SizedBox(
-              width: double.infinity,
-              height: 48,
-              child: OutlinedButton(
+            const SizedBox(height: 8),
+            Center(
+              child: TextButton(
                 onPressed: () {},
-                style: OutlinedButton.styleFrom(
-                  side: BorderSide(color: AppColors.primary.withOpacity(0.15)),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                  backgroundColor: AppColors.surface,
-                ),
-                child: Text(
+                child: const Text(
                   'Save as Draft',
-                  style: AppTextTheme.bodyMedium.copyWith(
-                    color: AppColors.primary,
-                    fontWeight: FontWeight.w700,
+                  style: TextStyle(
+                    fontWeight: FontWeight.w800,
+                    color: InstructorDesign.primary,
                   ),
                 ),
               ),
             ),
-            const SizedBox(height: AppSpacing.lg),
+            const SizedBox(height: 20),
             Row(
               children: [
                 Expanded(
-                  child: Container(
-                    padding: const EdgeInsets.all(AppSpacing.md),
-                    decoration: BoxDecoration(
-                      color: AppColors.surface,
-                      borderRadius: BorderRadius.circular(20),
-                      border: Border.all(color: AppColors.grey200),
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Class Average',
-                          style: AppTextTheme.bodySmall.copyWith(
-                            color: AppColors.textSecondary,
-                          ),
-                        ),
-                        const SizedBox(height: AppSpacing.sm),
-                        Text(
-                          '84.2',
-                          style: AppTextTheme.headingMD.copyWith(
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                      ],
-                    ),
+                  child: _footerStat(
+                    title: 'Class Average',
+                    value: '84.2',
                   ),
                 ),
-                const SizedBox(width: AppSpacing.md),
+                const SizedBox(width: 12),
                 Expanded(
-                  child: Container(
-                    padding: const EdgeInsets.all(AppSpacing.md),
-                    decoration: BoxDecoration(
-                      color: AppColors.surface,
-                      borderRadius: BorderRadius.circular(20),
-                      border: Border.all(color: AppColors.grey200),
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Graded Today',
-                          style: AppTextTheme.bodySmall.copyWith(
-                            color: AppColors.textSecondary,
-                          ),
-                        ),
-                        const SizedBox(height: AppSpacing.sm),
-                        Text(
-                          '12/24',
-                          style: AppTextTheme.headingMD.copyWith(
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                      ],
-                    ),
+                  child: _footerStat(
+                    title: 'Graded Today',
+                    value: '12 / 24',
                   ),
                 ),
               ],
             ),
-            const SizedBox(height: AppSpacing.xl),
           ],
         ),
       ),
-      bottomNavigationBar: const InstructorBottomNavigationBar(currentIndex: 2),
+    );
+  }
+
+  Widget _footerStat({required String title, required String value}) {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: InstructorDesign.surface,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: InstructorDesign.chipInactiveBg),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            title,
+            style: const TextStyle(
+              fontSize: 11,
+              fontWeight: FontWeight.w700,
+              color: InstructorDesign.textSecondary,
+            ),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            value,
+            style: const TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.w900,
+              color: InstructorDesign.textPrimary,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

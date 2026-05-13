@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:lms_mobileapp/core/constants/app_routes.dart';
-import 'package:lms_mobileapp/core/constants/colors.dart';
-import 'package:lms_mobileapp/core/constants/spacing.dart';
-import 'package:lms_mobileapp/core/constants/text_theme.dart';
+import 'package:lms_mobileapp/core/theme/instructor_design.dart';
 import 'package:lms_mobileapp/features/instructor/presentation/widgets/custom_text_input.dart';
+import 'package:lms_mobileapp/features/instructor/presentation/widgets/dashed_border_container.dart';
 import 'package:lms_mobileapp/features/instructor/presentation/widgets/primary_button.dart';
 import 'package:lms_mobileapp/features/instructor/presentation/widgets/upload_area_card.dart';
 
@@ -17,186 +16,172 @@ class AddLessonScreen extends StatefulWidget {
 }
 
 class _AddLessonScreenState extends State<AddLessonScreen> {
-  late TextEditingController _lessonTitleController;
-  late TextEditingController _durationController;
+  final _lessonTitleController = TextEditingController();
+  final _durationController = TextEditingController();
   bool _isFreePreview = false;
-  late FocusNode _focusNode;
-
-  @override
-  void initState() {
-    super.initState();
-    _lessonTitleController = TextEditingController();
-    _durationController = TextEditingController();
-    _focusNode = FocusNode();
-  }
 
   @override
   void dispose() {
     _lessonTitleController.dispose();
     _durationController.dispose();
-    _focusNode.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: InstructorDesign.canvas,
       appBar: AppBar(
-        backgroundColor: AppColors.background,
+        backgroundColor: InstructorDesign.canvas,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: AppColors.textPrimary),
+          icon: const Icon(Icons.arrow_back_ios_new_rounded, size: 20),
+          color: InstructorDesign.textPrimary,
           onPressed: () => Navigator.pop(context),
         ),
-        title: Text(
+        title: const Text(
           'Add Lesson',
-          style: AppTextTheme.headingMD.copyWith(color: AppColors.textPrimary),
+          style: TextStyle(
+            fontSize: 17,
+            fontWeight: FontWeight.w800,
+            color: InstructorDesign.textPrimary,
+          ),
         ),
+        centerTitle: true,
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(AppSpacing.md),
+        padding: const EdgeInsets.fromLTRB(20, 8, 20, 32),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Lesson Title Input
             CustomTextInput(
               label: 'Lesson Title',
               hint: 'e.g., Introduction to Figma Components',
               controller: _lessonTitleController,
             ),
-            const SizedBox(height: AppSpacing.lg),
-
-            // Estimated Duration Input
+            const SizedBox(height: 20),
             CustomTextInput(
               label: 'Estimated Duration',
               hint: '20',
               controller: _durationController,
               keyboardType: TextInputType.number,
-              suffixIcon: Container(
-                padding: const EdgeInsets.only(right: AppSpacing.md),
-                alignment: Alignment.center,
-                child: Text(
-                  'minutes',
-                  style: AppTextTheme.bodySmall.copyWith(
-                    color: AppColors.textSecondary,
+              suffixIcon: Padding(
+                padding: const EdgeInsets.only(right: 16),
+                child: Align(
+                  widthFactor: 1,
+                  alignment: Alignment.centerRight,
+                  child: Text(
+                    'minutes',
+                    style: TextStyle(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w600,
+                      color: InstructorDesign.textSecondary,
+                    ),
                   ),
                 ),
               ),
             ),
-            const SizedBox(height: AppSpacing.lg),
-
-            // Free Preview Toggle
+            const SizedBox(height: 20),
             Container(
-              padding: const EdgeInsets.all(AppSpacing.md),
+              padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
-                color: AppColors.surface,
-                borderRadius: BorderRadius.circular(8),
-                border: Border.all(color: AppColors.border, width: 1),
+                color: InstructorDesign.surface,
+                borderRadius: BorderRadius.circular(16),
+                border: Border.all(color: InstructorDesign.chipInactiveBg),
+                boxShadow: InstructorDesign.cardShadow(context),
               ),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Free Preview',
-                        style: AppTextTheme.bodyMedium.copyWith(
-                          fontWeight: FontWeight.w600,
-                          color: AppColors.textPrimary,
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          'Free Preview',
+                          style: TextStyle(
+                            fontWeight: FontWeight.w800,
+                            fontSize: 15,
+                            color: InstructorDesign.textPrimary,
+                          ),
                         ),
-                      ),
-                      const SizedBox(height: 4),
-                      Text(
-                        'Offer to let non-students view',
-                        style: AppTextTheme.bodySmall.copyWith(
-                          color: AppColors.textSecondary,
+                        const SizedBox(height: 4),
+                        Text(
+                          'Offer a preview to prospective students',
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: InstructorDesign.textSecondary.withValues(alpha: 0.95),
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                  Transform.scale(
-                    scale: 0.8,
-                    child: Switch(
-                      value: _isFreePreview,
-                      onChanged: (value) {
-                        setState(() {
-                          _isFreePreview = value;
-                        });
-                      },
-                      activeColor: AppColors.primary,
-                      inactiveThumbColor: AppColors.disabled,
+                      ],
                     ),
+                  ),
+                  Switch.adaptive(
+                    value: _isFreePreview,
+                    onChanged: (v) => setState(() => _isFreePreview = v),
+                    activeThumbColor: Colors.white,
+                    activeTrackColor: InstructorDesign.primary,
                   ),
                 ],
               ),
             ),
-            const SizedBox(height: AppSpacing.lg),
-
-            // Lesson Content Section
-            Text(
-              'Lesson Content',
-              style: AppTextTheme.bodyMedium.copyWith(
-                fontWeight: FontWeight.w600,
-                color: AppColors.textPrimary,
+            const SizedBox(height: 28),
+            const Text(
+              'LESSON CONTENT',
+              style: TextStyle(
+                fontSize: 11,
+                fontWeight: FontWeight.w800,
+                letterSpacing: 1.2,
+                color: InstructorDesign.textTertiary,
               ),
             ),
-            const SizedBox(height: AppSpacing.md),
-
-            // Upload Area with dashed border and icon
-            _DashedBorderContainer(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                  vertical: AppSpacing.xl,
-                  horizontal: AppSpacing.lg,
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      width: 56,
-                      height: 56,
-                      decoration: const BoxDecoration(
-                        color: Color(0xFFD9F7E2),
-                        shape: BoxShape.circle,
-                      ),
-                      child: const Icon(
-                        Icons.cloud_upload_outlined,
-                        size: 28,
-                        color: AppColors.primary,
-                      ),
+            const SizedBox(height: 14),
+            DashedBorderContainer(
+              backgroundColor: InstructorDesign.surfaceMuted,
+              padding: const EdgeInsets.symmetric(vertical: 28, horizontal: 16),
+              child: Column(
+                children: [
+                  Container(
+                    width: 56,
+                    height: 56,
+                    decoration: BoxDecoration(
+                      color: InstructorDesign.primary.withValues(alpha: 0.12),
+                      shape: BoxShape.circle,
                     ),
-                    const SizedBox(height: AppSpacing.md),
-                    Text(
-                      'Upload Video or Materials',
-                      style: AppTextTheme.bodyMedium.copyWith(
-                        fontWeight: FontWeight.w700,
-                        color: AppColors.textPrimary,
-                      ),
-                      textAlign: TextAlign.center,
+                    child: const Icon(
+                      Icons.cloud_upload_outlined,
+                      size: 28,
+                      color: InstructorDesign.primary,
                     ),
-                    const SizedBox(height: 6),
-                    Text(
-                      'MP4, PDF, or ZIP files supported (Max 500MB)',
-                      style: AppTextTheme.bodySmall.copyWith(
-                        color: AppColors.textSecondary,
-                      ),
-                      textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 14),
+                  const Text(
+                    'Upload Video or Materials',
+                    style: TextStyle(
+                      fontWeight: FontWeight.w800,
+                      fontSize: 15,
+                      color: InstructorDesign.textPrimary,
                     ),
-                  ],
-                ),
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 6),
+                  Text(
+                    'MP4, PDF, or ZIP — max 500MB',
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: InstructorDesign.textSecondary.withValues(alpha: 0.95),
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ],
               ),
             ),
-            const SizedBox(height: AppSpacing.lg),
-
-            // Action Cards Row
+            const SizedBox(height: 16),
             Row(
               children: [
                 Expanded(
                   child: UploadAreaCard(
                     title: '+ Create Assignment',
-                    subtitle: 'Add hands-on tasks',
+                    subtitle: 'Hands-on tasks',
                     iconData: Icons.assignment_outlined,
                     iconBackgroundColor: const Color(0xFFFFF5EB),
                     iconColor: const Color(0xFFEA580C),
@@ -209,118 +194,40 @@ class _AddLessonScreenState extends State<AddLessonScreen> {
                     },
                   ),
                 ),
-                const SizedBox(width: AppSpacing.md),
+                const SizedBox(width: 12),
                 Expanded(
                   child: UploadAreaCard(
                     title: '+ Create Quiz',
-                    subtitle: 'Test student knowledge',
+                    subtitle: 'Knowledge checks',
                     iconData: Icons.quiz_outlined,
                     iconBackgroundColor: const Color(0xFFE0F2FE),
                     iconColor: const Color(0xFF2563EB),
-                    onTap: () {
-                      Navigator.pushNamed(context, AppRoutes.createQuiz);
-                    },
+                    onTap: () => Navigator.pushNamed(context, AppRoutes.createQuiz),
                   ),
                 ),
               ],
             ),
-            const SizedBox(height: AppSpacing.xl),
-
-            // Save Lesson Button
+            const SizedBox(height: 28),
             PrimaryButton(
-              label: 'Save Lesson',
-              icon: const Icon(Icons.save, size: 20),
+              label: 'SAVE LESSON',
+              icon: const Icon(Icons.check_rounded, size: 20),
               onPressed: () {
                 if (_lessonTitleController.text.isEmpty ||
                     _durationController.text.isEmpty) {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text('Please fill all required fields'),
-                      duration: Duration(seconds: 2),
-                    ),
+                    const SnackBar(content: Text('Please fill required fields')),
                   );
                   return;
                 }
-
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text('Lesson saved successfully'),
-                    duration: Duration(seconds: 2),
-                  ),
+                  const SnackBar(content: Text('Lesson saved')),
                 );
-
-                // Navigate back
                 Navigator.pop(context);
               },
             ),
-            const SizedBox(height: AppSpacing.xl),
           ],
         ),
       ),
     );
   }
-}
-
-class _DashedBorderContainer extends StatelessWidget {
-  final Widget child;
-
-  const _DashedBorderContainer({required this.child});
-
-  @override
-  Widget build(BuildContext context) {
-    return CustomPaint(
-      painter: _DashedBorderPainter(color: const Color(0xFFC6D7D1)),
-      child: Container(
-        width: double.infinity,
-        decoration: BoxDecoration(
-          color: const Color(0xFFF8FAFC),
-          borderRadius: BorderRadius.circular(20),
-        ),
-        child: child,
-      ),
-    );
-  }
-}
-
-class _DashedBorderPainter extends CustomPainter {
-  final Color color;
-
-  _DashedBorderPainter({required this.color});
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    const dashWidth = 8.0;
-    const dashSpace = 8.0;
-    final paint = Paint()
-      ..color = color
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 1.5;
-
-    final path = Path();
-    const radius = 20.0;
-    path.addRRect(
-      RRect.fromRectAndRadius(
-        Rect.fromLTWH(1.5, 1.5, size.width - 3, size.height - 3),
-        const Radius.circular(radius),
-      ),
-    );
-
-    final dashPath = Path();
-    for (final metric in path.computeMetrics()) {
-      double distance = 0.0;
-      while (distance < metric.length) {
-        final length = dashWidth;
-        dashPath.addPath(
-          metric.extractPath(distance, distance + length),
-          Offset.zero,
-        );
-        distance += dashWidth + dashSpace;
-      }
-    }
-
-    canvas.drawPath(dashPath, paint);
-  }
-
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 }

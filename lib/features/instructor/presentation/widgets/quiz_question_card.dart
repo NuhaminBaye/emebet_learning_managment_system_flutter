@@ -1,13 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:lms_mobileapp/core/constants/colors.dart';
-import 'package:lms_mobileapp/core/constants/spacing.dart';
-import 'package:lms_mobileapp/core/constants/text_theme.dart';
+import 'package:lms_mobileapp/core/theme/instructor_design.dart';
 
 class QuizQuestionCard extends StatelessWidget {
-  final String type;
-  final String question;
-  final String detail;
-
   const QuizQuestionCard({
     super.key,
     required this.type,
@@ -15,45 +9,49 @@ class QuizQuestionCard extends StatelessWidget {
     required this.detail,
   });
 
+  final String type;
+  final String question;
+  final String detail;
+
   @override
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.all(AppSpacing.md),
+      padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: AppColors.surface,
-        borderRadius: BorderRadius.circular(24),
-        boxShadow: [
-          BoxShadow(
-            color: AppColors.grey200.withOpacity(0.6),
-            blurRadius: 16,
-            offset: const Offset(0, 8),
-          ),
-        ],
+        color: InstructorDesign.surface,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: InstructorDesign.cardShadow(context),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             type,
-            style: AppTextTheme.bodySmall.copyWith(
-              color: AppColors.primary,
-              fontWeight: FontWeight.w700,
-              letterSpacing: 0.8,
+            style: const TextStyle(
+              fontSize: 10,
+              fontWeight: FontWeight.w800,
+              letterSpacing: 0.9,
+              color: InstructorDesign.primary,
             ),
           ),
-          const SizedBox(height: AppSpacing.sm),
+          const SizedBox(height: 8),
           Text(
             question,
-            style: AppTextTheme.bodyMedium.copyWith(
-              fontWeight: FontWeight.w600,
+            style: const TextStyle(
+              fontWeight: FontWeight.w800,
+              fontSize: 14,
+              height: 1.35,
+              color: InstructorDesign.textPrimary,
             ),
           ),
-          const SizedBox(height: AppSpacing.sm),
+          const SizedBox(height: 8),
           Text(
             detail,
-            style: AppTextTheme.bodySmall.copyWith(
-              color: AppColors.textSecondary,
+            style: const TextStyle(
+              fontSize: 12,
+              color: InstructorDesign.textSecondary,
+              height: 1.35,
             ),
           ),
         ],
