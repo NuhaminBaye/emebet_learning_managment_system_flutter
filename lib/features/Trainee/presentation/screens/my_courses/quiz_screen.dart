@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:lms_mobileapp/core/constants/colors.dart';
 import 'package:lms_mobileapp/core/constants/spacing.dart';
 import 'package:lms_mobileapp/core/constants/text_theme.dart';
+import 'package:lms_mobileapp/shared/widgets/buttons/primary_button.dart';
+import 'package:lms_mobileapp/shared/widgets/cards/quiz_option_card.dart';
 
 class QuizScreen extends StatefulWidget {
   const QuizScreen({super.key});
@@ -12,7 +14,7 @@ class QuizScreen extends StatefulWidget {
 
 class _QuizScreenState extends State<QuizScreen> {
   int currentQuestion = 3;
-  String? selectedAnswer;
+  String selectedAnswer = "Enhancement of biological diversity and carbon sequestration";
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +22,7 @@ class _QuizScreenState extends State<QuizScreen> {
       backgroundColor: AppColors.background,
       appBar: AppBar(
         backgroundColor: AppColors.background,
-        elevation: 0,
+        surfaceTintColor: Colors.transparent,
         leading: IconButton(
           icon: const Icon(Icons.close),
           onPressed: () => Navigator.pop(context),
@@ -63,10 +65,10 @@ class _QuizScreenState extends State<QuizScreen> {
             AppSpacing.verticalLg,
 
             // Options
-            _buildOption("Reduction of the urban heat island effect", false),
-            _buildOption("Enhancement of biological diversity and carbon sequestration", true),
-            _buildOption("Promotion of social cohesion through public gathering zones", false),
-            _buildOption("Stabilization of property values in adjacent districts", false),
+            _buildOption("Reduction of the urban heat island effect"),
+            _buildOption("Enhancement of biological diversity and carbon sequestration"),
+            _buildOption("Promotion of social cohesion through public gathering zones"),
+            _buildOption("Stabilization of property values in adjacent districts"),
 
             const Spacer(),
 
@@ -75,15 +77,21 @@ class _QuizScreenState extends State<QuizScreen> {
                 Expanded(
                   child: OutlinedButton(
                     onPressed: () {},
+                    style: OutlinedButton.styleFrom(
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+                      side: const BorderSide(color: AppColors.grey300),
+                      minimumSize: const Size.fromHeight(50),
+                    ),
                     child: const Text("Previous"),
                   ),
                 ),
                 AppSpacing.horizontalMd,
                 Expanded(
-                  child: ElevatedButton(
+                  child: PrimaryButton(
+                    text: "Next Question",
                     onPressed: () {},
-                    style: ElevatedButton.styleFrom(backgroundColor: const Color(0xFF22C55E)),
-                    child: const Text("Next Question →"),
+                    height: 50,
+                    icon: const Icon(Icons.arrow_forward_rounded, size: 18, color: Colors.white),
                   ),
                 ),
               ],
@@ -94,33 +102,11 @@ class _QuizScreenState extends State<QuizScreen> {
     );
   }
 
-  Widget _buildOption(String text, bool isSelected) {
-    return GestureDetector(
-      onTap: () {
-        // You can add Bloc logic here later
-      },
-      child: Container(
-        margin: const EdgeInsets.only(bottom: 12),
-        padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          color: isSelected ? const Color(0xFF22C55E).withOpacity(0.1) : AppColors.surface,
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(
-            color: isSelected ? const Color(0xFF22C55E) : Colors.transparent,
-            width: 2,
-          ),
-        ),
-        child: Row(
-          children: [
-            Icon(
-              isSelected ? Icons.check_circle : Icons.radio_button_unchecked,
-              color: isSelected ? const Color(0xFF22C55E) : Colors.grey,
-            ),
-            AppSpacing.horizontalMd,
-            Expanded(child: Text(text, style: AppTextTheme.bodyMedium)),
-          ],
-        ),
-      ),
+  Widget _buildOption(String text) {
+    return QuizOptionCard(
+      label: text,
+      selected: selectedAnswer == text,
+      onTap: () => setState(() => selectedAnswer = text),
     );
   }
 }

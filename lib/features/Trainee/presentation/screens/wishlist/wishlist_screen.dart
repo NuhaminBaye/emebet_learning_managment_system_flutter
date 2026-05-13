@@ -1,1004 +1,110 @@
-// // // import 'package:flutter/material.dart';
-// // // import 'package:lms_mobileapp/core/constants/app_routes.dart';
-// // // import 'package:lms_mobileapp/core/constants/colors.dart';
-// // // import 'package:lms_mobileapp/core/constants/spacing.dart';
-// // // import 'package:lms_mobileapp/core/constants/text_theme.dart';
-// // // import 'package:lms_mobileapp/shared/widgets/cards/course_card.dart';
-
-// // // class WishlistScreen extends StatelessWidget {
-// // //   const WishlistScreen({super.key});
-
-// // //   @override
-// // //   Widget build(BuildContext context) {
-// // //     return Scaffold(
-// // //       backgroundColor: AppColors.background,
-// // //       appBar: AppBar(
-// // //         title: const Text("Saved Courses", style: AppTextTheme.headingMD),
-// // //         backgroundColor: AppColors.background,
-// // //         elevation: 0,
-// // //         actions: [
-// // //           TextButton(
-// // //             onPressed: () {},
-// // //             child: Text("Clear all", style: AppTextTheme.bodyMedium.copyWith(color: AppColors.primary)),
-// // //           ),
-// // //         ],
-// // //       ),
-// // //       body: ListView(
-// // //         padding: const EdgeInsets.symmetric(horizontal: 16),
-// // //         children: [
-// // //           const Text("3 Saved Courses", style: AppTextTheme.headingLG),
-// // //           AppSpacing.verticalSm,
-// // //           const Text("Continue your learning journey", style: AppTextTheme.bodyRegular),
-// // //           AppSpacing.verticalLg,
-
-// // //           _buildSavedCourse(
-// // //             title: "Scalable Design Systems for Enterprise",
-// // //             price: "\$89.99",
-// // //             rating: "4.9",
-// // //             imageUrl: "https://images.unsplash.com/photo-1557804506-669a67965ba0",
-// // //           ),
-// // //           _buildSavedCourse(
-// // //             title: "Advanced UX Research Methodologies",
-// // //             price: "\$74.50",
-// // //             rating: "4.8",
-// // //             imageUrl: "https://images.unsplash.com/photo-1518770660439-4636190af475",
-// // //           ),
-// // //           _buildSavedCourse(
-// // //             title: "Full-Stack Development with Next.js 14",
-// // //             price: "\$129.99",
-// // //             rating: "4.6",
-// // //             imageUrl: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97",
-// // //           ),
-
-// // //           AppSpacing.verticalXl,
-// // //           const Text("You Might Also Like", style: AppTextTheme.headingMD),
-// // //           AppSpacing.verticalMd,
-
-// // //           // You Might Also Like Section
-// // //           SizedBox(
-// // //             height: 240,
-// // //             child: ListView.builder(
-// // //               scrollDirection: Axis.horizontal,
-// // //               itemCount: 3,
-// // //               itemBuilder: (context, index) {
-// // //                 return Padding(
-// // //                   padding: const EdgeInsets.only(right: 16),
-// // //                   child: CourseCard(
-// // //                     title: "Product Management",
-// // //                     instructor: "Alex Morgan",
-// // //                     imageUrl: "https://images.unsplash.com/photo-1521737604893-d14cc237f11d",
-// // //                     price: "\$49.99",
-// // //                     progressLabel: "Enroll Now",
-// // //                     onTap: () {
-// // //                       // Navigate to Course Detail Screen
-// // //                       Navigator.pushNamed(context, AppRoutes.courseDetails);
-// // //                     },
-// // //                     onWishlistTap: () {
-// // //                       ScaffoldMessenger.of(context).showSnackBar(
-// // //                         const SnackBar(content: Text("Added to Wishlist")),
-// // //                       );
-// // //                     },
-// // //                   ),
-// // //                 );
-// // //               },
-// // //             ),
-// // //           ),
-// // //         ],
-// // //       ),
-// // //     );
-// // //   }
-
-// // //   Widget _buildSavedCourse({
-// // //     required String title,
-// // //     required String price,
-// // //     required String rating,
-// // //     required String imageUrl,
-// // //   }) {
-// // //     return Container(
-// // //       margin: const EdgeInsets.only(bottom: 16),
-// // //       decoration: BoxDecoration(
-// // //         color: AppColors.surface,
-// // //         borderRadius: BorderRadius.circular(20),
-// // //       ),
-// // //       child: Row(
-// // //         children: [
-// // //           ClipRRect(
-// // //             borderRadius: const BorderRadius.horizontal(left: Radius.circular(20)),
-// // //             child: Image.network(
-// // //               imageUrl,
-// // //               width: 120,
-// // //               height: 110,
-// // //               fit: BoxFit.cover,
-// // //             ),
-// // //           ),
-// // //           Expanded(
-// // //             child: Padding(
-// // //               padding: const EdgeInsets.all(16),
-// // //               child: Column(
-// // //                 crossAxisAlignment: CrossAxisAlignment.start,
-// // //                 children: [
-// // //                   Text(
-// // //                     title,
-// // //                     maxLines: 2,
-// // //                     overflow: TextOverflow.ellipsis,
-// // //                     style: AppTextTheme.bodyMedium.copyWith(fontWeight: FontWeight.w600),
-// // //                   ),
-// // //                   AppSpacing.verticalXs,
-// // //                   Row(
-// // //                     children: [
-// // //                       const Icon(Icons.star, size: 16, color: Color(0xFFFFB703)),
-// // //                       Text(" $rating", style: AppTextTheme.bodySmall),
-// // //                     ],
-// // //                   ),
-// // //                   AppSpacing.verticalSm,
-// // //                   Text(
-// // //                     price,
-// // //                     style: AppTextTheme.bodyMedium.copyWith(fontWeight: FontWeight.bold, color: AppColors.primary),
-// // //                   ),
-// // //                   AppSpacing.verticalMd,
-// // //                   SizedBox(
-// // //                     width: double.infinity,
-// // //                     child: ElevatedButton(
-// // //                       onPressed: () {},
-// // //                       style: ElevatedButton.styleFrom(
-// // //                         backgroundColor: const Color(0xFF22C55E),
-// // //                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-// // //                         padding: const EdgeInsets.symmetric(vertical: 12),
-// // //                       ),
-// // //                       child: const Text("Enroll Now", style: TextStyle(fontWeight: FontWeight.w600)),
-// // //                     ),
-// // //                   ),
-// // //                 ],
-// // //               ),
-// // //             ),
-// // //           ),
-// // //           IconButton(
-// // //             icon: const Icon(Icons.favorite, color: Colors.red),
-// // //             onPressed: () {},
-// // //           ),
-// // //         ],
-// // //       ),
-// // //     );
-// // //   }
-// // // }
-
-// // // import 'package:flutter/material.dart';
-// // // import 'package:lms_mobileapp/core/constants/app_routes.dart';
-// // // import 'package:lms_mobileapp/core/constants/colors.dart';
-// // // import 'package:lms_mobileapp/core/constants/spacing.dart';
-// // // import 'package:lms_mobileapp/core/constants/text_theme.dart';
-// // // import 'package:lms_mobileapp/shared/widgets/cards/course_card.dart';
-
-// // // class WishlistScreen extends StatelessWidget {
-// // //   const WishlistScreen({super.key});
-
-// // //   @override
-// // //   Widget build(BuildContext context) {
-// // //     return Scaffold(
-// // //       backgroundColor: AppColors.background,
-// // //       appBar: AppBar(
-// // //         backgroundColor: AppColors.background,
-// // //         elevation: 0,
-// // //         title: const Text("EduStream", style: AppTextTheme.headingMD),
-// // //         actions: [
-// // //           IconButton(
-// // //             icon: const Icon(Icons.notifications_none),
-// // //             onPressed: () {},
-// // //           ),
-// // //         ],
-// // //       ),
-// // //       body: ListView(
-// // //         padding: const EdgeInsets.symmetric(horizontal: 16),
-// // //         children: [
-// // //           // Header Section
-// // //           Row(
-// // //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-// // //             children: [
-// // //               const Column(
-// // //                 crossAxisAlignment: CrossAxisAlignment.start,
-// // //                 children: [
-// // //                   Text("3 Saved Courses", style: AppTextTheme.headingLG),
-// // //                   Text("Continue your learning journey", style: AppTextTheme.bodyRegular),
-// // //                 ],
-// // //               ),
-// // //               TextButton(
-// // //                 onPressed: () {},
-// // //                 child: Text(
-// // //                   "Clear all",
-// // //                   style: AppTextTheme.bodyMedium.copyWith(color: AppColors.primary),
-// // //                 ),
-// // //               ),
-// // //             ],
-// // //           ),
-
-// // //           AppSpacing.verticalLg,
-
-// // //           // Saved Courses
-// // //           _buildSavedCourse(
-// // //             title: "Scalable Design Systems for Enterprise",
-// // //             price: "\$89.99",
-// // //             rating: "4.9",
-// // //             imageUrl: "https://images.unsplash.com/photo-1557804506-669a67965ba0",
-// // //           ),
-// // //           _buildSavedCourse(
-// // //             title: "Advanced UX Research Methodologies",
-// // //             price: "\$74.50",
-// // //             rating: "4.8",
-// // //             imageUrl: "https://images.unsplash.com/photo-1518770660439-4636190af475",
-// // //           ),
-// // //           _buildSavedCourse(
-// // //             title: "Full-Stack Development with Next.js 14",
-// // //             price: "\$129.99",
-// // //             rating: "4.6",
-// // //             imageUrl: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97",
-// // //           ),
-
-// // //           AppSpacing.verticalXl,
-
-// // //           // You Might Also Like
-// // //           const Text("You Might Also Like", style: AppTextTheme.headingMD),
-// // //           AppSpacing.verticalMd,
-
-// // //           SizedBox(
-// // //             height: 240,
-// // //             child: ListView.builder(
-// // //               scrollDirection: Axis.horizontal,
-// // //               itemCount: 3,
-// // //               itemBuilder: (context, index) {
-// // //                 return Padding(
-// // //                   padding: const EdgeInsets.only(right: 16),
-// // //                   child: CourseCard(
-// // //                     title: "Product Management",
-// // //                     instructor: "Alex Morgan",
-// // //                     imageUrl: "https://images.unsplash.com/photo-1521737604893-d14cc237f11d",
-// // //                     price: "\$49.99",
-// // //                     progressLabel: "Enroll Now",
-// // //                     onTap: () {
-// // //                       Navigator.pushNamed(context, AppRoutes.courseDetails);
-// // //                     },
-// // //                     onWishlistTap: () {},
-// // //                   ),
-// // //                 );
-// // //               },
-// // //             ),
-// // //           ),
-
-// // //           const SizedBox(height: 100),
-// // //         ],
-// // //       ),
-// // //     );
-// // //   }
-
-// // //   Widget _buildSavedCourse({
-// // //     required String title,
-// // //     required String price,
-// // //     required String rating,
-// // //     required String imageUrl,
-// // //   }) {
-// // //     return Container(
-// // //       margin: const EdgeInsets.only(bottom: 20),
-// // //       decoration: BoxDecoration(
-// // //         color: AppColors.surface,
-// // //         borderRadius: BorderRadius.circular(20),
-// // //       ),
-// // //       child: Row(
-// // //         crossAxisAlignment: CrossAxisAlignment.start,
-// // //         children: [
-// // //           // Course Image
-// // //           Stack(
-// // //             children: [
-// // //               ClipRRect(
-// // //                 borderRadius: const BorderRadius.horizontal(left: Radius.circular(20)),
-// // //                 child: Image.network(
-// // //                   imageUrl,
-// // //                   width: 130,
-// // //                   height: 130,
-// // //                   fit: BoxFit.cover,
-// // //                 ),
-// // //               ),
-// // //               // Heart Icon
-// // //               Positioned(
-// // //                 top: 12,
-// // //                 right: 12,
-// // //                 child: Container(
-// // //                   padding: const EdgeInsets.all(6),
-// // //                   decoration: BoxDecoration(
-// // //                     color: Colors.white,
-// // //                     shape: BoxShape.circle,
-// // //                     boxShadow: [
-// // //                       BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 6),
-// // //                     ],
-// // //                   ),
-// // //                   child: const Icon(Icons.favorite, color: Colors.red, size: 20),
-// // //                 ),
-// // //               ),
-// // //             ],
-// // //           ),
-
-// // //           // Course Info
-// // //           Expanded(
-// // //             child: Padding(
-// // //               padding: const EdgeInsets.all(16),
-// // //               child: Column(
-// // //                 crossAxisAlignment: CrossAxisAlignment.start,
-// // //                 children: [
-// // //                   Text(
-// // //                     title,
-// // //                     maxLines: 2,
-// // //                     overflow: TextOverflow.ellipsis,
-// // //                     style: AppTextTheme.bodyMedium.copyWith(fontWeight: FontWeight.w600, height: 1.3),
-// // //                   ),
-// // //                   AppSpacing.verticalSm,
-// // //                   Row(
-// // //                     children: [
-// // //                       const Icon(Icons.star, size: 16, color: Color(0xFFFFB703)),
-// // //                       const SizedBox(width: 4),
-// // //                       Text(rating, style: AppTextTheme.bodySmall),
-// // //                     ],
-// // //                   ),
-// // //                   AppSpacing.verticalSm,
-// // //                   Text(
-// // //                     price,
-// // //                     style: AppTextTheme.bodyMedium.copyWith(
-// // //                       fontWeight: FontWeight.bold,
-// // //                       color: AppColors.primary,
-// // //                     ),
-// // //                   ),
-// // //                   AppSpacing.verticalMd,
-// // //                   SizedBox(
-// // //                     width: double.infinity,
-// // //                     child: ElevatedButton(
-// // //                       onPressed: () {},
-// // //                       style: ElevatedButton.styleFrom(
-// // //                         backgroundColor: const Color(0xFF22C55E),
-// // //                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-// // //                         padding: const EdgeInsets.symmetric(vertical: 12),
-// // //                       ),
-// // //                       child: const Text(
-// // //                         "Enroll Now",
-// // //                         style: TextStyle(fontWeight: FontWeight.w600, fontSize: 15),
-// // //                       ),
-// // //                     ),
-// // //                   ),
-// // //                 ],
-// // //               ),
-// // //             ),
-// // //           ),
-// // //         ],
-// // //       ),
-// // //     );
-// // //   }
-// // // }
-
-// // import 'package:flutter/material.dart';
-// // import 'package:lms_mobileapp/core/constants/app_routes.dart';
-// // import 'package:lms_mobileapp/core/constants/colors.dart';
-// // import 'package:lms_mobileapp/core/constants/spacing.dart';
-// // import 'package:lms_mobileapp/core/constants/text_theme.dart';
-// // import 'package:lms_mobileapp/shared/widgets/cards/course_card.dart';
-
-// // class WishlistScreen extends StatelessWidget {
-// //   const WishlistScreen({super.key});
-
-// //   @override
-// //   Widget build(BuildContext context) {
-// //     return Scaffold(
-// //       backgroundColor: AppColors.background,
-// //       appBar: AppBar(
-// //         backgroundColor: AppColors.background,
-// //         elevation: 0,
-// //         title: const Text("EduStream", style: AppTextTheme.headingMD),
-// //         actions: [
-// //           IconButton(
-// //             icon: const Icon(Icons.notifications_none),
-// //             onPressed: () {},
-// //           ),
-// //         ],
-// //       ),
-// //       body: ListView(
-// //         padding: const EdgeInsets.symmetric(horizontal: 16),
-// //         children: [
-// //           // Title Section
-// //           Row(
-// //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-// //             crossAxisAlignment: CrossAxisAlignment.end,
-// //             children: [
-// //               const Column(
-// //                 crossAxisAlignment: CrossAxisAlignment.start,
-// //                 children: [
-// //                   Text("3 Saved Courses", style: AppTextTheme.headingLG),
-// //                   Text("Continue your learning journey", style: AppTextTheme.bodyRegular),
-// //                 ],
-// //               ),
-// //               TextButton(
-// //                 onPressed: () {},
-// //                 child: Text(
-// //                   "Clear all",
-// //                   style: AppTextTheme.bodyMedium.copyWith(color: AppColors.primary),
-// //                 ),
-// //               ),
-// //             ],
-// //           ),
-
-// //           AppSpacing.verticalLg,
-
-// //           // Saved Courses
-// //           _buildSavedCourseCard(
-// //             title: "Scalable Design Systems for Enterprise",
-// //             price: "\$89.99",
-// //             rating: "4.9",
-// //             imageUrl: "https://images.unsplash.com/photo-1557804506-669a67965ba0",
-// //           ),
-// //           _buildSavedCourseCard(
-// //             title: "Advanced UX Research Methodologies",
-// //             price: "\$74.50",
-// //             rating: "4.8",
-// //             imageUrl: "https://images.unsplash.com/photo-1518770660439-4636190af475",
-// //           ),
-// //           _buildSavedCourseCard(
-// //             title: "Full-Stack Development with Next.js 14",
-// //             price: "\$129.99",
-// //             rating: "5.0",
-// //             imageUrl: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97",
-// //           ),
-
-// //           AppSpacing.verticalXl,
-
-// //           // You Might Also Like
-// //           const Text("You Might Also Like", style: AppTextTheme.headingMD),
-// //           AppSpacing.verticalMd,
-
-// //           SizedBox(
-// //             height: 220,
-// //             child: ListView.builder(
-// //               scrollDirection: Axis.horizontal,
-// //               itemCount: 3,
-// //               itemBuilder: (context, index) {
-// //                 return Padding(
-// //                   padding: const EdgeInsets.only(right: 16),
-// //                   child: SizedBox(
-// //                     width: 160,
-// //                     child: CourseCard(
-// //                       title: "Product Management",
-// //                       instructor: "Alex Morgan",
-// //                       imageUrl: "https://images.unsplash.com/photo-1521737604893-d14cc237f11d",
-// //                       price: "\$49.99",
-// //                       progressLabel: "Enroll Now",
-// //                       onTap: () {
-// //                         Navigator.pushNamed(context, AppRoutes.courseDetails);
-// //                       },
-// //                       onWishlistTap: () {},
-// //                     ),
-// //                   ),
-// //                 );
-// //               },
-// //             ),
-// //           ),
-
-// //           const SizedBox(height: 80),
-// //         ],
-// //       ),
-// //     );
-// //   }
-
-// //   Widget _buildSavedCourseCard({
-// //     required String title,
-// //     required String price,
-// //     required String rating,
-// //     required String imageUrl,
-// //   }) {
-// //     return Container(
-// //       margin: const EdgeInsets.only(bottom: 20),
-// //       decoration: BoxDecoration(
-// //         color: AppColors.surface,
-// //         borderRadius: BorderRadius.circular(20),
-// //       ),
-// //       child: Column(
-// //         crossAxisAlignment: CrossAxisAlignment.start,
-// //         children: [
-// //           Stack(
-// //             children: [
-// //               ClipRRect(
-// //                 borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
-// //                 child: Image.network(
-// //                   imageUrl,
-// //                   height: 180,
-// //                   width: double.infinity,
-// //                   fit: BoxFit.cover,
-// //                   errorBuilder: (_, __, ___) => Container(
-// //                     height: 180,
-// //                     color: AppColors.grey100,
-// //                     child: const Icon(Icons.image_not_supported, size: 50),
-// //                   ),
-// //                 ),
-// //               ),
-// //               Positioned(
-// //                 top: 12,
-// //                 right: 12,
-// //                 child: Container(
-// //                   padding: const EdgeInsets.all(8),
-// //                   decoration: BoxDecoration(
-// //                     color: Colors.white,
-// //                     shape: BoxShape.circle,
-// //                     boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.15), blurRadius: 8)],
-// //                   ),
-// //                   child: const Icon(Icons.favorite, color: Colors.red, size: 22),
-// //                 ),
-// //               ),
-// //             ],
-// //           ),
-// //           Padding(
-// //             padding: const EdgeInsets.all(16),
-// //             child: Column(
-// //               crossAxisAlignment: CrossAxisAlignment.start,
-// //               children: [
-// //                 Text(
-// //                   title,
-// //                   maxLines: 2,
-// //                   overflow: TextOverflow.ellipsis,
-// //                   style: AppTextTheme.bodyMedium.copyWith(fontWeight: FontWeight.w600),
-// //                 ),
-// //                 AppSpacing.verticalSm,
-// //                 Row(
-// //                   children: [
-// //                     const Icon(Icons.star, size: 18, color: Color(0xFFFFB703)),
-// //                     const SizedBox(width: 6),
-// //                     Text(rating, style: AppTextTheme.bodyMedium),
-// //                   ],
-// //                 ),
-// //                 AppSpacing.verticalSm,
-// //                 Text(
-// //                   price,
-// //                   style: AppTextTheme.headingMD.copyWith(fontWeight: FontWeight.bold, color: AppColors.primary),
-// //                 ),
-// //                 AppSpacing.verticalMd,
-// //                 SizedBox(
-// //                   width: double.infinity,
-// //                   child: ElevatedButton(
-// //                     onPressed: () {},
-// //                     style: ElevatedButton.styleFrom(
-// //                       backgroundColor: const Color(0xFF22C55E),
-// //                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-// //                       padding: const EdgeInsets.symmetric(vertical: 14),
-// //                     ),
-// //                     child: const Text(
-// //                       "Enroll Now",
-// //                       style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
-// //                     ),
-// //                   ),
-// //                 ),
-// //               ],
-// //             ),
-// //           ),
-// //         ],
-// //       ),
-// //     );
-// //   }
-// // }
-
-// import 'package:flutter/material.dart';
-// import 'package:lms_mobileapp/core/constants/app_routes.dart';
-// import 'package:lms_mobileapp/core/constants/colors.dart';
-// import 'package:lms_mobileapp/core/constants/spacing.dart';
-// import 'package:lms_mobileapp/core/constants/text_theme.dart';
-// import 'package:lms_mobileapp/shared/widgets/cards/course_card.dart';
-
-// class WishlistScreen extends StatefulWidget {
-//   const WishlistScreen({super.key});
-
-//   @override
-//   State<WishlistScreen> createState() => _WishlistScreenState();
-// }
-
-// class _WishlistScreenState extends State<WishlistScreen> {
-//   // Sample saved courses
-//   List<Map<String, String>> savedCourses = [
-//     {
-//       "title": "Scalable Design Systems for Enterprise",
-//       "price": "\$89.99",
-//       "rating": "4.9",
-//       "imageUrl": "https://images.unsplash.com/photo-1557804506-669a67965ba0",
-//     },
-//     {
-//       "title": "Advanced UX Research Methodologies",
-//       "price": "\$74.50",
-//       "rating": "4.8",
-//       "imageUrl": "https://images.unsplash.com/photo-1518770660439-4636190af475",
-//     },
-//     {
-//       "title": "Full-Stack Development with Next.js 14",
-//       "price": "\$129.99",
-//       "rating": "5.0",
-//       "imageUrl": "https://images.unsplash.com/photo-1517694712202-14dd9538aa97",
-//     },
-//   ];
-
-//   void _removeFromWishlist(int index) {
-//     setState(() {
-//       savedCourses.removeAt(index);
-//     });
-//     ScaffoldMessenger.of(context).showSnackBar(
-//       const SnackBar(content: Text("Removed from wishlist")),
-//     );
-//   }
-
-//   void _addToWishlist(String title) {
-//     ScaffoldMessenger.of(context).showSnackBar(
-//       SnackBar(content: Text("$title added to wishlist")),
-//     );
-//     // In real app, you would add to the saved list here
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       backgroundColor: AppColors.background,
-//       appBar: AppBar(
-//         backgroundColor: AppColors.background,
-//         elevation: 0,
-//         title: const Text("EduStream", style: AppTextTheme.headingMD),
-//         actions: [
-//           IconButton(
-//             icon: const Icon(Icons.notifications_none),
-//             onPressed: () {},
-//           ),
-//         ],
-//       ),
-//       body: ListView(
-//         padding: const EdgeInsets.symmetric(horizontal: 16),
-//         children: [
-//           // Header
-//           Row(
-//             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//             crossAxisAlignment: CrossAxisAlignment.end,
-//             children: [
-//               Column(
-//                 crossAxisAlignment: CrossAxisAlignment.start,
-//                 children: [
-//                   Text("3 Saved Courses", style: AppTextTheme.headingLG),
-//                   const Text("Continue your learning journey", style: AppTextTheme.bodyRegular),
-//                 ],
-//               ),
-//               TextButton(
-//                 onPressed: () {
-//                   setState(() => savedCourses.clear());
-//                 },
-//                 child: Text("Clear all", style: AppTextTheme.bodyMedium.copyWith(color: AppColors.primary)),
-//               ),
-//             ],
-//           ),
-
-//           AppSpacing.verticalLg,
-
-//           // Saved Courses
-//           ...List.generate(savedCourses.length, (index) {
-//             final course = savedCourses[index];
-//             return _buildSavedCourseCard(
-//               title: course["title"]!,
-//               price: course["price"]!,
-//               rating: course["rating"]!,
-//               imageUrl: course["imageUrl"]!,
-//               onRemove: () => _removeFromWishlist(index),
-//             );
-//           }),
-
-//           AppSpacing.verticalXl,
-
-//           // You Might Also Like
-//           const Text("You Might Also Like", style: AppTextTheme.headingMD),
-//           AppSpacing.verticalMd,
-
-//           SizedBox(
-//             height: 245, // Increased height to prevent overflow
-//             child: ListView.builder(
-//               scrollDirection: Axis.horizontal,
-//               itemCount: 3,
-//               itemBuilder: (context, index) {
-//                 return Padding(
-//                   padding: const EdgeInsets.only(right: 16),
-//                   child: SizedBox(
-//                     width: 170,
-//                     child: CourseCard(
-//                       title: "Product Management",
-//                       instructor: "Alex Morgan",
-//                       imageUrl: "https://images.unsplash.com/photo-1521737604893-d14cc237f11d",
-//                       price: "\$49.99",
-//                       progressLabel: "Enroll Now",
-//                       onTap: () {
-//                         Navigator.pushNamed(context, AppRoutes.courseDetails);
-//                       },
-//                       onWishlistTap: () => _addToWishlist("Product Management"),
-//                     ),
-//                   ),
-//                 );
-//               },
-//             ),
-//           ),
-
-//           const SizedBox(height: 100),
-//         ],
-//       ),
-//     );
-//   }
-
-//   Widget _buildSavedCourseCard({
-//     required String title,
-//     required String price,
-//     required String rating,
-//     required String imageUrl,
-//     required VoidCallback onRemove,
-//   }) {
-//     return Container(
-//       margin: const EdgeInsets.only(bottom: 20),
-//       decoration: BoxDecoration(
-//         color: AppColors.surface,
-//         borderRadius: BorderRadius.circular(20),
-//       ),
-//       child: Column(
-//         crossAxisAlignment: CrossAxisAlignment.start,
-//         children: [
-//           Stack(
-//             children: [
-//               ClipRRect(
-//                 borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
-//                 child: Image.network(
-//                   imageUrl,
-//                   height: 180,
-//                   width: double.infinity,
-//                   fit: BoxFit.cover,
-//                   errorBuilder: (_, __, ___) => Container(
-//                     height: 180,
-//                     color: AppColors.grey100,
-//                     child: const Icon(Icons.image_not_supported, size: 50),
-//                   ),
-//                 ),
-//               ),
-//               Positioned(
-//                 top: 12,
-//                 right: 12,
-//                 child: GestureDetector(
-//                   onTap: onRemove,
-//                   child: Container(
-//                     padding: const EdgeInsets.all(8),
-//                     decoration: BoxDecoration(
-//                       color: Colors.white,
-//                       shape: BoxShape.circle,
-//                       boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.15), blurRadius: 8)],
-//                     ),
-//                     child: const Icon(Icons.favorite, color: Colors.red, size: 22),
-//                   ),
-//                 ),
-//               ),
-//             ],
-//           ),
-//           Padding(
-//             padding: const EdgeInsets.all(16),
-//             child: Column(
-//               crossAxisAlignment: CrossAxisAlignment.start,
-//               children: [
-//                 Text(
-//                   title,
-//                   maxLines: 2,
-//                   overflow: TextOverflow.ellipsis,
-//                   style: AppTextTheme.bodyMedium.copyWith(fontWeight: FontWeight.w600),
-//                 ),
-//                 AppSpacing.verticalSm,
-//                 Row(
-//                   children: [
-//                     const Icon(Icons.star, size: 18, color: Color(0xFFFFB703)),
-//                     const SizedBox(width: 6),
-//                     Text(rating, style: AppTextTheme.bodyMedium),
-//                   ],
-//                 ),
-//                 AppSpacing.verticalSm,
-//                 Text(
-//                   price,
-//                   style: AppTextTheme.headingMD.copyWith(fontWeight: FontWeight.bold, color: AppColors.primary),
-//                 ),
-//                 AppSpacing.verticalMd,
-//                 SizedBox(
-//                   width: double.infinity,
-//                   child: ElevatedButton(
-//                     onPressed: () {},
-//                     style: ElevatedButton.styleFrom(
-//                       backgroundColor: const Color(0xFF22C55E),
-//                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-//                       padding: const EdgeInsets.symmetric(vertical: 14),
-//                     ),
-//                     child: const Text(
-//                       "Enroll Now",
-//                       style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
-//                     ),
-//                   ),
-//                 ),
-//               ],
-//             ),
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-// }
-
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lms_mobileapp/core/constants/app_routes.dart';
 import 'package:lms_mobileapp/core/constants/colors.dart';
-import 'package:lms_mobileapp/core/constants/spacing.dart';
 import 'package:lms_mobileapp/core/constants/text_theme.dart';
-import 'package:lms_mobileapp/shared/widgets/cards/course_card.dart';
+import 'package:lms_mobileapp/features/Trainee/presentation/bloc/wishlist/wishlist_bloc.dart';
+import 'package:lms_mobileapp/features/Trainee/presentation/bloc/wishlist/wishlist_event.dart';
+import 'package:lms_mobileapp/features/Trainee/presentation/bloc/wishlist/wishlist_state.dart';
+import 'package:lms_mobileapp/shared/widgets/buttons/primary_button.dart';
 
-class WishlistScreen extends StatefulWidget {
+class WishlistScreen extends StatelessWidget {
   const WishlistScreen({super.key});
-
-  @override
-  State<WishlistScreen> createState() => _WishlistScreenState();
-}
-
-class _WishlistScreenState extends State<WishlistScreen> {
-  List<Map<String, String>> savedCourses = [
-    {"title": "Scalable Design Systems for Enterprise", "price": "\$89.99", "rating": "4.9", "imageUrl": "https://images.unsplash.com/photo-1557804506-669a67965ba0"},
-    {"title": "Advanced UX Research Methodologies", "price": "\$74.50", "rating": "4.8", "imageUrl": "https://images.unsplash.com/photo-1518770660439-4636190af475"},
-    {"title": "Full-Stack Development with Next.js 14", "price": "\$129.99", "rating": "5.0", "imageUrl": "https://images.unsplash.com/photo-1517694712202-14dd9538aa97"},
-  ];
-
-  void _removeFromWishlist(int index) {
-    setState(() => savedCourses.removeAt(index));
-  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
-        backgroundColor: AppColors.background,
-        elevation: 0,
-        title: const Text("EduStream", style: AppTextTheme.headingMD),
+        title: const Text('Saved Courses', style: AppTextTheme.headingMD),
         actions: [
-          IconButton(icon: const Icon(Icons.notifications_none), onPressed: () {}),
+          BlocBuilder<WishlistBloc, WishlistState>(
+            builder: (context, state) => TextButton(
+              onPressed: state.courses.isEmpty
+                  ? null
+                  : () => context.read<WishlistBloc>().add(const WishlistCleared()),
+              child: Text('Clear all', style: AppTextTheme.bodyMedium.copyWith(color: AppColors.primary)),
+            ),
+          ),
         ],
       ),
-      body: ListView(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              const Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text("3 Saved Courses", style: AppTextTheme.headingLG),
-                  Text("Continue your learning journey", style: AppTextTheme.bodyRegular),
-                ],
+      body: BlocBuilder<WishlistBloc, WishlistState>(
+        builder: (context, state) {
+          if (state.isLoading) return const Center(child: CircularProgressIndicator());
+          if (state.courses.isEmpty) {
+            return const Center(
+              child: Text(
+                'No saved courses yet.\nTap the heart icon to save one.',
+                textAlign: TextAlign.center,
               ),
-              TextButton(
-                onPressed: () => setState(() => savedCourses.clear()),
-                child: Text("Clear all", style: AppTextTheme.bodyMedium.copyWith(color: AppColors.primary)),
-              ),
-            ],
-          ),
-
-          AppSpacing.verticalLg,
-
-          ...List.generate(savedCourses.length, (index) {
-            final course = savedCourses[index];
-            return _buildSavedCourseCard(
-              title: course["title"]!,
-              price: course["price"]!,
-              rating: course["rating"]!,
-              imageUrl: course["imageUrl"]!,
-              onRemove: () => _removeFromWishlist(index),
             );
-          }),
-
-          AppSpacing.verticalXl,
-
-          const Text("You Might Also Like", style: AppTextTheme.headingMD),
-          AppSpacing.verticalMd,
-
-          SizedBox(
-            height: 260, // Increased to avoid overflow
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: 3,
-              itemBuilder: (context, index) {
-                return Padding(
-                  padding: const EdgeInsets.only(right: 16),
-                  child: SizedBox(
-                    width: 170,
-                    child:SingleChildScrollView(
-                      physics: const NeverScrollableScrollPhysics(),
-                      child: CourseCard(
-                      title: "Product Management",
-                      instructor: "Alex Morgan",
-                      imageUrl: "https://images.unsplash.com/photo-1521737604893-d14cc237f11d",
-                      price: "\$49.99",
-                      progressLabel: "Enroll Now",
-                      // onTap: () {
-                      //   Navigator.pushNamed(context, AppRoutes.courseDetails);
-                      // },
-                      onWishlistTap: () {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text("Added to Wishlist")),
-                        );
-                      },
+          }
+          return ListView.separated(
+            padding: const EdgeInsets.fromLTRB(16, 10, 16, 120),
+            itemCount: state.courses.length,
+            separatorBuilder: (context, index) => const SizedBox(height: 14),
+            itemBuilder: (context, index) {
+              final course = state.courses[index];
+              return Container(
+                decoration: BoxDecoration(
+                  color: AppColors.surface,
+                  borderRadius: BorderRadius.circular(18),
+                  boxShadow: const [BoxShadow(color: Color(0x14000000), blurRadius: 14, offset: Offset(0, 8))],
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    ClipRRect(
+                      borderRadius: const BorderRadius.vertical(top: Radius.circular(18)),
+                      child: CachedNetworkImage(
+                        imageUrl: course.imageUrl,
+                        height: 154,
+                        width: double.infinity,
+                        fit: BoxFit.cover,
+                        errorWidget: (context, url, error) => const ColoredBox(
+                          color: AppColors.grey300,
+                          child: SizedBox(height: 154),
+                        ),
+                      ),
                     ),
-                  ),
-                 ) );
-              },
-            ),
-          ),
-
-          const SizedBox(height: 120), // Extra space at bottom
-        ],
-      ),
-    );
-  }
-
-  Widget _buildSavedCourseCard({
-    required String title,
-    required String price,
-    required String rating,
-    required String imageUrl,
-    required VoidCallback onRemove,
-  }) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 20),
-      decoration: BoxDecoration(
-        color: AppColors.surface,
-        borderRadius: BorderRadius.circular(20),
-      ),
-      child: Column(
-        children: [
-          Stack(
-            children: [
-              ClipRRect(
-                borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
-                child: Image.network(
-                  imageUrl,
-                  height: 180,
-                  width: double.infinity,
-                  fit: BoxFit.cover,
-                  errorBuilder: (_, __, ___) => Container(height: 180, color: AppColors.grey100),
+                    Padding(
+                      padding: const EdgeInsets.all(14),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(course.title, style: AppTextTheme.bodyMedium.copyWith(fontWeight: FontWeight.w700)),
+                          const SizedBox(height: 6),
+                          Text(course.instructor, style: AppTextTheme.bodySmall),
+                          const SizedBox(height: 6),
+                          Text(course.price, style: AppTextTheme.bodyMedium.copyWith(color: AppColors.primary)),
+                          const SizedBox(height: 12),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: PrimaryButton(
+                                  text: 'Enroll Now',
+                                  onPressed: () => Navigator.pushNamed(context, AppRoutes.courseDetails),
+                                  height: 46,
+                                  radius: 14,
+                                ),
+                              ),
+                              const SizedBox(width: 10),
+                              IconButton.filledTonal(
+                                onPressed: () => context.read<WishlistBloc>().add(WishlistToggled(course)),
+                                icon: const Icon(Icons.favorite, color: Color(0xFFEF4444)),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
-              ),
-              Positioned(
-                top: 12,
-                right: 12,
-                child: GestureDetector(
-                  onTap: onRemove,
-                  child: Container(
-                    padding: const EdgeInsets.all(8),
-                    decoration: const BoxDecoration(color: Colors.white, shape: BoxShape.circle),
-                    child: const Icon(Icons.favorite, color: Colors.red, size: 22),
-                  ),
-                ),
-              ),
-            ],
-          ),
-          Padding(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(title, maxLines: 2, overflow: TextOverflow.ellipsis, style: AppTextTheme.bodyMedium.copyWith(fontWeight: FontWeight.w600)),
-                AppSpacing.verticalSm,
-                Row(children: [const Icon(Icons.star, size: 18, color: Color(0xFFFFB703)), Text(" $rating")]),
-                AppSpacing.verticalSm,
-                Text(price, style: AppTextTheme.headingMD.copyWith(fontWeight: FontWeight.bold, color: AppColors.primary)),
-                AppSpacing.verticalMd,
-                SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    onPressed: () {},
-                    style: ElevatedButton.styleFrom(backgroundColor: const Color(0xFF22C55E), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)), padding: const EdgeInsets.symmetric(vertical: 14)),
-                    child: const Text("Enroll Now", style: TextStyle(fontWeight: FontWeight.w600)),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
+              );
+            },
+          );
+        },
       ),
     );
   }

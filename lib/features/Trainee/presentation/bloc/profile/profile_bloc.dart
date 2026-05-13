@@ -21,7 +21,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         fullName: "Elena Rodriguez",
         email: "elena.rodriguez@lumina.edu",
         bio: "Aspiring digital architect with a passion for sustainable design and interactive learning environments.",
-        avatarUrl: "https://i.pravatar.cc/150?img=32",
+        avatarUrl: "https://ui-avatars.com/api/?name=Elena+Rodriguez&background=23C55E&color=ffffff&size=256",
         coursesEnrolled: 12,
         certificates: 8,
         gpa: 3.8,

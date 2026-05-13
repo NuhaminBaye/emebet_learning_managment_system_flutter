@@ -10,28 +10,28 @@ class AppTextTheme {
   );
 
   static const TextStyle headingLG = TextStyle(
-    fontSize: 24,
-    fontWeight: FontWeight.bold,
-    height: 1.3,
-    letterSpacing: -0.3,
+    fontSize: 28,
+    fontWeight: FontWeight.w700,
+    height: 1.24,
+    letterSpacing: -0.4,
   );
 
   static const TextStyle headingMD = TextStyle(
-    fontSize: 18,
-    fontWeight: FontWeight.w500,
-    height: 1.4,
+    fontSize: 20,
+    fontWeight: FontWeight.w700,
+    height: 1.35,
   );
 
   // Body Styles
   static const TextStyle bodyRegular = TextStyle(
     fontSize: 16,
     fontWeight: FontWeight.normal,
-    height: 1.5,
+    height: 1.45,
   );
 
   static const TextStyle bodyMedium = TextStyle(
     fontSize: 14,
-    fontWeight: FontWeight.normal,
+    fontWeight: FontWeight.w500,
     height: 1.4,
   );
 

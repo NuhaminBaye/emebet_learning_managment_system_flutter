@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:lms_mobileapp/core/constants/colors.dart';
 import 'package:lms_mobileapp/core/constants/spacing.dart';
 import 'package:lms_mobileapp/core/constants/text_theme.dart';
+import 'package:lms_mobileapp/core/theme/app_radius.dart';
+import 'package:lms_mobileapp/shared/widgets/buttons/primary_button.dart';
+import 'package:lms_mobileapp/shared/widgets/cards/assignment_requirement_card.dart';
 
 class AssignmentScreen extends StatelessWidget {
   const AssignmentScreen({super.key});
@@ -12,12 +16,8 @@ class AssignmentScreen extends StatelessWidget {
       backgroundColor: AppColors.background,
       appBar: AppBar(
         backgroundColor: AppColors.background,
-        elevation: 0,
+        surfaceTintColor: Colors.transparent,
         title: const Text("Assignment", style: AppTextTheme.headingMD),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () => Navigator.pop(context),
-        ),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
@@ -25,7 +25,7 @@ class AssignmentScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // Header
-            const Text("Assignment:", style: TextStyle(fontSize: 16, color: Colors.grey)),
+            Text("ASSIGNMENT", style: AppTextTheme.bodySmall.copyWith(letterSpacing: 1, color: AppColors.textSecondary)),
             const Text("Site Design Proposal", style: AppTextTheme.headingLG),
             const Text("Sept 30, 2025", style: AppTextTheme.bodyMedium),
 
@@ -44,20 +44,27 @@ class AssignmentScreen extends StatelessWidget {
             // Submission Requirements
             const Text("Submission Requirements", style: AppTextTheme.headingMD),
             AppSpacing.verticalSm,
-            _buildRequirementItem("Three page PDF document detailing the conceptual framework."),
-            _buildRequirementItem("High-resolution site section (1:200 scale in TIFF or PDF format)."),
-            _buildRequirementItem("Vegetation and materiality legend (Physical model photos accepted)."),
+            const AssignmentRequirementCard(
+              text: "Three page PDF document detailing the conceptual framework.",
+            ),
+            const AssignmentRequirementCard(
+              text: "High-resolution site section (1:200 scale in TIFF or PDF format).",
+            ),
+            const AssignmentRequirementCard(
+              text: "Vegetation and materiality legend (Physical model photos accepted).",
+            ),
 
             AppSpacing.verticalLg,
 
             // Image
             ClipRRect(
-              borderRadius: BorderRadius.circular(16),
-              child: Image.network(
-                "https://images.unsplash.com/photo-1480714378408-67c0a6c0e0c7",
+              borderRadius: BorderRadius.circular(AppRadius.md),
+              child: CachedNetworkImage(
+                imageUrl: "https://images.unsplash.com/photo-1480714378408-67c0a6c0e0c7",
                 height: 200,
                 width: double.infinity,
                 fit: BoxFit.cover,
+                errorWidget: (context, url, error) => const ColoredBox(color: AppColors.grey300),
               ),
             ),
             const Text("Site Analysis Perspective", style: AppTextTheme.bodySmall, textAlign: TextAlign.center),
@@ -72,7 +79,7 @@ class AssignmentScreen extends StatelessWidget {
               width: double.infinity,
               decoration: BoxDecoration(
                 color: AppColors.surface,
-                borderRadius: BorderRadius.circular(16),
+                borderRadius: BorderRadius.circular(AppRadius.md),
                 border: Border.all(color: AppColors.grey200),
               ),
               child: Column(
@@ -98,36 +105,16 @@ class AssignmentScreen extends StatelessWidget {
             AppSpacing.verticalLg,
 
             // Submit Button
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: () {},
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF22C55E),
-                  padding: const EdgeInsets.symmetric(vertical: 18),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-                ),
-                child: const Text("Submit Assignment", style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
-              ),
+            PrimaryButton(
+              text: "Submit Assignment",
+              onPressed: () {},
+              height: 52,
+              radius: AppRadius.md,
             ),
 
             AppSpacing.verticalLg,
           ],
         ),
-      ),
-    );
-  }
-
-  Widget _buildRequirementItem(String text) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 12),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Icon(Icons.check_circle, color: Colors.green, size: 20),
-          AppSpacing.horizontalSm,
-          Expanded(child: Text(text, style: AppTextTheme.bodyRegular)),
-        ],
       ),
     );
   }

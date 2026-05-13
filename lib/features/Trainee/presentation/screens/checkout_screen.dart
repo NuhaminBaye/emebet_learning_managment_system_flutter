@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:lms_mobileapp/core/constants/colors.dart';
 import 'package:lms_mobileapp/core/constants/spacing.dart';
 import 'package:lms_mobileapp/core/constants/text_theme.dart';
+import 'package:lms_mobileapp/shared/widgets/buttons/primary_button.dart';
 
 class CheckoutScreen extends StatefulWidget {
   const CheckoutScreen({super.key});
@@ -19,20 +21,20 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       backgroundColor: AppColors.background,
       appBar: AppBar(
         backgroundColor: AppColors.background,
-        elevation: 0,
+        surfaceTintColor: Colors.transparent,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () => Navigator.pop(context),
         ),
-        title: const Text("Checkout", style: AppTextTheme.headingMD),
-        centerTitle: true,
+        title: const Text("The Atelier", style: AppTextTheme.headingMD),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Course Card
+            const Text('Checkout', style: AppTextTheme.bodyMedium),
+            AppSpacing.verticalSm,
             Container(
               decoration: BoxDecoration(
                 color: AppColors.surface,
@@ -42,11 +44,12 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                 children: [
                   ClipRRect(
                     borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
-                    child: Image.network(
-                      "https://images.unsplash.com/photo-1480714378408-67c0a6c0e0c7",
-                      height: 180,
+                    child: CachedNetworkImage(
+                      imageUrl: "https://picsum.photos/seed/checkout-course/900/420",
+                      height: 150,
                       width: double.infinity,
                       fit: BoxFit.cover,
+                      errorWidget: (context, url, error) => const ColoredBox(color: AppColors.grey300),
                     ),
                   ),
                   Padding(
@@ -78,15 +81,19 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
             AppSpacing.verticalLg,
 
             // Payment Method
-            const Text("Payment Method", style: AppTextTheme.headingMD),
-            AppSpacing.verticalSm,
-            const Text("SECURE", style: TextStyle(color: Colors.green, fontWeight: FontWeight.w600)),
+            Row(
+              children: [
+                const Text("Payment Method", style: AppTextTheme.headingMD),
+                const Spacer(),
+                Text("SECURE", style: AppTextTheme.bodySmall.copyWith(color: AppColors.primary, fontWeight: FontWeight.w700)),
+              ],
+            ),
 
             AppSpacing.verticalMd,
 
-            _buildPaymentOption("Telebirr", "Mobile Wallet Payment", "assets/icons/telebirr.png", true),
-            _buildPaymentOption("Stripe", "Credit or Debit Card", "assets/icons/stripe.png", false),
-            _buildPaymentOption("PayPal", "Express Checkout", "assets/icons/paypal.png", false),
+            _buildPaymentOption("Telebirr", "Mobile Wallet Payment"),
+            _buildPaymentOption("Stripe", "Credit or Debit Card"),
+            _buildPaymentOption("PayPal", "Express Checkout"),
 
             AppSpacing.verticalLg,
 
@@ -119,10 +126,10 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                       ElevatedButton(
                         onPressed: () {},
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColors.primary,
+                          backgroundColor: AppColors.grey100,
                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                         ),
-                        child: const Text("Apply"),
+                        child: const Text("Apply", style: TextStyle(color: AppColors.primary)),
                       ),
                     ],
                   ),
@@ -140,20 +147,10 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
             AppSpacing.verticalLg,
 
             // Pay Now Button
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: () {},
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF22C55E),
-                  padding: const EdgeInsets.symmetric(vertical: 18),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-                ),
-                child: const Text(
-                  "Pay Now →",
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
-                ),
-              ),
+            PrimaryButton(
+              text: "Pay Now",
+              onPressed: () {},
+              icon: const Icon(Icons.arrow_forward_rounded, color: Colors.white, size: 18),
             ),
 
             AppSpacing.verticalLg,
@@ -173,8 +170,11 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     );
   }
 
-  Widget _buildPaymentOption(String title, String subtitle, String iconPath, bool isSelected) {
-    return Container(
+  Widget _buildPaymentOption(String title, String subtitle) {
+    final isSelected = selectedPayment == title;
+    return GestureDetector(
+      onTap: () => setState(() => selectedPayment = title),
+      child: Container(
       margin: const EdgeInsets.only(bottom: 12),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -212,7 +212,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
           ),
         ],
       ),
-    );
+    ));
   }
 
   Widget _buildSummaryRow(String label, String amount, {bool isBold = false, bool isDiscount = false}) {

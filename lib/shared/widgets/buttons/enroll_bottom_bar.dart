@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lms_mobileapp/core/constants/app_routes.dart';
-import 'package:lms_mobileapp/core/constants/colors.dart';
+import 'package:lms_mobileapp/core/theme/app_shadows.dart';
+import 'package:lms_mobileapp/shared/widgets/buttons/primary_button.dart';
 
 class EnrollBottomBar extends StatelessWidget {
   final String price;
@@ -14,30 +15,13 @@ class EnrollBottomBar extends StatelessWidget {
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
           color: Colors.white,
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.08),
-              blurRadius: 12,
-              offset: const Offset(0, -4),
-            ),
-          ],
+          boxShadow: const [AppShadows.topBar],
         ),
-        child: ElevatedButton(
+        child: PrimaryButton(
+          text: "Enroll Now - $price",
+          height: 52,
+          radius: 18,
           onPressed: () => Navigator.pushNamed(context, AppRoutes.checkOut),
-          style: ElevatedButton.styleFrom(
-            backgroundColor: const Color(0xFF22C55E),
-            padding: const EdgeInsets.symmetric(vertical: 18),
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-            elevation: 0,
-          ),
-          child: Text(
-            "Enroll Now - $price",
-            style: const TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.w700,
-              color: Colors.white,
-            ),
-          ),
         ),
       ),
     );

@@ -267,20 +267,12 @@
 //   }
 // }
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:lms_mobileapp/core/constants/app_routes.dart';
 import 'package:lms_mobileapp/core/constants/colors.dart';
 import 'package:lms_mobileapp/core/constants/text_theme.dart';
 
-class CourseCard extends StatefulWidget {
-  final String title;
-  final String instructor;
-  final String imageUrl;
-  final String price;
-  final String progressLabel;
-  final String? courseId; // Optional: for future dynamic routing
-  final VoidCallback? onWishlistTap;
-
+class CourseCard extends StatelessWidget {
   const CourseCard({
     super.key,
     required this.title,
@@ -288,142 +280,113 @@ class CourseCard extends StatefulWidget {
     required this.imageUrl,
     required this.price,
     required this.progressLabel,
-    this.courseId,
-    this.onWishlistTap,
+    required this.isWishlisted,
+    required this.onTap,
+    required this.onWishlistTap,
   });
 
-  @override
-  State<CourseCard> createState() => _CourseCardState();
-}
-
-class _CourseCardState extends State<CourseCard> {
-  bool _isWishlisted = false;
-
-  void _toggleWishlist() {
-    setState(() => _isWishlisted = !_isWishlisted);
-    widget.onWishlistTap?.call();
-  }
-
-  void _navigateToCourseDetail() {
-    Navigator.pushNamed(context, AppRoutes.courseDetails);
-    // In future: Navigator.pushNamed(context, AppRoutes.courseDetail(widget.courseId!));
-  }
+  final String title;
+  final String instructor;
+  final String imageUrl;
+  final String price;
+  final String progressLabel;
+  final bool isWishlisted;
+  final VoidCallback onTap;
+  final VoidCallback onWishlistTap;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: _navigateToCourseDetail,   // ← Main card tap navigates
+      onTap: onTap,
       child: Container(
-        width: 220,
-        margin: const EdgeInsets.only(right: 16),
+        width: 172,
+        margin: const EdgeInsets.only(right: 12),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20),
           color: AppColors.surface,
-          boxShadow: [
+          borderRadius: BorderRadius.circular(20),
+          boxShadow: const [
             BoxShadow(
-              color: Colors.black.withOpacity(0.06),
-              blurRadius: 12,
-              offset: const Offset(0, 6),
+              color: Color(0x12000000),
+              blurRadius: 18,
+              offset: Offset(0, 10),
             ),
           ],
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Image with Heart Icon
             Stack(
               children: [
                 ClipRRect(
                   borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
-                  child: Image.network(
-                    widget.imageUrl,
-                    height: 140,
+                  child: CachedNetworkImage(
+                    imageUrl: imageUrl,
+                    height: 112,
                     width: double.infinity,
                     fit: BoxFit.cover,
-                    errorBuilder: (context, error, stackTrace) => Container(
-                      height: 140,
+                    placeholder: (_, __) => Container(color: AppColors.grey100),
+                    errorWidget: (_, __, ___) => Container(
                       color: AppColors.grey100,
-                      child: const Icon(Icons.image_not_supported, size: 40, color: Colors.grey),
+                      alignment: Alignment.center,
+                      child: const Icon(Icons.broken_image_outlined, color: AppColors.grey400),
                     ),
                   ),
                 ),
-                // Heart Icon (Only heart tap, not whole card)
                 Positioned(
-                  top: 12,
-                  right: 12,
-                  child: GestureDetector(
-                    onTap: () {
-                      // Stop propagation so card tap doesn't trigger
-                      _toggleWishlist();
-                    },
+                  top: 8,
+                  right: 8,
+                  child: InkWell(
+                    onTap: onWishlistTap,
+                    borderRadius: BorderRadius.circular(20),
                     child: Container(
                       padding: const EdgeInsets.all(6),
-                      decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.95),
+                      decoration: const BoxDecoration(
+                        color: Colors.white,
                         shape: BoxShape.circle,
-                        boxShadow: [
-                          BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 6),
-                        ],
                       ),
                       child: Icon(
-                        _isWishlisted ? Icons.favorite : Icons.favorite_border,
-                        color: _isWishlisted ? Colors.red : Colors.grey[700],
-                        size: 20,
+                        isWishlisted ? Icons.favorite : Icons.favorite_border,
+                        size: 18,
+                        color: isWishlisted ? const Color(0xFFEF4444) : const Color(0xFF6B7280),
                       ),
                     ),
                   ),
                 ),
               ],
             ),
-
-            // Content
             Padding(
-              padding: const EdgeInsets.fromLTRB(14, 14, 14, 16),
+              padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    widget.title,
+                    title,
+                    style: AppTextTheme.bodyMedium.copyWith(fontWeight: FontWeight.w700),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
-                    style: AppTextTheme.bodyMedium.copyWith(fontWeight: FontWeight.w700),
+                  ),
+                  const SizedBox(height: 6),
+                  Text(
+                    instructor,
+                    style: AppTextTheme.bodySmall.copyWith(color: AppColors.textSecondary),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                   ),
                   const SizedBox(height: 8),
                   Row(
                     children: [
-                      Expanded(
-                        child: Text(
-                          widget.instructor,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: AppTextTheme.bodySmall.copyWith(color: AppColors.textSecondary),
-                        ),
-                      ),
-                      const Icon(Icons.star, size: 14, color: Color(0xFFFFB703)),
-                      const SizedBox(width: 4),
-                      const Text('4.9', style: TextStyle(fontSize: 13)),
+                      const Icon(Icons.star_rounded, size: 13, color: Color(0xFFFAB005)),
+                      const SizedBox(width: 3),
+                      Text('4.8', style: AppTextTheme.caption.copyWith(color: AppColors.textSecondary)),
                     ],
                   ),
-                  const SizedBox(height: 14),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        widget.price,
-                        style: AppTextTheme.bodyMedium.copyWith(fontWeight: FontWeight.w700),
-                      ),
-                      Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-                        decoration: BoxDecoration(
-                          color: AppColors.grey100,
-                          borderRadius: BorderRadius.circular(14),
-                        ),
-                        child: Text(
-                          widget.progressLabel,
-                          style: AppTextTheme.caption.copyWith(color: AppColors.textPrimary),
-                        ),
-                      ),
-                    ],
+                  const SizedBox(height: 6),
+                  Text(
+                    price,
+                    style: AppTextTheme.bodyMedium.copyWith(
+                      fontWeight: FontWeight.w700,
+                      color: const Color(0xFF16A34A),
+                    ),
                   ),
                 ],
               ),

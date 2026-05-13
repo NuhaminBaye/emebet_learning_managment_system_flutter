@@ -1,426 +1,10 @@
-// // import 'package:flutter/material.dart';
-// // import 'package:flutter_bloc/flutter_bloc.dart';
-// // import 'package:lms_mobileapp/core/constants/colors.dart';
-// // import 'package:lms_mobileapp/core/constants/spacing.dart';
-// // import 'package:lms_mobileapp/core/constants/text_theme.dart';
-// // import 'package:lms_mobileapp/features/Trainee/domain/entities/lesson.dart';
-// // import 'package:lms_mobileapp/features/Trainee/presentation/bloc/my_courses/lesson_detail_bloc.dart';
-// // import 'package:lms_mobileapp/features/Trainee/presentation/bloc/my_courses/lesson_detail_event.dart';
-// // import 'package:lms_mobileapp/features/Trainee/presentation/bloc/my_courses/lesson_detail_state.dart';
-
-// // class LessonDetailScreen extends StatelessWidget {
-// //   const LessonDetailScreen({super.key});
-
-// //   @override
-// //   Widget build(BuildContext context) {
-// //     return BlocProvider(
-// //       create: (_) => LessonDetailBloc()..add(LoadLessonDetail()),
-// //       child: const _LessonDetailView(),
-// //     );
-// //   }
-// // }
-
-// // class _LessonDetailView extends StatefulWidget {
-// //   const _LessonDetailView();
-
-// //   @override
-// //   State<_LessonDetailView> createState() => _LessonDetailViewState();
-// // }
-
-// // class _LessonDetailViewState extends State<_LessonDetailView> with SingleTickerProviderStateMixin {
-// //   late TabController _tabController;
-
-// //   @override
-// //   void initState() {
-// //     super.initState();
-// //     _tabController = TabController(length: 3, vsync: this);
-// //   }
-
-// //   @override
-// //   void dispose() {
-// //     _tabController.dispose();
-// //     super.dispose();
-// //   }
-
-// //   @override
-// //   Widget build(BuildContext context) {
-// //     return BlocBuilder<LessonDetailBloc, LessonDetailState>(
-// //       builder: (context, state) {
-// //         if (state is LessonDetailLoading) {
-// //           return const Scaffold(body: Center(child: CircularProgressIndicator()));
-// //         }
-
-// //         if (state is LessonDetailError) {
-// //           return Scaffold(body: Center(child: Text(state.message)));
-// //         }
-
-// //         final lesson = (state as LessonDetailLoaded).lesson;
-
-// //         return Scaffold(
-// //           body: NestedScrollView(
-// //             headerSliverBuilder: (context, innerBoxIsScrolled) => [
-// //               SliverAppBar(
-// //                 expandedHeight: 220,
-// //                 pinned: true,
-// //                 flexibleSpace: FlexibleSpaceBar(
-// //                   background: Image.network(lesson.thumbnailUrl, fit: BoxFit.cover),
-// //                 ),
-// //                 leading: IconButton(
-// //                   icon: const Icon(Icons.arrow_back),
-// //                   onPressed: () => Navigator.pop(context),
-// //                 ),
-// //                 title: Text(lesson.moduleName, style: const TextStyle(fontSize: 16)),
-// //               ),
-// //             ],
-// //             body: Column(
-// //               children: [
-// //                 Padding(
-// //                   padding: const EdgeInsets.all(16),
-// //                   child: Column(
-// //                     crossAxisAlignment: CrossAxisAlignment.start,
-// //                     children: [
-// //                       Text(lesson.title, style: AppTextTheme.headingLG),
-// //                       AppSpacing.verticalMd,
-// //                       ElevatedButton(
-// //                         onPressed: () {},
-// //                         style: ElevatedButton.styleFrom(
-// //                           backgroundColor: Colors.green,
-// //                           minimumSize: const Size.fromHeight(50),
-// //                         ),
-// //                         child: const Text("Mark as Complete"),
-// //                       ),
-// //                     ],
-// //                   ),
-// //                 ),
-
-// //                 TabBar(
-// //                   controller: _tabController,
-// //                   labelColor: AppColors.primary,
-// //                   unselectedLabelColor: AppColors.textSecondary,
-// //                   indicatorColor: AppColors.primary,
-// //                   tabs: const [
-// //                     Tab(text: "Content"),
-// //                     Tab(text: "Resources"),
-// //                     Tab(text: "Discussion"),
-// //                   ],
-// //                 ),
-
-// //                 Expanded(
-// //                   child: TabBarView(
-// //                     controller: _tabController,
-// //                     children: [
-// //                       _ContentTab(lesson: lesson),
-// //                       const _ResourcesTab(),
-// //                       const _DiscussionTab(),
-// //                     ],
-// //                   ),
-// //                 ),
-// //               ],
-// //             ),
-// //           ),
-// //         );
-// //       },
-// //     );
-// //   }
-// // }
-
-// // // ====================== TABS ======================
-
-// // class _ContentTab extends StatelessWidget {
-// //   final Lesson lesson;
-// //   const _ContentTab({required this.lesson});
-
-// //   @override
-// //   Widget build(BuildContext context) {
-// //     return SingleChildScrollView(
-// //       padding: const EdgeInsets.all(16),
-// //       child: Column(
-// //         crossAxisAlignment: CrossAxisAlignment.start,
-// //         children: [
-// //           Text("Key Learning Objectives", style: AppTextTheme.headingMD),
-// //           AppSpacing.verticalSm,
-// //           ...lesson.objectives.map((obj) => Padding(
-// //                 padding: const EdgeInsets.only(bottom: 12),
-// //                 child: Row(
-// //                   children: [
-// //                     const Icon(Icons.check_circle, color: Colors.green),
-// //                     AppSpacing.horizontalSm,
-// //                     Expanded(child: Text(obj)),
-// //                   ],
-// //                 ),
-// //               )),
-
-// //           AppSpacing.verticalLg,
-// //           const Text("In this foundational lesson...", style: AppTextTheme.bodyRegular),
-// //           AppSpacing.verticalLg,
-
-// //           // Assignments & Quiz
-// //           _buildActionCard("Assignments", "3 Assignments"),
-// //           _buildActionCard("Take Quiz", "Final Quiz"),
-// //           _buildActionCard("Grade Analytics", "View Performance"),
-// //         ],
-// //       ),
-// //     );
-// //   }
-
-// //   Widget _buildActionCard(String title, String subtitle) {
-// //     return Card(
-// //       margin: const EdgeInsets.only(bottom: 12),
-// //       child: ListTile(
-// //         leading: const Icon(Icons.assignment_outlined, color: Colors.green),
-// //         title: Text(title),
-// //         subtitle: Text(subtitle),
-// //         trailing: const Icon(Icons.arrow_forward_ios, size: 18),
-// //       ),
-// //     );
-// //   }
-// // }
-
-// // class _ResourcesTab extends StatelessWidget {
-// //   const _ResourcesTab();
-
-// //   @override
-// //   Widget build(BuildContext context) {
-// //     return ListView(
-// //       padding: const EdgeInsets.all(16),
-// //       children: const [
-// //         ListTile(leading: Icon(Icons.file_present), title: Text("Worksheet.docx"), trailing: Icon(Icons.download)),
-// //         ListTile(leading: Icon(Icons.picture_as_pdf), title: Text("Sustainability Framework.pdf"), trailing: Icon(Icons.download)),
-// //       ],
-// //     );
-// //   }
-// // }
-
-// // class _DiscussionTab extends StatelessWidget {
-// //   const _DiscussionTab();
-
-// //   @override
-// //   Widget build(BuildContext context) {
-// //     return const Center(child: Text("Discussion Tab\n(Coming Soon)"));
-// //   }
-// // }
-
-// import 'package:flutter/material.dart';
-// import 'package:flutter_bloc/flutter_bloc.dart';
-// import 'package:lms_mobileapp/core/constants/colors.dart';
-// import 'package:lms_mobileapp/core/constants/spacing.dart';
-// import 'package:lms_mobileapp/core/constants/text_theme.dart';
-// import 'package:lms_mobileapp/features/Trainee/domain/entities/lesson.dart';
-// import 'package:lms_mobileapp/features/Trainee/presentation/bloc/my_courses/lesson_detail_bloc.dart';
-// import 'package:lms_mobileapp/features/Trainee/presentation/bloc/my_courses/lesson_detail_event.dart';
-// import 'package:lms_mobileapp/features/Trainee/presentation/bloc/my_courses/lesson_detail_state.dart';
-
-
-// class LessonDetailScreen extends StatelessWidget {
-//   const LessonDetailScreen({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return BlocProvider(
-//       create: (_) => LessonDetailBloc()..add(LoadLessonDetail()),
-//       child: const _LessonDetailView(),
-//     );
-//   }
-// }
-
-// class _LessonDetailView extends StatefulWidget {
-//   const _LessonDetailView();
-
-//   @override
-//   State<_LessonDetailView> createState() => _LessonDetailViewState();
-// }
-
-// class _LessonDetailViewState extends State<_LessonDetailView> with SingleTickerProviderStateMixin {
-//   late TabController _tabController;
-
-//   @override
-//   void initState() {
-//     super.initState();
-//     _tabController = TabController(length: 3, vsync: this);
-//   }
-
-//   @override
-//   void dispose() {
-//     _tabController.dispose();
-//     super.dispose();
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return BlocBuilder<LessonDetailBloc, LessonDetailState>(
-//       builder: (context, state) {
-//         // Handle all states properly
-//         if (state is LessonDetailLoading || state is LessonDetailInitial) {
-//           return const Scaffold(
-//             body: Center(child: CircularProgressIndicator()),
-//           );
-//         }
-
-//         if (state is LessonDetailError) {
-//           return Scaffold(
-//             body: Center(
-//               child: Padding(
-//                 padding: const EdgeInsets.all(24),
-//                 child: Text(state.message, textAlign: TextAlign.center),
-//               ),
-//             ),
-//           );
-//         }
-
-//         if (state is LessonDetailLoaded) {
-//           final lesson = state.lesson;
-
-//           return Scaffold(
-//             body: NestedScrollView(
-//               headerSliverBuilder: (context, innerBoxIsScrolled) => [
-//                 SliverAppBar(
-//                   expandedHeight: 220,
-//                   pinned: true,
-//                   flexibleSpace: FlexibleSpaceBar(
-//                     background: Image.network(lesson.thumbnailUrl, fit: BoxFit.cover),
-//                   ),
-//                   leading: IconButton(
-//                     icon: const Icon(Icons.arrow_back),
-//                     onPressed: () => Navigator.pop(context),
-//                   ),
-//                   title: Text(lesson.moduleName, style: const TextStyle(fontSize: 16)),
-//                 ),
-//               ],
-//               body: Column(
-//                 children: [
-//                   Padding(
-//                     padding: const EdgeInsets.all(16),
-//                     child: Column(
-//                       crossAxisAlignment: CrossAxisAlignment.start,
-//                       children: [
-//                         Text(lesson.title, style: AppTextTheme.headingLG),
-//                         AppSpacing.verticalMd,
-//                         ElevatedButton(
-//                           onPressed: () {},
-//                           style: ElevatedButton.styleFrom(
-//                             backgroundColor: Colors.green,
-//                             minimumSize: const Size.fromHeight(50),
-//                           ),
-//                           child: const Text("Mark as Complete"),
-//                         ),
-//                       ],
-//                     ),
-//                   ),
-
-//                   TabBar(
-//                     controller: _tabController,
-//                     labelColor: AppColors.primary,
-//                     unselectedLabelColor: AppColors.textSecondary,
-//                     indicatorColor: AppColors.primary,
-//                     tabs: const [
-//                       Tab(text: "Content"),
-//                       Tab(text: "Resources"),
-//                       Tab(text: "Discussion"),
-//                     ],
-//                   ),
-
-//                   Expanded(
-//                     child: TabBarView(
-//                       controller: _tabController,
-//                       children: [
-//                         _ContentTab(lesson: lesson),
-//                         const _ResourcesTab(),
-//                         const _DiscussionTab(),
-//                       ],
-//                     ),
-//                   ),
-//                 ],
-//               ),
-//             ),
-//           );
-//         }
-
-//         return const Scaffold(body: Center(child: Text("Unknown State")));
-//       },
-//     );
-//   }
-// }
-
-// // ====================== TABS ======================
-
-// class _ContentTab extends StatelessWidget {
-//   final Lesson lesson;
-//   const _ContentTab({required this.lesson});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return SingleChildScrollView(
-//       padding: const EdgeInsets.all(16),
-//       child: Column(
-//         crossAxisAlignment: CrossAxisAlignment.start,
-//         children: [
-//           Text("Key Learning Objectives", style: AppTextTheme.headingMD),
-//           AppSpacing.verticalSm,
-//           ...lesson.objectives.map((obj) => Padding(
-//                 padding: const EdgeInsets.only(bottom: 12),
-//                 child: Row(
-//                   children: [
-//                     const Icon(Icons.check_circle, color: Colors.green),
-//                     AppSpacing.horizontalSm,
-//                     Expanded(child: Text(obj)),
-//                   ],
-//                 ),
-//               )),
-
-//           AppSpacing.verticalLg,
-//           const Text("In this foundational lesson...", style: AppTextTheme.bodyRegular),
-//           AppSpacing.verticalLg,
-
-//           _buildActionCard("Assignments", "3 Assignments"),
-//           _buildActionCard("Take Quiz", "Final Quiz"),
-//           _buildActionCard("Grade Analytics", "View Performance"),
-//         ],
-//       ),
-//     );
-//   }
-
-//   Widget _buildActionCard(String title, String subtitle) {
-//     return Card(
-//       margin: const EdgeInsets.only(bottom: 12),
-//       child: ListTile(
-//         leading: const Icon(Icons.assignment_outlined, color: Colors.green),
-//         title: Text(title),
-//         subtitle: Text(subtitle),
-//         trailing: const Icon(Icons.arrow_forward_ios, size: 18),
-//       ),
-//     );
-//   }
-// }
-
-// class _ResourcesTab extends StatelessWidget {
-//   const _ResourcesTab();
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return ListView(
-//       padding: const EdgeInsets.all(16),
-//       children: const [
-//         ListTile(leading: Icon(Icons.file_present), title: Text("Worksheet.docx"), trailing: Icon(Icons.download)),
-//         ListTile(leading: Icon(Icons.picture_as_pdf), title: Text("Sustainability Framework.pdf"), trailing: Icon(Icons.download)),
-//       ],
-//     );
-//   }
-// }
-
-// class _DiscussionTab extends StatelessWidget {
-//   const _DiscussionTab();
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return const Center(child: Text("Discussion Tab\n(Coming Soon)"));
-//   }
-// }
-
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lms_mobileapp/core/constants/app_routes.dart';
 import 'package:lms_mobileapp/core/constants/colors.dart';
-import 'package:lms_mobileapp/core/constants/spacing.dart';
 import 'package:lms_mobileapp/core/constants/text_theme.dart';
+import 'package:lms_mobileapp/core/theme/app_radius.dart';
 import 'package:lms_mobileapp/features/Trainee/domain/entities/lesson.dart';
 import 'package:lms_mobileapp/features/Trainee/presentation/bloc/my_courses/lesson_detail_bloc.dart';
 import 'package:lms_mobileapp/features/Trainee/presentation/bloc/my_courses/lesson_detail_event.dart';
@@ -428,6 +12,11 @@ import 'package:lms_mobileapp/features/Trainee/presentation/bloc/my_courses/less
 import 'package:lms_mobileapp/features/Trainee/presentation/screens/my_courses/assignment_screen.dart';
 import 'package:lms_mobileapp/features/Trainee/presentation/screens/my_courses/grade_analaytics_screen.dart';
 import 'package:lms_mobileapp/features/Trainee/presentation/screens/my_courses/quiz_screen.dart';
+import 'package:lms_mobileapp/shared/widgets/cards/discussion_item_card.dart';
+import 'package:lms_mobileapp/shared/widgets/cards/lesson_content_card.dart';
+import 'package:lms_mobileapp/shared/widgets/cards/resource_card.dart';
+import 'package:lms_mobileapp/shared/widgets/common/app_page_state.dart';
+import 'package:lms_mobileapp/shared/widgets/common/section_tab_bar.dart';
 
 class LessonDetailScreen extends StatelessWidget {
   const LessonDetailScreen({super.key});
@@ -448,18 +37,19 @@ class _LessonDetailView extends StatefulWidget {
   State<_LessonDetailView> createState() => _LessonDetailViewState();
 }
 
-class _LessonDetailViewState extends State<_LessonDetailView> with SingleTickerProviderStateMixin {
-  late TabController _tabController;
+class _LessonDetailViewState extends State<_LessonDetailView>
+    with SingleTickerProviderStateMixin {
+  late final TabController _controller;
 
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 3, vsync: this);
+    _controller = TabController(length: 3, vsync: this);
   }
 
   @override
   void dispose() {
-    _tabController.dispose();
+    _controller.dispose();
     super.dispose();
   }
 
@@ -468,70 +58,63 @@ class _LessonDetailViewState extends State<_LessonDetailView> with SingleTickerP
     return BlocBuilder<LessonDetailBloc, LessonDetailState>(
       builder: (context, state) {
         if (state is LessonDetailLoading || state is LessonDetailInitial) {
-          return const Scaffold(body: Center(child: CircularProgressIndicator()));
+          return const Scaffold(body: AppLoadingState());
         }
-
         if (state is LessonDetailError) {
-          return Scaffold(body: Center(child: Text(state.message)));
+          return Scaffold(
+            body: AppEmptyState(title: 'Unable to load lesson', message: state.message),
+          );
         }
 
         final lesson = (state as LessonDetailLoaded).lesson;
-
         return Scaffold(
+          backgroundColor: AppColors.background,
           body: NestedScrollView(
-            headerSliverBuilder: (context, innerBoxIsScrolled) => [
-              SliverAppBar(
-                expandedHeight: 220,
-                pinned: true,
-                flexibleSpace: FlexibleSpaceBar(
-                  background: Image.network(lesson.thumbnailUrl, fit: BoxFit.cover),
-                ),
-                leading: IconButton(
-                  icon: const Icon(Icons.arrow_back),
-                  onPressed: () => Navigator.pop(context),
-                ),
-                title: Text(lesson.moduleName, style: const TextStyle(fontSize: 16)),
-              ),
-            ],
+            headerSliverBuilder: (context, innerBoxIsScrolled) => [_LessonHero(lesson: lesson)],
             body: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
-                  padding: const EdgeInsets.all(16),
+                  padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(lesson.title, style: AppTextTheme.headingLG),
-                      AppSpacing.verticalMd,
-                      ElevatedButton(
-                        onPressed: () {},
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.green,
-                          minimumSize: const Size.fromHeight(50),
+                      Text(
+                        lesson.moduleName,
+                        style: AppTextTheme.bodySmall.copyWith(
+                          color: AppColors.textSecondary,
+                          fontWeight: FontWeight.w700,
                         ),
-                        child: const Text("Mark as Complete"),
+                      ),
+                      const SizedBox(height: 6),
+                      Text(lesson.title, style: AppTextTheme.headingLG.copyWith(fontSize: 34)),
+                      const SizedBox(height: 12),
+                      SizedBox(
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          onPressed: () {},
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: AppColors.primary,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(AppRadius.md),
+                            ),
+                          ),
+                          child: const Text('Mark as Complete'),
+                        ),
                       ),
                     ],
                   ),
                 ),
-
-                TabBar(
-                  controller: _tabController,
-                  labelColor: AppColors.primary,
-                  unselectedLabelColor: AppColors.textSecondary,
-                  indicatorColor: AppColors.primary,
-                  tabs: const [
-                    Tab(text: "Content"),
-                    Tab(text: "Resources"),
-                    Tab(text: "Discussion"),
-                  ],
+                SectionTabBar(
+                  controller: _controller,
+                  tabs: const ['Content', 'Resources', 'Discussion'],
                 ),
-
                 Expanded(
                   child: TabBarView(
-                    controller: _tabController,
+                    controller: _controller,
                     children: [
                       _ContentTab(lesson: lesson),
-                      const _ResourcesTab(),
+                      _ResourcesTab(lesson: lesson),
                       const _DiscussionTab(),
                     ],
                   ),
@@ -545,98 +128,153 @@ class _LessonDetailViewState extends State<_LessonDetailView> with SingleTickerP
   }
 }
 
-// ====================== TABS ======================
+class _LessonHero extends StatelessWidget {
+  const _LessonHero({required this.lesson});
 
-class _ContentTab extends StatelessWidget {
   final Lesson lesson;
-  const _ContentTab({required this.lesson});
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      padding: const EdgeInsets.all(16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text("Key Learning Objectives", style: AppTextTheme.headingMD),
-          AppSpacing.verticalSm,
-          ...lesson.objectives.map((obj) => Padding(
-                padding: const EdgeInsets.only(bottom: 12),
-                child: Row(
-                  children: [
-                    const Icon(Icons.check_circle, color: Colors.green),
-                    AppSpacing.horizontalSm,
-                    Expanded(child: Text(obj)),
-                  ],
+    return SliverAppBar(
+      expandedHeight: 212,
+      pinned: true,
+      backgroundColor: AppColors.textPrimary,
+      flexibleSpace: FlexibleSpaceBar(
+        background: Stack(
+          fit: StackFit.expand,
+          children: [
+            CachedNetworkImage(
+              imageUrl: lesson.thumbnailUrl,
+              fit: BoxFit.cover,
+              errorWidget: (context, url, error) => const ColoredBox(color: AppColors.grey300),
+            ),
+            const DecoratedBox(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [Color(0x10000000), Color(0x90000000)],
                 ),
-              )),
-
-          AppSpacing.verticalLg,
-          const Text("In this foundational lesson...", style: AppTextTheme.bodyRegular),
-          AppSpacing.verticalLg,
-
-          // Action Cards with Navigation
-          // _buildActionCard(
-          //   context,
-          //   "Assignments",
-          //   "3 Assignments",
-          //   // () => Navigator.pushNamed(context, '/assignments'), // Change route as needed
-            
-
-          // ),
-          // _buildActionCard(
-          //   context,
-          //   "Take Quiz",
-          //   "Final Quiz",
-          //   () => Navigator.pushNamed(context, '/quiz'),
-          // ),
-
-            _buildActionCard(context, "Assignments", "3 Assignments", () {
-              Navigator.push(context, MaterialPageRoute(builder: (_) => const AssignmentScreen()));
-            }),
-
-            _buildActionCard(context, "Take Quiz", "Final Quiz", () {
-              Navigator.push(context, MaterialPageRoute(builder: (_) => const QuizScreen()));
-            }),
-          _buildActionCard(
-            context,
-            "Grade Analytics",
-            "View Performance",
-  () {
-              Navigator.push(context, MaterialPageRoute(builder: (_) => const GradeAnalyticsScreen()));
-            }          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildActionCard(BuildContext context, String title, String subtitle, VoidCallback onTap) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Card(
-        margin: const EdgeInsets.only(bottom: 12),
-        child: ListTile(
-          leading: const Icon(Icons.assignment_outlined, color: Colors.green),
-          title: Text(title),
-          subtitle: Text(subtitle),
-          trailing: const Icon(Icons.arrow_forward_ios, size: 18),
+              ),
+            ),
+            const Center(
+              child: CircleAvatar(
+                radius: 30,
+                backgroundColor: AppColors.primary,
+                child: Icon(Icons.play_arrow_rounded, color: Colors.white, size: 34),
+              ),
+            ),
+          ],
         ),
       ),
+      leading: IconButton(
+        onPressed: () {
+          if (Navigator.canPop(context)) {
+            Navigator.pop(context);
+          } else {
+            Navigator.pushReplacementNamed(
+              context,
+              AppRoutes.StudentShellScreenState,
+              arguments: {'index': 2},
+            );
+          }
+        },
+        icon: const Icon(Icons.arrow_back_rounded, color: Colors.white),
+      ),
+      actions: [
+        IconButton(
+          onPressed: () {
+            Navigator.pushNamedAndRemoveUntil(
+              context,
+              AppRoutes.StudentShellScreenState,
+              (route) => false,
+              arguments: {'index': 3},
+            );
+          },
+          icon: const Icon(Icons.favorite_border_rounded, color: Colors.white),
+        ),
+        const Padding(
+          padding: EdgeInsets.only(right: 14),
+          child: Center(
+            child: Text('12:45 / 18:20', style: TextStyle(color: Colors.white, fontSize: 12)),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _ContentTab extends StatelessWidget {
+  const _ContentTab({required this.lesson});
+
+  final Lesson lesson;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView(
+      padding: const EdgeInsets.fromLTRB(16, 14, 16, 24),
+      children: [
+        Text(
+          lesson.description,
+          style: AppTextTheme.bodyMedium.copyWith(height: 1.55, color: AppColors.textSecondary),
+        ),
+        const SizedBox(height: 16),
+        Text('Key Learning Objectives', style: AppTextTheme.headingMD.copyWith(fontWeight: FontWeight.w700)),
+        const SizedBox(height: 8),
+        ...lesson.objectives.map(
+          (item) => Padding(
+            padding: const EdgeInsets.only(bottom: 8),
+            child: Row(
+              children: [
+                const Icon(Icons.check_circle_outline_rounded, color: AppColors.primary, size: 18),
+                const SizedBox(width: 8),
+                Expanded(child: Text(item, style: AppTextTheme.bodyMedium)),
+              ],
+            ),
+          ),
+        ),
+        const SizedBox(height: 18),
+        LessonContentCard(
+          title: 'Assignments',
+          subtitle: '3 Assignments',
+          icon: Icons.assignment_outlined,
+          onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const AssignmentScreen())),
+        ),
+        const SizedBox(height: 10),
+        LessonContentCard(
+          title: 'Take Quiz',
+          subtitle: 'Final Quiz',
+          icon: Icons.quiz_outlined,
+          onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const QuizScreen())),
+        ),
+        const SizedBox(height: 10),
+        LessonContentCard(
+          title: 'Grade Analytics',
+          subtitle: 'View Performance',
+          icon: Icons.bar_chart_rounded,
+          onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const GradeAnalyticsScreen())),
+        ),
+      ],
     );
   }
 }
 
 class _ResourcesTab extends StatelessWidget {
-  const _ResourcesTab();
+  const _ResourcesTab({required this.lesson});
+
+  final Lesson lesson;
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      padding: const EdgeInsets.all(16),
-      children: const [
-        ListTile(leading: Icon(Icons.file_present), title: Text("Worksheet.docx"), trailing: Icon(Icons.download)),
-        ListTile(leading: Icon(Icons.picture_as_pdf), title: Text("Sustainability Framework.pdf"), trailing: Icon(Icons.download)),
-      ],
+    return ListView.separated(
+      padding: const EdgeInsets.fromLTRB(16, 14, 16, 24),
+      itemBuilder: (_, index) {
+        final name = lesson.resources[index];
+        final fileType = name.toLowerCase().endsWith('.pdf') ? 'PDF' : 'DOC';
+        return ResourceCard(title: name, sizeLabel: '12.58 Mb', fileType: fileType);
+      },
+      separatorBuilder: (context, index) => const SizedBox(height: 10),
+      itemCount: lesson.resources.length,
     );
   }
 }
@@ -647,93 +285,28 @@ class _DiscussionTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView(
-      padding: const EdgeInsets.all(16),
-      children: [
-        _buildComment(
-          name: "Marcus Chen",
-          time: "2h ago",
-          message: "How should I approach the asymptotic analysis when we have nested loops with different growth rates?",
-          isInstructorReply: false,
+      padding: const EdgeInsets.fromLTRB(16, 14, 16, 24),
+      children: const [
+        DiscussionItemCard(
+          name: 'Marcus Chen',
+          time: '2h ago',
+          message:
+              'How should I approach asymptotic analysis when nested loops have different growth rates?',
         ),
-        _buildComment(
-          name: "Sarah Jenkins",
-          time: "1h ago",
-          message: "This explanation of the Virtual DOM is the clearest I've heard yet. Especially the part about the reconciliation algorithm.",
-          isInstructorReply: false,
+        SizedBox(height: 10),
+        DiscussionItemCard(
+          name: 'Sarah Jenkins',
+          time: '1h ago',
+          message: 'This lesson finally made reconciliation in the Virtual DOM click for me.',
         ),
-        _buildComment(
-          name: "Dr. Aris Thorne",
-          time: "3h ago",
-          message: "Glad it clicked, Sarah! If you want to dive deeper, check out the supplementary paper on fiber architecture in the resources tab.",
-          isInstructorReply: true,
-        ),
-        _buildComment(
-          name: "Leo Kim",
-          time: "8h ago",
-          message: "Does anyone have a good mental model for 'useEffect' cleanup functions? I keep forgetting.",
-          isInstructorReply: false,
+        SizedBox(height: 10),
+        DiscussionItemCard(
+          name: 'Dr. Aris Thorne',
+          time: '45m ago',
+          message: 'Great question. Check the supplementary paper in resources for deeper complexity trade-offs.',
+          isInstructor: true,
         ),
       ],
-    );
-  }
-
-  Widget _buildComment({
-    required String name,
-    required String time,
-    required String message,
-    required bool isInstructorReply,
-  }) {
-    return Card(
-      margin: const EdgeInsets.only(bottom: 16),
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                CircleAvatar(
-                  backgroundColor: isInstructorReply ? Colors.orange[100] : AppColors.primaryLight,
-                  child: Text(name[0]),
-                ),
-                AppSpacing.horizontalSm,
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        Text(name, style: AppTextTheme.bodyMedium.copyWith(fontWeight: FontWeight.w600)),
-                        if (isInstructorReply) ...[
-                          AppSpacing.horizontalSm,
-                          Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-                            decoration: BoxDecoration(
-                              color: Colors.orange,
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            child: const Text("INSTRUCTOR", style: TextStyle(fontSize: 10, color: Colors.white, fontWeight: FontWeight.bold)),
-                          ),
-                        ],
-                      ],
-                    ),
-                    Text(time, style: AppTextTheme.bodySmall),
-                  ],
-                ),
-              ],
-            ),
-            AppSpacing.verticalSm,
-            Text(message, style: AppTextTheme.bodyRegular),
-            AppSpacing.verticalSm,
-            const Row(
-              children: [
-                Icon(Icons.thumb_up_outlined, size: 18),
-                SizedBox(width: 8),
-                Text("12"),
-              ],
-            ),
-          ],
-        ),
-      ),
     );
   }
 }

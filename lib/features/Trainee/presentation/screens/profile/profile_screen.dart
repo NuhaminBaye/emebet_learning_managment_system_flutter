@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lms_mobileapp/core/constants/colors.dart';
 import 'package:lms_mobileapp/core/constants/spacing.dart';
 import 'package:lms_mobileapp/core/constants/text_theme.dart';
 import 'package:lms_mobileapp/features/Trainee/presentation/bloc/profile/profile_bloc.dart';
-import 'package:lms_mobileapp/features/Trainee/presentation/bloc/profile/profile_event.dart';
 import 'package:lms_mobileapp/features/Trainee/presentation/bloc/profile/profile_state.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -12,10 +12,7 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => ProfileBloc()..add(LoadProfile()),
-      child: const _ProfileView(),
-    );
+    return const _ProfileView();
   }
 }
 
@@ -36,15 +33,11 @@ class _ProfileView extends StatelessWidget {
           return Scaffold(
             backgroundColor: AppColors.background,
             appBar: AppBar(
-              backgroundColor: AppColors.background,
-              elevation: 0,
-              title: const Text("Profile", style: AppTextTheme.headingMD),
-              leading: IconButton(
-                icon: const Icon(Icons.arrow_back),
-                onPressed: () => Navigator.pop(context),
-              ),
+              title: Text('Profile', style: AppTextTheme.headingMD.copyWith(color: AppColors.primary)),
+              centerTitle: true,
             ),
             body: SingleChildScrollView(
+              padding: const EdgeInsets.fromLTRB(16, 24, 16, 120),
               child: Column(
                 children: [
                   // Profile Header
@@ -55,9 +48,17 @@ class _ProfileView extends StatelessWidget {
                         Stack(
                           alignment: Alignment.bottomRight,
                           children: [
-                            CircleAvatar(
-                              radius: 55,
-                              backgroundImage: NetworkImage(user.avatarUrl),
+                            ClipOval(
+                              child: CachedNetworkImage(
+                                imageUrl: user.avatarUrl,
+                                width: 110,
+                                height: 110,
+                                fit: BoxFit.cover,
+                                errorWidget: (context, url, error) => const CircleAvatar(
+                                  radius: 55,
+                                  child: Icon(Icons.person, size: 46),
+                                ),
+                              ),
                             ),
                             const CircleAvatar(
                               radius: 18,
@@ -72,7 +73,7 @@ class _ProfileView extends StatelessWidget {
                           margin: const EdgeInsets.only(top: 8),
                           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
                           decoration: BoxDecoration(
-                            color: Colors.green.withOpacity(0.1),
+                            color: const Color(0x1A22C55E),
                             borderRadius: BorderRadius.circular(20),
                           ),
                           child: const Text("PREMIUM MEMBER", style: TextStyle(color: Colors.green, fontWeight: FontWeight.w600)),
@@ -82,15 +83,30 @@ class _ProfileView extends StatelessWidget {
                   ),
 
                   // Stats Row
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: Row(
-                      children: [
-                        _buildStatItem("12", "Courses Enrolled"),
-                        _buildStatItem("08", "Total Certificates"),
-                        _buildStatItem("3.8", "Current GPA"),
-                      ],
-                    ),
+                  LayoutBuilder(
+                    builder: (context, constraints) {
+                      final isCompact = constraints.maxWidth < 350;
+                      return isCompact
+                          ? Column(
+                              children: [
+                                Row(
+                                  children: [
+                                    _buildStatItem("12", "Courses Enrolled"),
+                                    _buildStatItem("08", "Total Certificates"),
+                                  ],
+                                ),
+                                const SizedBox(height: 12),
+                                Row(children: [_buildStatItem("3.8", "Current GPA")]),
+                              ],
+                            )
+                          : Row(
+                              children: [
+                                _buildStatItem("12", "Courses Enrolled"),
+                                _buildStatItem("08", "Total Certificates"),
+                                _buildStatItem("3.8", "Current GPA"),
+                              ],
+                            );
+                    },
                   ),
 
                   AppSpacing.verticalLg,
@@ -140,7 +156,6 @@ class _ProfileView extends StatelessWidget {
                     ),
                   ),
 
-                  AppSpacing.verticalLg,
                 ],
               ),
             ),
@@ -195,12 +210,14 @@ class _ProfileView extends StatelessWidget {
         children: [
           Icon(icon, color: AppColors.textSecondary),
           AppSpacing.horizontalMd,
-          Column(
+          Expanded(
+            child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(label, style: AppTextTheme.bodySmall),
               Text(value, style: AppTextTheme.bodyMedium),
             ],
+            ),
           ),
         ],
       ),
@@ -220,7 +237,7 @@ class _ProfileView extends StatelessWidget {
           Switch(
             value: value,
             onChanged: (val) {},
-            activeColor: AppColors.primary,
+            activeThumbColor: AppColors.primary,
           ),
         ],
       ),

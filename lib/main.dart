@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:lms_mobileapp/core/constants/app_routes.dart';
 import 'package:lms_mobileapp/core/constants/colors.dart';
@@ -9,14 +8,9 @@ import 'package:lms_mobileapp/core/log/app_logger.dart';
 import 'package:lms_mobileapp/core/network/dio_network.dart';
 import 'package:lms_mobileapp/features/Trainee/presentation/screens/checkout_screen.dart';
 import 'package:lms_mobileapp/features/Trainee/presentation/screens/course_detail_screen.dart';
-import 'package:lms_mobileapp/features/Trainee/presentation/screens/my_courses/assignment_screen.dart';
-import 'package:lms_mobileapp/features/Trainee/presentation/screens/my_courses/quiz_screen.dart';
-import 'package:lms_mobileapp/features/auth/presentation/auth_module.dart';
-import 'package:lms_mobileapp/features/auth/presentation/bloc/auth_event.dart';
 import 'package:lms_mobileapp/features/auth/presentation/screens/login_screen.dart';
 import 'package:lms_mobileapp/features/init/presentation/onboarding/screens/onboarding_screen.dart';
 import 'package:lms_mobileapp/features/init/presentation/screens/splash_screen.dart';
-import 'package:lms_mobileapp/core/navigation/role_based_router.dart';
 import 'package:lms_mobileapp/features/instructor/presentation/screens/courses/add_lesson_screen.dart';
 import 'package:lms_mobileapp/features/instructor/presentation/screens/courses/create_assignment_screen.dart';
 import 'package:lms_mobileapp/features/instructor/presentation/screens/courses/curriculum_builder_screen.dart';
@@ -25,7 +19,7 @@ import 'package:lms_mobileapp/features/instructor/presentation/screens/courses/g
 import 'package:lms_mobileapp/features/instructor/presentation/screens/courses/quiz_builder_screen.dart';
 import 'package:lms_mobileapp/features/instructor/presentation/screens/main/instructor_shell_screen.dart';
 import 'package:lms_mobileapp/features/instructor/presentation/screens/trainees/trainees_screen.dart';
-import 'package:lms_mobileapp/features/trainee/presentation/screens/main/student_shell_screen.dart';
+import 'package:lms_mobileapp/features/Trainee/presentation/screens/main/student_shell_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -58,22 +52,47 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor: AppColors.background,
         textTheme: AppTextTheme.textTheme,
         useMaterial3: true,
+        inputDecorationTheme: InputDecorationTheme(
+          filled: true,
+          fillColor: AppColors.surface,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(16),
+            borderSide: const BorderSide(color: AppColors.grey200),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(16),
+            borderSide: const BorderSide(color: AppColors.grey200),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(16),
+            borderSide: const BorderSide(color: AppColors.primary),
+          ),
+        ),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: AppColors.primary,
+            foregroundColor: AppColors.textOnPrimary,
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+            textStyle: AppTextTheme.bodyMedium.copyWith(fontWeight: FontWeight.w700),
+            elevation: 0,
+          ),
+        ),
         appBarTheme: const AppBarTheme(
           elevation: 0,
-          backgroundColor: Colors.transparent,
+          backgroundColor: AppColors.background,
           iconTheme: IconThemeData(color: AppColors.textPrimary),
+          surfaceTintColor: Colors.transparent,
         ),
       ),
-      // home: BlocProvider(
-      //   create: (_) => AuthModule.createBloc()..add(GetCurrentUserRequested()),
-      //   child: const RoleBasedRouter(),
-      // ),
-      home: const InstructorShellScreen(),
+      home: const StudentShellScreen(),
       routes: {
         AppRoutes.splash: (_) => const SplashScreen(),
         AppRoutes.onboarding: (_) => const OnboardingScreen(),
         AppRoutes.login: (_) => const LoginScreen(),
-        AppRoutes.StudentShellScreenState: (_) => const StudentShellScreen(),
+        AppRoutes.StudentShellScreenState: (context) {
+          final args = ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+          return StudentShellScreen(initialIndex: (args?['index'] as int?) ?? 0);
+        },
         AppRoutes.instructorShell: (_) => const InstructorShellScreen(),
         AppRoutes.curriculumBuilder: (_) => const CurriculumBuilderScreen(),
         AppRoutes.addLesson: (context) {

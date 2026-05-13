@@ -43,6 +43,7 @@ dependencies:
   flutter_dotenv: ^6.0.0
   dio: ^5.9.2
   flutter_bloc: ^8.1.6
+  cached_network_image: ^3.4.1
 
 dev_dependencies:
   flutter_test:

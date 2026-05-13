@@ -17,7 +17,7 @@ class CourseDetailBloc extends Bloc<CourseDetailEvent, CourseDetailState> {
         id: "1",
         title: "Sustainable Urban Planning",
         instructor: "Sarah Williams",
-        imageUrl: "https://images.unsplash.com/photo-1480714378408-67c0a6c0e0c7",
+        imageUrl: "https://picsum.photos/seed/sustainable-city/1000/650",
         price: "\$45.00",
         rating: "4.8",
         reviewCount: "2,345",

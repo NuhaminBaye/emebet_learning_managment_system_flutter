@@ -1,308 +1,16 @@
-// import 'package:flutter/material.dart';
-// import 'package:flutter_bloc/flutter_bloc.dart';
-// import 'package:lms_mobileapp/core/constants/app_routes.dart';
-// import 'package:lms_mobileapp/core/constants/colors.dart';
-// import 'package:lms_mobileapp/core/constants/spacing.dart';
-// import 'package:lms_mobileapp/core/constants/text_theme.dart';
-// import 'package:lms_mobileapp/features/Trainee/domain/entities/course.dart';
-// import 'package:lms_mobileapp/features/Trainee/presentation/bloc/course_deatil/course_detail_bloc.dart';
-// import 'package:lms_mobileapp/features/Trainee/presentation/bloc/course_deatil/course_detail_event.dart';
-// import 'package:lms_mobileapp/features/Trainee/presentation/bloc/course_deatil/course_detail_state.dart';
-
-
-// class CourseDetailScreen extends StatelessWidget {
-//   const CourseDetailScreen({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return BlocProvider(
-//       create: (_) => CourseDetailBloc()..add(LoadCourseDetail()),
-//       child: const _CourseDetailView(),
-//     );
-//   }
-// }
-
-// class _CourseDetailView extends StatefulWidget {
-//   const _CourseDetailView();
-
-//   @override
-//   State<_CourseDetailView> createState() => _CourseDetailViewState();
-// }
-
-// class _CourseDetailViewState extends State<_CourseDetailView> with SingleTickerProviderStateMixin {
-//   late TabController _tabController;
-
-//   @override
-//   void initState() {
-//     super.initState();
-//     _tabController = TabController(length: 3, vsync: this);
-//   }
-
-//   @override
-//   void dispose() {
-//     _tabController.dispose();
-//     super.dispose();
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return BlocBuilder<CourseDetailBloc, CourseDetailState>(
-//       builder: (context, state) {
-//         if (state is CourseDetailLoading || state is CourseDetailInitial) {
-//           return const Scaffold(body: Center(child: CircularProgressIndicator()));
-//         }
-
-//         if (state is CourseDetailError) {
-//           return Scaffold(body: Center(child: Text(state.message)));
-//         }
-
-//         final course = (state as CourseDetailLoaded).course;
-
-//         return Scaffold(
-//           body: NestedScrollView(
-//             headerSliverBuilder: (context, innerBoxIsScrolled) => [
-//               SliverAppBar(
-//                 expandedHeight: 260,
-//                 pinned: true,
-//                 flexibleSpace: FlexibleSpaceBar(
-//                   background: Image.network(course.imageUrl, fit: BoxFit.cover),
-//                 ),
-//                 leading: IconButton(
-//                   icon: const Icon(Icons.arrow_back, color: Colors.white),
-//                   onPressed: () => Navigator.pop(context),
-//                 ),
-//                 actions: [
-//                   IconButton(icon: const Icon(Icons.favorite_border, color: Colors.white), onPressed: () {}),
-//                   IconButton(icon: const Icon(Icons.share, color: Colors.white), onPressed: () {}),
-//                 ],
-//               ),
-//             ],
-//             body: Column(
-//               children: [
-//                 Padding(
-//                   padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
-//                   child: Column(
-//                     crossAxisAlignment: CrossAxisAlignment.start,
-//                     children: [
-//                       Text(course.title, style: AppTextTheme.headingLG),
-//                       AppSpacing.verticalSm,
-//                       Row(
-//                         children: [
-//                           const Icon(Icons.star, color: Color(0xFFFFB703), size: 20),
-//                           Text(" ${course.rating} • ${course.reviewCount} reviews", style: AppTextTheme.bodyMedium),
-//                         ],
-//                       ),
-//                       AppSpacing.verticalSm,
-//                       Text("by ${course.instructor}", style: AppTextTheme.bodyMedium.copyWith(color: AppColors.primary)),
-//                     ],
-//                   ),
-//                 ),
-
-//                 TabBar(
-//                   controller: _tabController,
-//                   labelColor: AppColors.primary,
-//                   unselectedLabelColor: AppColors.textSecondary,
-//                   indicatorColor: AppColors.primary,
-//                   tabs: const [
-//                     Tab(text: "Overview"),
-//                     Tab(text: "Lessons"),
-//                     Tab(text: "Reviews"),
-//                   ],
-//                 ),
-
-//                 Expanded(
-//                   child: TabBarView(
-//                     controller: _tabController,
-//                     children: [
-//                       _OverviewTab(course: course),
-//                       _LessonsTab(course: course),
-//                       const _ReviewsTab(),
-//                     ],
-//                   ),
-//                 ),
-//               ],
-//             ),
-//           ),
-//           bottomNavigationBar: SafeArea(
-//             child: Container(
-//               padding: const EdgeInsets.all(16),
-//               decoration: BoxDecoration(
-//                 color: AppColors.surface,
-//                 boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.08), blurRadius: 10, offset: const Offset(0, -2))],
-//               ),
-//               child: ElevatedButton(
-//                 onPressed: () { Navigator.pushNamed(context, AppRoutes.checkOut);},
-//                 style: ElevatedButton.styleFrom(
-//                   backgroundColor: const Color(0xFF22C55E),
-//                   padding: const EdgeInsets.symmetric(vertical: 16),
-//                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-//                 ),
-//                 child: Text(
-//                   "Enroll Now - ${course.price}",
-//                   style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-                  
-//                 ),
-//               ),
-//             ),
-//           ),
-//         );
-//       },
-//     );
-//   }
-// }
-
-// // ==================== TABS ====================
-
-// class _OverviewTab extends StatelessWidget {
-//   final Course course;
-//   const _OverviewTab({required this.course});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return SingleChildScrollView(
-//       padding: const EdgeInsets.all(16),
-//       child: Column(
-//         crossAxisAlignment: CrossAxisAlignment.start,
-//         children: [
-//           Text("Course Description", style: AppTextTheme.headingMD),
-//           AppSpacing.verticalSm,
-//           Text(course.description, style: AppTextTheme.bodyRegular),
-//           AppSpacing.verticalLg,
-
-//           Text("What you'll learn", style: AppTextTheme.headingMD),
-//           AppSpacing.verticalSm,
-//           ...course.learningPoints.map((point) => Padding(
-//                 padding: const EdgeInsets.only(bottom: 12),
-//                 child: Row(
-//                   children: [
-//                     const Icon(Icons.check_circle, color: Colors.green, size: 22),
-//                     AppSpacing.horizontalSm,
-//                     Expanded(child: Text(point, style: AppTextTheme.bodyRegular)),
-//                   ],
-//                 ),
-//               )),
-//         ],
-//       ),
-//     );
-//   }
-// }
-
-// class _LessonsTab extends StatelessWidget {
-//   final Course course;
-//   const _LessonsTab({required this.course});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return ListView.builder(
-//       padding: const EdgeInsets.all(16),
-//       itemCount: course.modules.length,
-//       itemBuilder: (context, index) {
-//         final module = course.modules[index];
-//         return Card(
-//           margin: const EdgeInsets.only(bottom: 12),
-//           child: ListTile(
-//             leading: CircleAvatar(
-//               backgroundColor: module.isLocked ? AppColors.grey100 : AppColors.primaryLight,
-//               child: Icon(
-//                 module.isLocked ? Icons.lock : Icons.play_circle,
-//                 color: module.isLocked ? Colors.grey : AppColors.primary,
-//               ),
-//             ),
-//             title: Text(module.title, style: AppTextTheme.bodyMedium.copyWith(fontWeight: FontWeight.w600)),
-//             subtitle: Text("${module.lessonCount} lessons • ${module.duration}"),
-//             trailing: module.isLocked ? const Icon(Icons.lock) : const Icon(Icons.play_arrow),
-//           ),
-//         );
-//       },
-//     );
-//   }
-// }
-
-// class _ReviewsTab extends StatelessWidget {
-//   const _ReviewsTab();
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return ListView(
-//       padding: const EdgeInsets.all(16),
-//       children: [
-//         Row(
-//           crossAxisAlignment: CrossAxisAlignment.start,
-//           children: [
-//             const Text("4.8", style: TextStyle(fontSize: 48, fontWeight: FontWeight.bold)),
-//             const SizedBox(width: 12),
-//             Column(
-//               crossAxisAlignment: CrossAxisAlignment.start,
-//               children: [
-//                 Row(
-//                   children: List.generate(
-//                     5,
-//                     (index) => const Icon(Icons.star, color: Color(0xFFFFB703), size: 20),
-//                   ),
-//                 ),
-//                 const Text("1,268 reviews"),
-//               ],
-//             ),
-//           ],
-//         ),
-//         AppSpacing.verticalLg,
-
-//         _buildReview("Sarah Mitchell", "This course exceeded my expectations. The modular structure made complex topics really easy to digest. Highly recommend for beginners!", "2 days ago", 5),
-//         _buildReview("Alex Rivera", "The quality of the video lectures is top-notch. I only wish there were more hands-on coding exercises in the first section.", "1 week ago", 4),
-//         _buildReview("Lisa Monti", "Perfect pace for someone balancing work and studies. The community forum for this course is also very active.", "2 weeks ago", 5),
-//       ],
-//     );
-//   }
-
-//   Widget _buildReview(String name, String comment, String time, int rating) {
-//     return Card(
-//       margin: const EdgeInsets.only(bottom: 16),
-//       child: Padding(
-//         padding: const EdgeInsets.all(16),
-//         child: Column(
-//           crossAxisAlignment: CrossAxisAlignment.start,
-//           children: [
-//             Row(
-//               children: [
-//                 CircleAvatar(
-//                   backgroundColor: AppColors.primaryLight,
-//                   child: Text(name[0]),
-//                 ),
-//                 AppSpacing.horizontalSm,
-//                 Column(
-//                   crossAxisAlignment: CrossAxisAlignment.start,
-//                   children: [
-//                     Text(name, style: AppTextTheme.bodyMedium.copyWith(fontWeight: FontWeight.w600)),
-//                     Text(time, style: AppTextTheme.bodySmall),
-//                   ],
-//                 ),
-//                 const Spacer(),
-//                 Row(
-//                   children: List.generate(rating, (_) => const Icon(Icons.star, size: 16, color: Color(0xFFFFB703))),
-//                 ),
-//               ],
-//             ),
-//             AppSpacing.verticalSm,
-//             Text(comment, style: AppTextTheme.bodyRegular),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }
-
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:lms_mobileapp/core/constants/app_routes.dart';
 import 'package:lms_mobileapp/core/constants/colors.dart';
 import 'package:lms_mobileapp/core/constants/spacing.dart';
 import 'package:lms_mobileapp/core/constants/text_theme.dart';
+import 'package:lms_mobileapp/core/theme/app_radius.dart';
+import 'package:lms_mobileapp/core/theme/app_shadows.dart';
 import 'package:lms_mobileapp/features/Trainee/domain/entities/course.dart';
 import 'package:lms_mobileapp/features/Trainee/presentation/bloc/course_deatil/course_detail_bloc.dart';
 import 'package:lms_mobileapp/features/Trainee/presentation/bloc/course_deatil/course_detail_event.dart';
 import 'package:lms_mobileapp/features/Trainee/presentation/bloc/course_deatil/course_detail_state.dart';
 import 'package:lms_mobileapp/shared/widgets/buttons/enroll_bottom_bar.dart';
+import 'package:lms_mobileapp/shared/widgets/common/app_page_state.dart';
 import 'package:lms_mobileapp/shared/widgets/layout/course_hero.dart';
 import 'package:lms_mobileapp/shared/widgets/tabs/course_tab.dart';
 
@@ -325,8 +33,9 @@ class _CourseDetailView extends StatefulWidget {
   State<_CourseDetailView> createState() => _CourseDetailViewState();
 }
 
-class _CourseDetailViewState extends State<_CourseDetailView> with SingleTickerProviderStateMixin {
-  late TabController _tabController;
+class _CourseDetailViewState extends State<_CourseDetailView>
+    with SingleTickerProviderStateMixin {
+  late final TabController _tabController;
 
   @override
   void initState() {
@@ -345,22 +54,23 @@ class _CourseDetailViewState extends State<_CourseDetailView> with SingleTickerP
     return BlocBuilder<CourseDetailBloc, CourseDetailState>(
       builder: (context, state) {
         if (state is CourseDetailLoading || state is CourseDetailInitial) {
-          return const Scaffold(body: Center(child: CircularProgressIndicator()));
+          return const Scaffold(body: AppLoadingState());
         }
-
         if (state is CourseDetailError) {
-          return Scaffold(body: Center(child: Text(state.message)));
+          return Scaffold(
+            body: AppEmptyState(title: 'Unable to load course', message: state.message),
+          );
         }
 
         final course = (state as CourseDetailLoaded).course;
-
         return Scaffold(
+          backgroundColor: AppColors.background,
           body: NestedScrollView(
-            headerSliverBuilder: (context, innerBoxIsScrolled) => [
-              CourseHero(course: course),
-            ],
+            headerSliverBuilder: (context, innerBoxIsScrolled) => [CourseHero(course: course)],
             body: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                _CourseSummary(course: course),
                 CourseTabs(tabController: _tabController),
                 Expanded(
                   child: TabBarView(
@@ -382,65 +92,143 @@ class _CourseDetailViewState extends State<_CourseDetailView> with SingleTickerP
   }
 }
 
-  class _ReviewsTab extends StatelessWidget {
+class _CourseSummary extends StatelessWidget {
+  const _CourseSummary({required this.course});
+
   final Course course;
-  const _ReviewsTab({super.key, required this.course});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(16, 14, 16, 10),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(course.title, style: AppTextTheme.headingLG.copyWith(fontSize: 30)),
+          const SizedBox(height: 8),
+          Row(
+            children: [
+              const Icon(Icons.star_rounded, color: Color(0xFFFAB005), size: 18),
+              const SizedBox(width: 4),
+              Text(
+                '${course.rating} (${course.reviewCount} reviews)',
+                style: AppTextTheme.bodySmall.copyWith(fontWeight: FontWeight.w600),
+              ),
+            ],
+          ),
+          const SizedBox(height: 4),
+          Text(
+            course.instructor,
+            style: AppTextTheme.bodyMedium.copyWith(
+              color: AppColors.primary,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _OverviewTab extends StatelessWidget {
+  const _OverviewTab({required this.course});
+
+  final Course course;
 
   @override
   Widget build(BuildContext context) {
     return ListView(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.fromLTRB(16, 14, 16, 24),
       children: [
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text("4.8", style: const TextStyle(fontSize: 52, fontWeight: FontWeight.bold, height: 1)),
-            const SizedBox(width: 16),
-            Column(
+        Text(
+          'Course Description',
+          style: AppTextTheme.headingMD.copyWith(fontWeight: FontWeight.w700),
+        ),
+        const SizedBox(height: 8),
+        Text(course.description, style: AppTextTheme.bodyMedium.copyWith(height: 1.55)),
+        AppSpacing.verticalLg,
+        Text(
+          'What you will learn',
+          style: AppTextTheme.headingMD.copyWith(fontWeight: FontWeight.w700),
+        ),
+        const SizedBox(height: 10),
+        ...course.learningPoints.map(
+          (point) => Padding(
+            padding: const EdgeInsets.only(bottom: 10),
+            child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(children: List.generate(5, (_) => const Icon(Icons.star, color: Color(0xFFFFB703), size: 26))),
-                Text("${course.reviewCount} reviews", style: AppTextTheme.bodyMedium),
+                const Padding(
+                  padding: EdgeInsets.only(top: 2),
+                  child: Icon(
+                    Icons.check_circle_rounded,
+                    color: AppColors.primary,
+                    size: 18,
+                  ),
+                ),
+                const SizedBox(width: 8),
+                Expanded(child: Text(point, style: AppTextTheme.bodyMedium)),
               ],
             ),
-          ],
+          ),
         ),
-        AppSpacing.verticalXl,
-        // Add review cards here (similar to your previous _buildReview)
-        // You can reuse or expand _buildReview method
       ],
     );
   }
 }
 
-
 class _LessonsTab extends StatelessWidget {
+  const _LessonsTab({required this.course});
+
   final Course course;
-  const _LessonsTab({super.key, required this.course});
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      padding: const EdgeInsets.all(16),
+    return ListView.separated(
+      padding: const EdgeInsets.fromLTRB(16, 14, 16, 24),
       itemCount: course.modules.length,
+      separatorBuilder: (context, index) => const SizedBox(height: 10),
       itemBuilder: (context, index) {
         final module = course.modules[index];
-        return Card(
-          margin: const EdgeInsets.only(bottom: 12),
-          elevation: 0,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-          child: ListTile(
-            contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-            leading: CircleAvatar(
-              backgroundColor: module.isLocked ? const Color(0xFFF3F4F6) : const Color(0xFFDCFCE7),
-              child: Icon(
-                module.isLocked ? Icons.lock : Icons.play_circle_fill,
-                color: module.isLocked ? Colors.grey : const Color(0xFF22C55E),
+        return Container(
+          padding: const EdgeInsets.all(12),
+          decoration: BoxDecoration(
+            color: module.isLocked ? const Color(0xFFF3F7F1) : AppColors.surface,
+            borderRadius: BorderRadius.circular(AppRadius.md),
+            boxShadow: const [AppShadows.card],
+          ),
+          child: Row(
+            children: [
+              CircleAvatar(
+                radius: 18,
+                backgroundColor: module.isLocked ? AppColors.grey200 : AppColors.primaryLight,
+                child: Icon(
+                  module.isLocked ? Icons.lock_outline_rounded : Icons.play_arrow_rounded,
+                  color: module.isLocked ? AppColors.grey500 : AppColors.primary,
+                ),
               ),
-            ),
-            title: Text(module.title, style: AppTextTheme.bodyMedium.copyWith(fontWeight: FontWeight.w600)),
-            subtitle: Text("${module.lessonCount} lessons • ${module.duration}"),
-            trailing: module.isLocked ? const Icon(Icons.lock) : const Icon(Icons.play_arrow),
+              const SizedBox(width: 10),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      module.title,
+                      style: AppTextTheme.bodyMedium.copyWith(fontWeight: FontWeight.w700),
+                    ),
+                    const SizedBox(height: 2),
+                    Text(
+                      '${module.duration} • ${module.lessonCount} lessons',
+                      style: AppTextTheme.bodySmall,
+                    ),
+                  ],
+                ),
+              ),
+              if (!module.isLocked)
+                const Icon(Icons.equalizer_rounded, color: AppColors.primary)
+              else
+                const Icon(Icons.lock_outline_rounded, color: AppColors.grey500),
+            ],
           ),
         );
       },
@@ -448,37 +236,107 @@ class _LessonsTab extends StatelessWidget {
   }
 }
 
-// Inside course_detail_screen.dart or separate file
-class _OverviewTab extends StatelessWidget {
+class _ReviewsTab extends StatelessWidget {
+  const _ReviewsTab({required this.course});
+
   final Course course;
-  const _OverviewTab({super.key, required this.course});
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      padding: const EdgeInsets.all(16),
+    return ListView(
+      padding: const EdgeInsets.fromLTRB(16, 14, 16, 24),
+      children: [
+        Row(
+          children: [
+            Text(course.rating, style: AppTextTheme.headingLG.copyWith(fontSize: 44)),
+            const SizedBox(width: 10),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: List.generate(
+                    5,
+                    (_) => const Icon(
+                      Icons.star_rounded,
+                      size: 17,
+                      color: Color(0xFFFAB005),
+                    ),
+                  ),
+                ),
+                Text('${course.reviewCount} reviews', style: AppTextTheme.bodySmall),
+              ],
+            ),
+          ],
+        ),
+        AppSpacing.verticalMd,
+        const _ReviewCard(
+          name: 'Sarah Mitchell',
+          age: '2 days ago',
+          text:
+              'This course exceeded my expectations. The module structure made complex topics easy to digest for beginners.',
+        ),
+        const SizedBox(height: 10),
+        const _ReviewCard(
+          name: 'Alex Rivera',
+          age: '1 week ago',
+          text:
+              'Excellent video quality and clear explanations. I would love more advanced assignments in later modules.',
+        ),
+      ],
+    );
+  }
+}
+
+class _ReviewCard extends StatelessWidget {
+  const _ReviewCard({
+    required this.name,
+    required this.age,
+    required this.text,
+  });
+
+  final String name;
+  final String age;
+  final String text;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: AppColors.surface,
+        borderRadius: BorderRadius.circular(AppRadius.md),
+        border: Border.all(color: AppColors.grey200),
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text("Course Description", style: AppTextTheme.headingMD),
-          AppSpacing.verticalSm,
-          Text(course.description, style: AppTextTheme.bodyRegular.copyWith(height: 1.7)),
-
-          AppSpacing.verticalXl,
-          Text("What you'll learn", style: AppTextTheme.headingMD),
-          AppSpacing.verticalMd,
-
-          ...course.learningPoints.map((point) => Padding(
-                padding: const EdgeInsets.only(bottom: 14),
-                child: Row(
+          Row(
+            children: [
+              CircleAvatar(
+                radius: 16,
+                backgroundColor: AppColors.primaryLight,
+                child: Text(name[0]),
+              ),
+              const SizedBox(width: 8),
+              Expanded(
+                child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Icon(Icons.check_circle, color: Color(0xFF22C55E), size: 24),
-                    AppSpacing.horizontalMd,
-                    Expanded(child: Text(point, style: AppTextTheme.bodyRegular)),
+                    Text(name, style: AppTextTheme.bodyMedium.copyWith(fontWeight: FontWeight.w700)),
+                    Text(age, style: AppTextTheme.bodySmall),
                   ],
                 ),
-              )),
+              ),
+              Row(
+                children: List.generate(
+                  5,
+                  (_) => const Icon(Icons.star_rounded, size: 14, color: Color(0xFFFAB005)),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 8),
+          Text(text, style: AppTextTheme.bodyMedium),
         ],
       ),
     );

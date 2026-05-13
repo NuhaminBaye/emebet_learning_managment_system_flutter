@@ -1,214 +1,12 @@
-// import 'package:flutter/material.dart';
-// import 'package:flutter_bloc/flutter_bloc.dart';
-// import 'package:lms_mobileapp/core/constants/colors.dart';
-// import 'package:lms_mobileapp/core/constants/spacing.dart';
-// import 'package:lms_mobileapp/core/constants/text_theme.dart';
-// import 'package:lms_mobileapp/features/Trainee/presentation/bloc/my_courses/grade_analaytics_bloc.dart';
-// import 'package:lms_mobileapp/features/Trainee/presentation/bloc/my_courses/grade_analaytics_event.dart';
-// import 'package:lms_mobileapp/features/Trainee/presentation/bloc/my_courses/grade_analaytics_state.dart';
-
-// class GradeAnalyticsScreen extends StatelessWidget {
-//   const GradeAnalyticsScreen({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return BlocProvider(
-//       create: (_) => GradeAnalyticsBloc()..add(LoadGradeAnalytics()),
-//       child: const _GradeAnalyticsView(),
-//     );
-//   }
-// }
-
-// class _GradeAnalyticsView extends StatelessWidget {
-//   const _GradeAnalyticsView();
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return BlocBuilder<GradeAnalyticsBloc, GradeAnalyticsState>(
-//       builder: (context, state) {
-//         if (state is GradeAnalyticsLoading) {
-//           return const Scaffold(body: Center(child: CircularProgressIndicator()));
-//         }
-
-//         if (state is GradeAnalyticsLoaded) {
-//           final data = state.data;
-
-//           return Scaffold(
-//             backgroundColor: AppColors.background,
-//             appBar: AppBar(
-//               backgroundColor: AppColors.background,
-//               elevation: 0,
-//               title: const Text("Your Academic Performance", style: AppTextTheme.headingMD),
-//               leading: IconButton(
-//                 icon: const Icon(Icons.arrow_back),
-//                 onPressed: () => Navigator.pop(context),
-//               ),
-//             ),
-//             body: SingleChildScrollView(
-//               padding: const EdgeInsets.all(16),
-//               child: Column(
-//                 crossAxisAlignment: CrossAxisAlignment.start,
-//                 children: [
-//                   // Stats Row
-//                   Row(
-//                     children: [
-//                       _buildStatCard("3.8", "GPA", "OVERALL SCORE"),
-//                       AppSpacing.horizontalMd,
-//                       _buildStatCard("45", "Credits", "COMPLETED"),
-//                     ],
-//                   ),
-
-//                   AppSpacing.verticalLg,
-
-//                   // Progress Over Time
-//                   const Text("Progress Over Time", style: AppTextTheme.headingMD),
-//                   AppSpacing.verticalSm,
-//                   Container(
-//                     height: 200,
-//                     padding: const EdgeInsets.all(16),
-//                     decoration: BoxDecoration(
-//                       color: AppColors.surface,
-//                       borderRadius: BorderRadius.circular(20),
-//                     ),
-//                     child: const Center(
-//                       child: Text("📈 Line Chart Placeholder\n(Progress Over Time)", textAlign: TextAlign.center),
-//                     ),
-//                   ),
-
-//                   AppSpacing.verticalLg,
-
-//                   // Component Breakdown
-//                   const Text("Component Breakdown", style: AppTextTheme.headingMD),
-//                   AppSpacing.verticalSm,
-//                   _buildProgressRow("Assignments", "12%", 0.12),
-//                   _buildProgressRow("Quizzes", "85%", 0.85),
-//                   _buildProgressRow("Final Exam", "June 15", 0.0),
-
-//                   AppSpacing.verticalLg,
-
-//                   SizedBox(
-//                     width: double.infinity,
-//                     child: ElevatedButton(
-//                       onPressed: () {},
-//                       style: ElevatedButton.styleFrom(
-//                         backgroundColor: AppColors.primary,
-//                         padding: const EdgeInsets.symmetric(vertical: 16),
-//                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-//                       ),
-//                       child: const Text("View Detailed Feedback →"),
-//                     ),
-//                   ),
-
-//                   AppSpacing.verticalLg,
-
-//                   // Certificates
-//                   const Text("Your Certificates", style: AppTextTheme.headingMD),
-//                   AppSpacing.verticalMd,
-//                   _buildCertificateCard("UI Design Specialist", "Lumora Academy"),
-//                   _buildCertificateCard("Data Science Pro", "Lumora Academy"),
-
-//                   AppSpacing.verticalLg,
-
-//                   // Personal Feedback
-//                   const Text("Personal Feedback", style: AppTextTheme.headingMD),
-//                   AppSpacing.verticalSm,
-//                   Container(
-//                     padding: const EdgeInsets.all(16),
-//                     decoration: BoxDecoration(
-//                       color: AppColors.surface,
-//                       borderRadius: BorderRadius.circular(20),
-//                     ),
-//                     child: Column(
-//                       crossAxisAlignment: CrossAxisAlignment.start,
-//                       children: [
-//                         const Text(
-//                           '"Your latest submission on modular structures shows a profound understanding of spatial economy..."',
-//                           style: AppTextTheme.bodyRegular,
-//                         ),
-//                         AppSpacing.verticalMd,
-//                         const Row(
-//                           children: [
-//                             CircleAvatar(radius: 16),
-//                             AppSpacing.horizontalSm,
-//                             Text("Elena Drasov\nInstructor • June 10"),
-//                           ],
-//                         ),
-//                       ],
-//                     ),
-//                   ),
-//                 ],
-//               ),
-//             ),
-//           );
-//         }
-
-//         return const Scaffold(body: Center(child: Text("Error loading analytics")));
-//       },
-//     );
-//   }
-
-//   Widget _buildStatCard(String value, String label, String sublabel) {
-//     return Expanded(
-//       child: Container(
-//         padding: const EdgeInsets.all(16),
-//         decoration: BoxDecoration(
-//           color: AppColors.surface,
-//           borderRadius: BorderRadius.circular(20),
-//         ),
-//         child: Column(
-//           children: [
-//             Text(value, style: AppTextTheme.headingLG),
-//             Text(label, style: AppTextTheme.bodyMedium),
-//             Text(sublabel, style: AppTextTheme.bodySmall),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-
-//   Widget _buildProgressRow(String label, String percentage, double value) {
-//     return Padding(
-//       padding: const EdgeInsets.only(bottom: 12),
-//       child: Column(
-//         crossAxisAlignment: CrossAxisAlignment.start,
-//         children: [
-//           Row(
-//             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//             children: [
-//               Text(label),
-//               Text(percentage),
-//             ],
-//           ),
-//           AppSpacing.verticalSm,
-//           LinearProgressIndicator(value: value, backgroundColor: AppColors.grey100, color: Colors.green),
-//         ],
-//       ),
-//     );
-//   }
-
-//   Widget _buildCertificateCard(String title, String academy) {
-//     return Card(
-//       margin: const EdgeInsets.only(bottom: 12),
-//       child: ListTile(
-//         leading: const Icon(Icons.verified, color: Colors.green, size: 32),
-//         title: Text(title),
-//         subtitle: Text(academy),
-//         trailing: const Icon(Icons.arrow_forward_ios, size: 18),
-//       ),
-//     );
-//   }
-// }
-
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lms_mobileapp/core/constants/colors.dart';
-import 'package:lms_mobileapp/core/constants/spacing.dart';
 import 'package:lms_mobileapp/core/constants/text_theme.dart';
 import 'package:lms_mobileapp/features/Trainee/presentation/bloc/my_courses/grade_analaytics_bloc.dart';
 import 'package:lms_mobileapp/features/Trainee/presentation/bloc/my_courses/grade_analaytics_event.dart';
 import 'package:lms_mobileapp/features/Trainee/presentation/bloc/my_courses/grade_analaytics_state.dart';
 import 'package:lms_mobileapp/features/Trainee/presentation/screens/my_courses/certeficate_screen.dart';
+import 'package:lms_mobileapp/shared/widgets/buttons/primary_button.dart';
 
 class GradeAnalyticsScreen extends StatelessWidget {
   const GradeAnalyticsScreen({super.key});
@@ -229,184 +27,225 @@ class _GradeAnalyticsView extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<GradeAnalyticsBloc, GradeAnalyticsState>(
       builder: (context, state) {
-        if (state is GradeAnalyticsLoading) {
+        if (state is GradeAnalyticsLoading || state is GradeAnalyticsInitial) {
           return const Scaffold(body: Center(child: CircularProgressIndicator()));
         }
+        if (state is GradeAnalyticsError) {
+          return Scaffold(body: Center(child: Text(state.message)));
+        }
 
-        if (state is GradeAnalyticsLoaded) {
-          return Scaffold(
-            backgroundColor: AppColors.background,
-            appBar: AppBar(
-              backgroundColor: AppColors.background,
-              elevation: 0,
-              title: const Text("Your Academic Performance", style: AppTextTheme.headingMD),
-              leading: IconButton(
-                icon: const Icon(Icons.arrow_back),
-                onPressed: () => Navigator.pop(context),
+        final data = (state as GradeAnalyticsLoaded).data;
+        return Scaffold(
+          backgroundColor: AppColors.background,
+          appBar: AppBar(
+            title: const Text('Your Academic Performance'),
+            centerTitle: false,
+          ),
+          body: ListView(
+            padding: const EdgeInsets.fromLTRB(16, 8, 16, 120),
+            children: [
+              Text(
+                'Track your creative journey and technical mastery. Your progress reflects a commitment to the craft of modern design.',
+                style: AppTextTheme.bodySmall.copyWith(color: AppColors.textSecondary),
               ),
-            ),
-            body: SingleChildScrollView(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+              const SizedBox(height: 14),
+              Row(
                 children: [
-                  // Stats Row
-                  Row(
-                    children: [
-                      _buildStatCard("3.8", "GPA", "OVERALL SCORE"),
-                      AppSpacing.horizontalMd,
-                      _buildStatCard("45", "Credits", "COMPLETED"),
-                    ],
-                  ),
-
-                  AppSpacing.verticalLg,
-
-                  // Progress Over Time
-                  const Text("Progress Over Time", style: AppTextTheme.headingMD),
-                  AppSpacing.verticalSm,
-                  Container(
-                    height: 200,
-                    padding: const EdgeInsets.all(16),
-                    decoration: BoxDecoration(
-                      color: AppColors.surface,
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: const Center(child: Text("📈 Line Chart Placeholder")),
-                  ),
-
-                  AppSpacing.verticalLg,
-
-                  const Text("Component Breakdown", style: AppTextTheme.headingMD),
-                  AppSpacing.verticalSm,
-                  _buildProgressRow("Assignments", "12%", 0.12),
-                  _buildProgressRow("Quizzes", "85%", 0.85),
-                  _buildProgressRow("Final Exam", "June 15", 0.0),
-
-                  AppSpacing.verticalLg,
-
-                  SizedBox(
-                    width: double.infinity,
-                    child: ElevatedButton(
-                      onPressed: () {},
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.primary,
-                        padding: const EdgeInsets.symmetric(vertical: 16),
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-                      ),
-                      child: const Text("View Detailed Feedback →"),
-                    ),
-                  ),
-
-                  AppSpacing.verticalLg,
-
-                  // Certificates Section
-                  const Text("Your Certificates", style: AppTextTheme.headingMD),
-                  AppSpacing.verticalMd,
-
-                  _buildCertificateCard(
-                    context,
-                    "UI Design Specialist",
-                    "Lumora Academy",
-                  ),
-                  _buildCertificateCard(
-                    context,
-                    "Data Science Pro",
-                    "Lumora Academy",
-                  ),
-
-                  AppSpacing.verticalLg,
-
-                  // Personal Feedback
-                  const Text("Personal Feedback", style: AppTextTheme.headingMD),
-                  AppSpacing.verticalSm,
-                  Container(
-                    padding: const EdgeInsets.all(16),
-                    decoration: BoxDecoration(
-                      color: AppColors.surface,
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text(
-                          '"Your latest submission on modular structures shows a profound understanding of spatial economy..."',
-                          style: AppTextTheme.bodyRegular,
-                        ),
-                        AppSpacing.verticalMd,
-                        const Row(
-                          children: [
-                            CircleAvatar(radius: 16),
-                            AppSpacing.horizontalSm,
-                            Text("Elena Drasov\nInstructor • June 10"),
-                          ],
-                        ),
-                      ],
+                  Expanded(child: _MetricCard(value: '${data.gpa}', label: 'GPA', caption: 'OVERALL SCORE')),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: _MetricCard(
+                      value: '${data.creditsCompleted}',
+                      label: 'Credits',
+                      caption: 'TOTAL CREDITS',
                     ),
                   ),
                 ],
               ),
-            ),
-          );
-        }
-
-        return const Scaffold(body: Center(child: Text("Error loading analytics")));
+              const SizedBox(height: 14),
+              _Panel(
+                title: 'Progress Over Time',
+                child: Column(
+                  children: [
+                    const SizedBox(height: 8),
+                    SizedBox(
+                      height: 110,
+                      child: CustomPaint(
+                        painter: _SimpleLinePainter(),
+                        size: const Size(double.infinity, 110),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 14),
+              _Panel(
+                title: 'Component Breakdown',
+                child: Column(
+                  children: [
+                    _ProgressRow(name: 'Assignments', value: 0.92),
+                    _ProgressRow(name: 'Quizzes', value: 0.89),
+                    _ProgressRow(name: 'Final Exam', value: 0.0, trailing: 'JUNE 15'),
+                    const SizedBox(height: 8),
+                    PrimaryButton(text: 'View Detailed Feedback', onPressed: () {}, height: 44, radius: 14),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 14),
+              Row(
+                children: [
+                  Text('Your Certificates', style: AppTextTheme.headingMD.copyWith(fontSize: 18)),
+                  const Spacer(),
+                  TextButton(onPressed: () {}, child: const Text('View All')),
+                ],
+              ),
+              _CertificateTile(
+                title: 'UI Design Specialist',
+                date: 'Issued Jan 11, 2026',
+                onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const CertificateScreen())),
+              ),
+              const SizedBox(height: 8),
+              _CertificateTile(
+                title: 'Data Science Pro',
+                date: 'Issued Feb 22, 2026',
+                onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const CertificateScreen())),
+              ),
+            ],
+          ),
+        );
       },
     );
   }
+}
 
-  Widget _buildStatCard(String value, String label, String sublabel) {
-    return Expanded(
+class _MetricCard extends StatelessWidget {
+  const _MetricCard({required this.value, required this.label, required this.caption});
+  final String value;
+  final String label;
+  final String caption;
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(14),
+      decoration: BoxDecoration(color: AppColors.surface, borderRadius: BorderRadius.circular(16)),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(caption, style: AppTextTheme.bodySmall.copyWith(color: AppColors.textSecondary)),
+          const SizedBox(height: 6),
+          Text(value, style: AppTextTheme.headingLG.copyWith(fontSize: 30)),
+          Text(label, style: AppTextTheme.bodySmall.copyWith(color: AppColors.primary)),
+        ],
+      ),
+    );
+  }
+}
+
+class _Panel extends StatelessWidget {
+  const _Panel({required this.title, required this.child});
+  final String title;
+  final Widget child;
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(14),
+      decoration: BoxDecoration(color: AppColors.surface, borderRadius: BorderRadius.circular(16)),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(title, style: AppTextTheme.bodyMedium.copyWith(fontWeight: FontWeight.w700)),
+          child,
+        ],
+      ),
+    );
+  }
+}
+
+class _ProgressRow extends StatelessWidget {
+  const _ProgressRow({required this.name, required this.value, this.trailing});
+  final String name;
+  final double value;
+  final String? trailing;
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 8),
+      child: Column(
+        children: [
+          Row(
+            children: [
+              Text(name, style: AppTextTheme.bodySmall),
+              const Spacer(),
+              Text(trailing ?? '${(value * 100).toStringAsFixed(0)}%', style: AppTextTheme.bodySmall),
+            ],
+          ),
+          const SizedBox(height: 4),
+          LinearProgressIndicator(
+            value: value,
+            backgroundColor: AppColors.grey200,
+            color: AppColors.primary,
+            minHeight: 6,
+            borderRadius: BorderRadius.circular(10),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _CertificateTile extends StatelessWidget {
+  const _CertificateTile({required this.title, required this.date, required this.onTap});
+  final String title;
+  final String date;
+  final VoidCallback onTap;
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(14),
       child: Container(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(12),
         decoration: BoxDecoration(
           color: AppColors.surface,
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(14),
+          border: Border.all(color: AppColors.grey200),
         ),
-        child: Column(
+        child: Row(
           children: [
-            Text(value, style: AppTextTheme.headingLG),
-            Text(label, style: AppTextTheme.bodyMedium),
-            Text(sublabel, style: AppTextTheme.bodySmall),
+            const CircleAvatar(radius: 18, backgroundColor: AppColors.primaryLight, child: Icon(Icons.workspace_premium)),
+            const SizedBox(width: 10),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(title, style: AppTextTheme.bodyMedium.copyWith(fontWeight: FontWeight.w700)),
+                  Text(date, style: AppTextTheme.bodySmall.copyWith(color: AppColors.textSecondary)),
+                ],
+              ),
+            ),
+            const Icon(Icons.arrow_forward_ios_rounded, size: 16),
           ],
         ),
       ),
     );
   }
+}
 
-  Widget _buildProgressRow(String label, String percentage, double value) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 12),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [Text(label), Text(percentage)],
-          ),
-          AppSpacing.verticalSm,
-          LinearProgressIndicator(value: value, backgroundColor: AppColors.grey100, color: Colors.green),
-        ],
-      ),
-    );
+class _SimpleLinePainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = AppColors.primary
+      ..strokeWidth = 3
+      ..style = PaintingStyle.stroke;
+    final path = Path()
+      ..moveTo(0, size.height * .75)
+      ..quadraticBezierTo(size.width * .2, size.height * .55, size.width * .35, size.height * .58)
+      ..quadraticBezierTo(size.width * .5, size.height * .9, size.width * .65, size.height * .52)
+      ..quadraticBezierTo(size.width * .82, size.height * .15, size.width, size.height * .22);
+    canvas.drawPath(path, paint);
   }
 
-  Widget _buildCertificateCard(BuildContext context, String title, String academy) {
-    return GestureDetector(
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (_) => const CertificateScreen()),
-        );
-      },
-      child: Card(
-        margin: const EdgeInsets.only(bottom: 12),
-        child: ListTile(
-          leading: const Icon(Icons.verified, color: Colors.green, size: 32),
-          title: Text(title),
-          subtitle: Text(academy),
-          trailing: const Icon(Icons.arrow_forward_ios, size: 18),
-        ),
-      ),
-    );
-  }
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 }

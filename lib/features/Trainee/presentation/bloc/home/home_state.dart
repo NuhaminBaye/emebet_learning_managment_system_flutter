@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
 import '../../../domain/entities/student_course.dart';
 import '../../../domain/entities/student_stat.dart';
 

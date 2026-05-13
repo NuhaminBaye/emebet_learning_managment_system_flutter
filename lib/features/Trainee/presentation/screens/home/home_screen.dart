@@ -4,10 +4,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lms_mobileapp/core/constants/colors.dart';
 import 'package:lms_mobileapp/core/constants/spacing.dart';
 import 'package:lms_mobileapp/core/constants/text_theme.dart';
+import 'package:lms_mobileapp/core/constants/app_routes.dart';
 
-import 'package:lms_mobileapp/features/trainee/presentation/bloc/home/home_bloc.dart';
-import 'package:lms_mobileapp/features/trainee/presentation/bloc/home/home_event.dart';
-import 'package:lms_mobileapp/features/trainee/presentation/bloc/home/home_state.dart';
+import 'package:lms_mobileapp/features/Trainee/presentation/bloc/home/home_bloc.dart';
+import 'package:lms_mobileapp/features/Trainee/presentation/bloc/home/home_state.dart';
+import 'package:lms_mobileapp/features/Trainee/presentation/bloc/wishlist/wishlist_bloc.dart';
+import 'package:lms_mobileapp/features/Trainee/presentation/bloc/wishlist/wishlist_event.dart';
+import 'package:lms_mobileapp/features/Trainee/presentation/bloc/wishlist/wishlist_state.dart';
 
 import 'package:lms_mobileapp/shared/widgets/media/avatar.dart';
 import 'package:lms_mobileapp/shared/widgets/inputs/search_field.dart';
@@ -20,45 +23,54 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => HomeBloc()..add(LoadHomeContent()),
-      child: BlocBuilder<HomeBloc, HomeState>(
-        builder: (context, state) {
-          if (state is HomeLoading || state is HomeInitial) {
-            return const Scaffold(
-              backgroundColor: AppColors.background,
-              body: Center(child: CircularProgressIndicator()),
-            );
-          }
+    return BlocBuilder<HomeBloc, HomeState>(
+      builder: (context, state) {
+        if (state is HomeLoading || state is HomeInitial) {
+          return const Scaffold(
+            backgroundColor: AppColors.background,
+            body: Center(child: CircularProgressIndicator()),
+          );
+        }
 
-          if (state is HomeError) {
-            return Scaffold(
-              backgroundColor: AppColors.background,
-              body: Center(child: Text(state.message)),
-            );
-          }
+        if (state is HomeError) {
+          return Scaffold(
+            backgroundColor: AppColors.background,
+            body: Center(child: Text(state.message)),
+          );
+        }
 
-          if (state is HomeLoaded) {
-            final data = state;
+        if (state is HomeLoaded) {
+          final data = state;
 
-            return SingleChildScrollView(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
+          return SingleChildScrollView(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
                   // Header
                   Row(
                     children: [
-                      const AppAvatar(imageUrl: 'https://i.pravatar.cc/150?img=32', size: 54),
-                      const SizedBox(width: 16),
+                      const AppAvatar(
+                        imageUrl: 'https://ui-avatars.com/api/?name=Alex&background=23C55E&color=ffffff&size=128',
+                        size: 36,
+                      ),
+                      const SizedBox(width: 10),
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text("Lumina Academy", style: AppTextTheme.headingMD.copyWith(color: AppColors.primary)),
-                            Text('Hello, ${data.name}!', style: AppTextTheme.headingLG),
-                            const SizedBox(height: 4),
-                            Text('Ready to learn something new today?', style: AppTextTheme.bodyRegular.copyWith(color: AppColors.textSecondary)),
+                            Text(
+                              "EduStream",
+                              style: AppTextTheme.bodyMedium.copyWith(
+                                color: AppColors.primary,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                            Text('Hello, ${data.name}!', style: AppTextTheme.headingMD),
+                            Text(
+                              'Ready to learn something new today?',
+                              style: AppTextTheme.bodySmall.copyWith(color: AppColors.textSecondary),
+                            ),
                           ],
                         ),
                       ),
@@ -67,10 +79,10 @@ class HomeScreen extends StatelessWidget {
                   ),
 
                   AppSpacing.verticalLg,
-                  SearchField(hintText: 'Search for courses, mentors, or tools...', onChanged: (value) {}),
+                  SearchField(hintText: 'Search for courses, mentors...', onChanged: (value) {}),
                   AppSpacing.verticalLg,
 
-                  _buildContinueLearning(data),
+                  _buildContinueLearning(context, data),
                   AppSpacing.verticalLg,
 
                   // Filters
@@ -102,29 +114,30 @@ class HomeScreen extends StatelessWidget {
                   const SizedBox(height: 12),
 
                   // Recommended Courses
-                  SizedBox(
-                    height: 295,
-                    child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: data.recommendedCourses.length,
-                      itemBuilder: (context, index) {
-                        final item = data.recommendedCourses[index];
-                        return CourseCard(
-                          title: item.title,
-                          instructor: item.subtitle,
-                          imageUrl: item.imageUrl,
-                          price: item.price,
-                          progressLabel: item.progressLabel,
-                          // onTap: () {},
-                          onWishlistTap: () {
-                            // TODO: Add to wishlist logic later
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text('${item.title} added to wishlist')),
+                  BlocBuilder<WishlistBloc, WishlistState>(
+                    builder: (context, wishlistState) {
+                      return SizedBox(
+                        height: 246,
+                        child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: data.recommendedCourses.length,
+                          itemBuilder: (context, index) {
+                            final item = data.recommendedCourses[index];
+                            return CourseCard(
+                              title: item.title,
+                              instructor: item.instructor,
+                              imageUrl: item.imageUrl,
+                              price: item.price,
+                              progressLabel: item.progressLabel,
+                              isWishlisted: wishlistState.contains(item.id),
+                              onTap: () => Navigator.pushNamed(context, AppRoutes.courseDetails),
+                              onWishlistTap: () =>
+                                  context.read<WishlistBloc>().add(WishlistToggled(item)),
                             );
                           },
-                        );
-                      },
-                    ),
+                        ),
+                      );
+                    },
                   ),
 
                   AppSpacing.verticalLg,
@@ -141,20 +154,20 @@ class HomeScreen extends StatelessWidget {
                       ),
                       borderRadius: BorderRadius.circular(28),
                       boxShadow: [
-                        BoxShadow(color: AppColors.primary.withOpacity(0.25), blurRadius: 20, offset: const Offset(0, 10)),
+                        BoxShadow(color: AppColors.primary.withValues(alpha: 0.25), blurRadius: 20, offset: const Offset(0, 10)),
                       ],
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text('UPCOMING WORKSHOP',
-                            style: AppTextTheme.bodySmall.copyWith(color: AppColors.textOnPrimary.withOpacity(0.85), letterSpacing: 1.2)),
+                            style: AppTextTheme.bodySmall.copyWith(color: AppColors.textOnPrimary.withValues(alpha: 0.85), letterSpacing: 1.2)),
                         AppSpacing.verticalXs,
                         Text('Masterclass: Future of Generative AI in Design',
                             style: AppTextTheme.headingMD.copyWith(color: AppColors.textOnPrimary)),
                         AppSpacing.verticalXs,
                         Text('Saturday, Oct 24 · 10:00 AM EST',
-                            style: AppTextTheme.bodyRegular.copyWith(color: AppColors.textOnPrimary.withOpacity(0.9))),
+                            style: AppTextTheme.bodyRegular.copyWith(color: AppColors.textOnPrimary.withValues(alpha: 0.9))),
                         AppSpacing.verticalLg,
                         ElevatedButton(
                           onPressed: () {},
@@ -170,19 +183,18 @@ class HomeScreen extends StatelessWidget {
                     ),
                   ),
 
-                  const SizedBox(height: 100),
-                ],
-              ),
-            );
-          }
+                const SizedBox(height: 100),
+              ],
+            ),
+          );
+        }
 
-          return const SizedBox.shrink();
-        },
-      ),
+        return const SizedBox.shrink();
+      },
     );
   }
 
-  Widget _buildContinueLearning(HomeLoaded data) {
+  Widget _buildContinueLearning(BuildContext context, HomeLoaded data) {
     final course = data.currentCourse;
     return Container(
       width: double.infinity,
@@ -190,7 +202,7 @@ class HomeScreen extends StatelessWidget {
       decoration: BoxDecoration(
         color: AppColors.surface,
         borderRadius: BorderRadius.circular(24),
-        boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.04), blurRadius: 16, offset: const Offset(0, 8))],
+        boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.04), blurRadius: 16, offset: const Offset(0, 8))],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -207,7 +219,7 @@ class HomeScreen extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 16),
-          Text(course.title, style: AppTextTheme.headingLG),
+          Text(course.title, style: AppTextTheme.headingMD.copyWith(fontWeight: FontWeight.w700)),
           const SizedBox(height: 6),
           Text(course.subtitle, style: AppTextTheme.bodyRegular.copyWith(color: AppColors.textSecondary)),
           const SizedBox(height: 16),
@@ -226,7 +238,7 @@ class HomeScreen extends StatelessWidget {
             children: [
               Text('12/16 lessons', style: AppTextTheme.bodySmall.copyWith(color: AppColors.textSecondary)),
               ElevatedButton(
-                onPressed: () {},
+                onPressed: () => Navigator.pushNamed(context, AppRoutes.courseDetails),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppColors.primary,
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
