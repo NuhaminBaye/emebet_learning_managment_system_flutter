@@ -13,7 +13,7 @@ class OnboardingHeader extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(
-          'Lumina Academy',
+          "Emebet's Academy",
           style: AppTextTheme.headingMD.copyWith(
             color: AppColors.primary,
             fontWeight: FontWeight.w700,

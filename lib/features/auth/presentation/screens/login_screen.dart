@@ -62,7 +62,7 @@ class _LoginScreenContent extends StatelessWidget {
                   Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      'Lumina Academy',
+                      "Emebet's Academy",
                       style: AppTextTheme.headingLG.copyWith(color: AppColors.primary),
                     ),
                   ),

@@ -60,7 +60,7 @@ class HomeScreen extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              "EduStream",
+                              "Emebet's Academy",
                               style: AppTextTheme.bodyMedium.copyWith(
                                 color: AppColors.primary,
                                 fontWeight: FontWeight.w700,
